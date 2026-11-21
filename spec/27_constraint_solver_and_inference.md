@@ -1,6 +1,6 @@
 <a id="chapter-27-constraint-solver-inference"></a>
 
-# CXXN Constraint Solving, Type Inference, and Coherence Specification
+# CPN26 Constraint Solving, Type Inference, and Coherence Specification
 
 ## 1. Scope and required determinism
 
@@ -123,7 +123,7 @@ Two equally ranked applicable predicates remain tied unless the standard subsump
 
 ### 5.1 Constraint subsumption examples
 
-```cxxn
+```cpn
 constraint Readable<type T> {
     expression (const<T>& value) {
         value.read() -> i32;

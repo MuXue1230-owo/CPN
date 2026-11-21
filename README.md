@@ -1,6 +1,6 @@
-# CPN26 — CXXN Language Standard
+# CPN26 Language Standard
 
-**CPN26** is the language-standard designation for **CXXN**.
+**CPN26** is the current language standard for **CPN**.
 
 The authoritative consolidated English normative text is [CPN26.md](CPN26.md). The same standard is organized into 32 chapters under [spec/](spec/).
 

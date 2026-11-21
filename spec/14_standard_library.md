@@ -1,10 +1,10 @@
 <a id="chapter-14-standard-library"></a>
 
-# CXXN Standard Library Contracts Specification
+# CPN26 Standard Library Contracts Specification
 
 ## 1. Library identity and availability
 
-The standard library SHALL use the [core operational model](21_abstract_machine_and_conformance.md#chapter-21-abstract-machine-conformance), ordinary CXXN types and lifetimes, and the resolved configuration. This chapter defines the common library invocation, ownership, resource, effect, and failure model. Specialized interface chapters SHALL supply the state transitions and results specific to their facilities.
+The standard library SHALL use the [core operational model](21_abstract_machine_and_conformance.md#chapter-21-abstract-machine-conformance), ordinary CPN26 types and lifetimes, and the resolved configuration. This chapter defines the common library invocation, ownership, resource, effect, and failure model. Specialized interface chapters SHALL supply the state transitions and results specific to their facilities.
 
 An import SHALL select module compilation and make the selected module's exports available. `import std;` selects the minimal value utilities; `import std.mem;` makes that module's exports available through `std::mem::`. Actual operation use SHALL introduce its declared support dependencies. A freestanding capability record SHALL identify its supported subset under Chapter 21. A required unavailable capability SHALL produce the centrally specified diagnostic. Standard module identities SHALL belong to the selected standard-library provider; extension modules SHALL publish their own identities.
 

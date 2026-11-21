@@ -1,12 +1,12 @@
 <a id="chapter-20-target-abi-profiles"></a>
 
-# CXXN Target ABI Profiles Specification
+# CPN26 Target ABI Profiles Specification
 
 Static reflection handles, syntax quotations, and generated-declaration values have no native ABI representation. A generated ordinary native declaration is ABI-checked exactly as a source-authored declaration under its owning module and target profile. Reflection of a foreign declaration is limited to properties made available by the verified foreign ABI descriptor; inferred type layout or compiler metadata identity cannot establish unverified direct C++ compatibility.
 
 ## 1. ABI compatibility is a versioned contract
 
-A CXXN native object is interoperable with a C or C++ object only to the extent specified by the **selected target ABI profile**, matching foreign declaration contracts, and required support libraries. The extension `.o` or `.obj` does not determine object format. A conforming implementation of a target profile shall emit an ordinary, machine-code-containing relocatable object suitable for the target's standard linker without mandatory CXXN-specific LTO support.
+A CPN26 native object is interoperable with a C or C++ object only to the extent specified by the **selected target ABI profile**, matching foreign declaration contracts, and required support libraries. The extension `.o` or `.obj` does not determine object format. A conforming implementation of a target profile shall emit an ordinary, machine-code-containing relocatable object suitable for the target's standard linker without mandatory CPN26-specific LTO support.
 
 Direct ABI compatibility shall be established by the relevant declared type, call, lifetime, and effect contracts. Direct C++ interoperability additionally requires a selected C++ ABI provider; an exact library ABI contract is additionally required only for the foreign library types or operations actually crossing that boundary. Opaque adapters remain valid when direct class representation is unavailable or incompatible.
 
@@ -43,7 +43,7 @@ For the six **standard 64-bit profiles above**, the common C scalar sizes in oct
 | `ffi::c_float` | 4 | 4 | 4 |
 | `ffi::c_double` | 8 | 8 | 8 |
 
-These widths are **not** native aliases: even when two foreign scalar types have the same storage width, their nominal C identities can differ. Native `i32`, `i64`, `usize`, and CXXN `char` do not automatically acquire C argument-passing or C++ name-mangling identity. In particular, native Unicode-scalar `char` is not `ffi::c_char` or the platform's `wchar_t`.
+These widths are **not** native aliases: even when two foreign scalar types have the same storage width, their nominal C identities can differ. Native `i32`, `i64`, `usize`, and CPN26 `char` do not automatically acquire C argument-passing or C++ name-mangling identity. In particular, native Unicode-scalar `char` is not `ffi::c_char` or the platform's `wchar_t`.
 
 The target descriptor additionally binds:
 
@@ -54,7 +54,7 @@ The target descriptor additionally binds:
 - signed/unsigned extended integer and compiler vector type ABI, if enabled;
 - the address-space and function-pointer representation, including any pointer authentication or capability tagging policies.
 
-A caller cannot assume that `ffi::c_long_double` is `f64`, `f80`, or `f128` solely from the CPU architecture. The provider declares the actual ABI type and its conversion contract. Cross-width conversions obey existing CXXN Checked/Exact and explicit representation operations, not a C-style silent narrowing rule.
+A caller cannot assume that `ffi::c_long_double` is `f64`, `f80`, or `f128` solely from the CPU architecture. The provider declares the actual ABI type and its conversion contract. Cross-width conversions obey existing CPN26 Checked/Exact and explicit representation operations, not a C-style silent narrowing rule.
 
 ## 4. Calling and object-file classification
 
@@ -105,15 +105,15 @@ A provider shall declare feature-level exclusions, including unsupported inherit
 
 Non-unwinding boundaries and terminal events shall follow Chapter 09's foreign routing contract.
 
-`extern "C++"` alone does not authorize C++ exception propagation through CXXN frames. A direct `cpp_exception` profile additionally supplies compatible exception object identity, handler-matching rules, stack unwind/cleanup behavior, runtime personality functions or equivalent, and rethrow semantics. A foreign C++ destructor may terminate according to its foreign contract; a CXXN destructor in Release still follows the CXXN Release termination rule where that boundary applies. Each entry shall retain its bound destruction/failure policy.
+`extern "C++"` alone does not authorize C++ exception propagation through CPN26 frames. A direct `cpp_exception` profile additionally supplies compatible exception object identity, handler-matching rules, stack unwind/cleanup behavior, runtime personality functions or equivalent, and rethrow semantics. A foreign C++ destructor may terminate according to its foreign contract; a CPN26 destructor in Release still follows the CPN26 Release termination rule where that boundary applies. Each entry shall retain its bound destruction/failure policy.
 
-An explicit adapter may translate a supported C++ exception to a declared CXXN `Result` error. An adapter that raises a translated CXXN exception shall advertise that native throwing effect and perform the translation within a permitted native propagation phase; no exception crosses a boundary declared non-unwinding. Translation changes primary identity unless the provider specifically supports retaining and propagating the compatible original foreign record. Error payloads with allocated storage have a declared allocator and destroy/release owner. The [error and recovery specification](28_error_and_recovery.md#chapter-28-error-recovery) defines these distinctions. A foreign `longjmp`, forced unwind, OS exception, or asynchronous cancellation is not implicitly safe across CXXN frames.
+An explicit adapter may translate a supported C++ exception to a declared CPN26 `Result` error. An adapter that raises a translated CPN26 exception shall advertise that native throwing effect and perform the translation within a permitted native propagation phase; no exception crosses a boundary declared non-unwinding. Translation changes primary identity unless the provider specifically supports retaining and propagating the compatible original foreign record. Error payloads with allocated storage have a declared allocator and destroy/release owner. The [error and recovery specification](28_error_and_recovery.md#chapter-28-error-recovery) defines these distinctions. A foreign `longjmp`, forced unwind, OS exception, or asynchronous cancellation is not implicitly safe across CPN26 frames.
 
 ## 7. Native record and ownership binding
 
-`[[abi_layout("C")]]` and `[[abi_layout("C++")]]` attach only the explicitly supported target-provider layout and its required qualifiers. The emitted record shall contain exactly that declared layout. Where CXXN requires state not represented in a foreign object, it may maintain that state externally or in a separate explicit wrapper without changing foreign field offsets.
+`[[abi_layout("C")]]` and `[[abi_layout("C++")]]` attach only the explicitly supported target-provider layout and its required qualifiers. The emitted record shall contain exactly that declared layout. Where CPN26 requires state not represented in a foreign object, it may maintain that state externally or in a separate explicit wrapper without changing foreign field offsets.
 
-A foreign class's constructor/destructor entry points discharge their **actual foreign obligations**. A complete-object destructor cannot be followed by a second CXXN member/base destructor run; a deleting destructor may additionally free the foreign allocation. The binding descriptor records which responsibility is discharged by each entry. Virtual-base responsibility and early base destruction remain governed by the existing CXXN lifetime contract and are directly enabled only if the foreign contract genuinely supports them.
+A foreign class's constructor/destructor entry points discharge their **actual foreign obligations**. A complete-object destructor cannot be followed by a second CPN26 member/base destructor run; a deleting destructor may additionally free the foreign allocation. The binding descriptor records which responsibility is discharged by each entry. Virtual-base responsibility and early base destruction remain governed by the existing CPN26 lifetime contract and are directly enabled only if the foreign contract genuinely supports them.
 
 Cross-boundary storage transfer identifies an allocator domain and compatible disposal function. Equal raw pointer width does not authorize invoking a different C runtime's `free`, unrelated `delete`, or an allocator with a different resource protocol. Foreign library code and associated RTTI, vtables, callback, allocation, or exception-support records remain loaded as long as an outstanding owner requires them.
 
@@ -121,7 +121,7 @@ Cross-boundary storage transfer identifies an allocator domain and compatible di
 
 The target object shall include all sections and relocations required by the selected static-initialization, TLS, unwind, and exception contracts. Object retention and link inputs shall preserve reachable native construction and static initialization obligations through archive extraction and section collection. The resolved link contract shall identify required retention/entry mechanisms and support libraries, with standard external serialization supplied by a selected contract export.
 
-The native initializer graph and foreign CRT's own init/fini mechanisms remain separate unless explicitly mapped. One domain owner is responsible for executing each mapped initialization unit once, with reverse logical destruction for committed CXXN objects. Each foreign destruction obligation shall have one registered owner.
+The native initializer graph and foreign CRT's own init/fini mechanisms remain separate unless explicitly mapped. One domain owner is responsible for executing each mapped initialization unit once, with reverse logical destruction for committed CPN26 objects. Each foreign destruction obligation shall have one registered owner.
 
 A native interface's signature, type identity, relevant numerical evaluation configuration, and ABI contract shall determine its resolved boundary identity. A direct boundary shall establish equality of its relevant contract fields; a mismatch shall yield ERROR. Standard export shall encode this identity in Chapter 29's boundary projection and fingerprint. A versioned adapter may explicitly translate representationally compatible values with a declared loss/ownership/failure contract.
 

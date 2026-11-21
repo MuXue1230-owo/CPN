@@ -1,6 +1,6 @@
 <a id="chapter-25-effect-composition-boundaries"></a>
 
-# CXXN Effect Composition, Lifetime, and Foreign Boundaries Specification
+# CPN26 Effect Composition, Lifetime, and Foreign Boundaries Specification
 
 ## 1. Phase-aware effect composition
 
@@ -73,7 +73,7 @@ Ownership commitment and successful return publication are separate events. A co
 
 An async callable shall publish separate admission and task-execution contracts. `effects` governs task execution, completion, and cleanup; `admission_effects` governs frame/support admission, capture transfer, additional parameter binding, and the cleanup these create. Each omitted bound is open. The admission attribute is admitted on async declarations.
 
-```cxxn
+```cpn
 [[admission_effects(allocate(context))]]
 [[effects(read(input), io, suspend, cancel_point)]]
 declare async u32 fetch(std::task::Context context,
@@ -114,7 +114,7 @@ A stronger local checking adapter shall implement its own validation. A prohibit
 
 Callback registration shall describe inline execution, concurrency/reentry, retention duration, execution agent, and relevant FP-context behavior. Registration and later callback execution shall have distinct phase contracts. Retained callbacks shall have a matching last-use/quiescence protocol and storage/code lifetime.
 
-The selected callback adapter shall define context representation, calling convention, ownership, allocation, and failure boundary. A verified boundary or explicit wrapper shall supply any guaranteed termination behavior promised by a CXXN noexcept callback interface.
+The selected callback adapter shall define context representation, calling convention, ownership, allocation, and failure boundary. A verified boundary or explicit wrapper shall supply any guaranteed termination behavior promised by a CPN26 noexcept callback interface.
 
 ## 6. Effect-aware generic and callable substitution
 

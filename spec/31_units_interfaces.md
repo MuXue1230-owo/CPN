@@ -1,6 +1,6 @@
 <a id="chapter-31-units-interfaces"></a>
 
-# CXXN Quantity and Affine Point Interfaces Specification
+# CPN26 Quantity and Affine Point Interfaces Specification
 
 ## 1. Scope and identity
 
@@ -107,7 +107,7 @@ For a floating destination, exact zero retains the source floating zero sign mul
 
 ### 5.3 Failure and status
 
-The implementation shall apply Chapter 04's corresponding Exact, Checked, or Saturating destination projection to y. Exact probes preserve FP status; Checked floating projection uses gradual subnormals and its local events; integer projection uses its CXXN status. Their acceptance predicates and delivery remain independent of ambient arithmetic trap/error masks.
+The implementation shall apply Chapter 04's corresponding Exact, Checked, or Saturating destination projection to y. Exact probes preserve FP status; Checked floating projection uses gradual subnormals and its local events; integer projection uses its CPN26 status. Their acceptance predicates and delivery remain independent of ambient arithmetic trap/error masks.
 
 Exact and Checked shall reject a nonfinite source as NonFinite through representation inspection that preserves the signaling class and FP status. Saturating integer conversion shall reject NaN as NonFinite and map infinity to the destination bound after applying the scale ratio's sign. This catalogue sets wrapped and payload_changed false and otherwise uses the selected projection's canonical status fields.
 

@@ -1,6 +1,6 @@
 <a id="chapter-32-numeric-resource-interfaces"></a>
 
-# CXXN Numeric Resource Interfaces Specification
+# CPN26 Numeric Resource Interfaces Specification
 
 ## 1. Scope and identities
 

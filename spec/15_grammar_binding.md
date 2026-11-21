@@ -1,6 +1,6 @@
 <a id="chapter-15-grammar-binding"></a>
 
-# CXXN Grammar and Binding Specification
+# CPN26 Grammar and Binding Specification
 
 ## 1. Grammar interpretation
 
@@ -317,7 +317,7 @@ The selected production shall remain fixed during semantic checking. Parentheses
 
 An external object declaration shall reference the defining domain's existing object identity. An external object definition shall use its stated type and ordinary initialization transaction, including typed default construction for empty or omitted arguments. The defining domain shall supply storage and its static/thread-lifetime obligations. `thread_local` shall require the selected TLS binding. A generic external declaration shall bind its concrete signature or object representation before ABI emission under Chapter 09.
 
-The foreign declaration context shall begin at the declaration or block immediately governed by `extern`. A nested namespace shall propagate that context to its namespace-scope declarations. A nested explicit linkage declaration shall select its own linkage for its region. A record or union body shall parse with `member-item`; a function body shall parse with `block-item`; a construction tail shall parse with `construction-body`. Their local declarations shall therefore retain ordinary CXXN object and function forms. Class member linkage and representation shall follow the class/provider contract.
+The foreign declaration context shall begin at the declaration or block immediately governed by `extern`. A nested namespace shall propagate that context to its namespace-scope declarations. A nested explicit linkage declaration shall select its own linkage for its region. A record or union body shall parse with `member-item`; a function body shall parse with `block-item`; a construction tail shall parse with `construction-body`. Their local declarations shall therefore retain ordinary CPN26 object and function forms. Class member linkage and representation shall follow the class/provider contract.
 
 Decorations shall retain the selected context through attribute and configuration wrappers. Generated declarations inserted in a foreign region shall satisfy the same category and ABI rules before publication. The `declare` marker shall select ordinary function prototypes and the separately defined incomplete-type forms. Foreign function and object declarations shall use the canonical productions above.
 

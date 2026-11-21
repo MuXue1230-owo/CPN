@@ -1,6 +1,6 @@
 <a id="chapter-05-complex-arithmetic"></a>
 
-# CXXN Complex Arithmetic Specification
+# CPN26 Complex Arithmetic Specification
 
 ## 1. Complex feature contract
 
@@ -223,7 +223,7 @@ If `c` and `d` are both numerical zero:
 | Finite nonzero | Infinity with the resulting sign | DivideByZero. |
 | Either infinity | Infinity with the resulting sign | None. |
 
-The sign of the imaginary divisor zero `d` is not used in this branch. This is an explicit CXXN convention for a singular complex operation, not an inference about an unspecified path by which a complex value approached zero.
+The sign of the imaginary divisor zero `d` is not used in this branch. This is an explicit CPN26 convention for a singular complex operation, not an inference about an unspecified path by which a complex value approached zero.
 
 Preserving a zero numerator component here does not redefine scalar `0/0`. Entire complex `0/0` has already selected Invalid.
 

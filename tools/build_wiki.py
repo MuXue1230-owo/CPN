@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build CPN26 GitHub Wiki pages from the normative CXXN spec tree."""
+"""Build CPN26 GitHub Wiki pages from the normative CPN26 spec tree."""
 import re
 import sys
 from pathlib import Path
@@ -69,7 +69,7 @@ def main():
         nav+="[Home](Home)"
         if i<32: nav+=f" · [Next: {titles[i+1]}]({link(i+1)})"
         write(link(i),top+txt.rstrip()+nav+"\n")
-    home="# CPN26 — CXXN Language Wiki\n\nCPN26 is the **only standard edition** of the CXXN language in this repository. This Wiki presents all 32 normative chapters with topic-based navigation.\n\n"
+    home="# CPN26 Language Wiki\n\nCPN26 is the **only standard edition** of the CPN language in this repository. This Wiki presents all 32 normative chapters with topic-based navigation.\n\n"
     home+="[Consolidated standard](https://github.com/MuXue1230-owo/CPN/blob/CPN26/CPN26.md) · [Chapter sources](https://github.com/MuXue1230-owo/CPN/tree/CPN26/spec)\n\n## Topics\n\n"
     sidebar="# CPN26\n\n[Home](Home)\n\n"
     for topic,title,nums in GROUPS:
@@ -89,6 +89,6 @@ def main():
         home+="\n"
     write("Home",home)
     write("_Sidebar",sidebar)
-    write("_Footer","**CPN26 — CXXN Language Standard** · [Home](Home) · [Source](https://github.com/MuXue1230-owo/CPN/tree/CPN26)\n")
+    write("_Footer","**CPN26 Language Standard** · [Home](Home) · [Source](https://github.com/MuXue1230-owo/CPN/tree/CPN26)\n")
     print(f"Generated 41 Wiki pages in {dest}")
 if __name__=="__main__": main()

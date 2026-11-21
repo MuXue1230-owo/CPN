@@ -1,6 +1,6 @@
 <a id="chapter-13-concurrency-memory-model"></a>
 
-# CXXN Concurrency and Memory Model Specification
+# CPN26 Concurrency and Memory Model Specification
 
 ## 1. Execution agents and facilities
 
@@ -80,7 +80,7 @@ For `A coherence-before B`, the following constrain `S`:
 3. If a sequentially consistent fence `F hb A` and `B` is sequentially consistent, `F` precedes `B` in `S`.
 4. If sequentially consistent fences satisfy `F hb A` and `B hb G`, `F` precedes `G` in `S`.
 
-A candidate execution violating these constraints is not permitted. When all accesses to a location are sequentially consistent atomics, a load observes its latest preceding modification in `S`, or its initialized value. Mixed-order code retains the other orders' weaker guarantees. These requirements define the CXXN atomic contract; a foreign model is not presumed identical.
+A candidate execution violating these constraints is not permitted. When all accesses to a location are sequentially consistent atomics, a load observes its latest preceding modification in `S`, or its initialized value. Mixed-order code retains the other orders' weaker guarantees. These requirements define the CPN26 atomic contract; a foreign model is not presumed identical.
 
 ## 4. Atomic types and operations
 
@@ -134,7 +134,7 @@ A successful unlock synchronizes with the subsequent successful lock acquiring t
 
 `thread_local T name(arguments);` declares one instance per attached native-thread domain. Block placement controls name visibility, not first-use initialization. Its initializer shall bind through the thread-domain initialization environment.
 
-Thread-local initialization is eager and serial in dependency/logical-rank order. Shared image static initialization completes first. The root thread then attaches its thread-storage domain before entering `main`; another CXXN thread attaches its required domains before executing its user entry. An image static initializer cannot require not-yet-attached user TLS. A proved dependency cycle or readiness violation is `ERROR`; startup providers may use their separately owned bootstrap data.
+Thread-local initialization is eager and serial in dependency/logical-rank order. Shared image static initialization completes first. The root thread then attaches its thread-storage domain before entering `main`; another CPN26 thread attaches its required domains before executing its user entry. An image static initializer cannot require not-yet-attached user TLS. A proved dependency cycle or readiness violation is `ERROR`; startup providers may use their separately owned bootstrap data.
 
 Normal thread exit destroys completed thread-local instances in reverse logical rank after entry-local cleanup. Failed initialization follows the exception/initialization policy and is not automatically retried. An existing foreign thread or newly loaded domain requires explicit attachment before its TLS is used; no hidden first-use guard supplies that attachment. Detachment and unload wait for dependent work and borrows under their declared contracts.
 
@@ -299,7 +299,7 @@ Programmer-written handlers may explicitly produce application `Result<T,E>` val
 
 ## 11. Providers, foreign operations, and configuration
 
-The atomic provider declares the CXXN memory-model version, supported representations, alignment, lock-free properties, order/fence lowering, and fallback dependencies. Direct sharing with foreign `_Atomic` or C++ atomic objects additionally requires compatible representation and a validated memory-model mapping. Matching size or using the same processor instruction is insufficient. Opaque adapters may require all accesses to pass through one compatible provider; arbitrary foreign plain accesses do not become atomic.
+The atomic provider declares the CPN26 memory-model version, supported representations, alignment, lock-free properties, order/fence lowering, and fallback dependencies. Direct sharing with foreign `_Atomic` or C++ atomic objects additionally requires compatible representation and a validated memory-model mapping. Matching size or using the same processor instruction is insufficient. Opaque adapters may require all accesses to pass through one compatible provider; arbitrary foreign plain accesses do not become atomic.
 
 Thread/task providers declare startup/TLS attachment, publication, blocking and progress behavior, frame/control allocation, cancellation quiescence, exception boundaries, FP-context preservation, and code/resource lifetime requirements. A returned native object remains compatible with the selected linker/ABI contract; it does not imply a default C++ Task, closure, atomic, or allocator-object layout.
 

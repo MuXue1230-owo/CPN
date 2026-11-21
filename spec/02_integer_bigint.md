@@ -1,6 +1,6 @@
 <a id="chapter-02-integer-bigint"></a>
 
-# CXXN Integer and BigInt Specification
+# CPN26 Integer and BigInt Specification
 
 ## 1. Integer contracts
 
@@ -8,7 +8,7 @@ This chapter owns integer value domains, canonical arithmetic common types, and 
 
 The compiler shall derive an integer operation's source/result types, establish their availability, and resolve its arithmetic policy. Execution shall then evaluate the operands once and apply that policy to their actual mathematical values. A named Checked, Result, Wrapping, or Saturating operation supplies its own policy. The Native policy supplies ordinary Release execution through the preset table.
 
-```cxxn
+```cpn
 i32 count(10);
 u64 mask(255);
 auto next(count + 1);

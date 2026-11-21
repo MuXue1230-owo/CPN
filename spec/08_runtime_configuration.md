@@ -1,6 +1,6 @@
 <a id="chapter-08-runtime-configuration"></a>
 
-# CXXN Configuration, Exceptions, and Static Lifetime Specification
+# CPN26 Configuration, Exceptions, and Static Lifetime Specification
 
 ## 1. Normative conventions
 
@@ -34,7 +34,7 @@ The compiler shall interpret configuration values as compile-time metadata and i
 
 Metadata words include Boolean and enum-like spellings such as true, false, and default. Reserved spellings are admitted in these metadata paths and values without becoming ordinary program identifiers. The [consolidated grammar](15_grammar_binding.md#chapter-15-grammar-binding) supplies tokenization and decoration rules; the selected key schema supplies each value's interpretation.
 
-A project configuration file, when supplied, shall be named `cxxn.config` and contain configuration declarations. A compiler request may supply the same project bindings directly. A source-file configuration declaration shall precede the declarations it governs. It applies until the end of the enclosing file or declared configuration region. A configured declaration applies to that declaration and its lexical body. A configured block applies to its body. A configured expression applies to that expression, including its implicit operation policies, and does not change the surrounding scope. The compilation request shall bind the source edition under Chapter 21 before source grammar selection.
+A project configuration file, when supplied, shall be named `cpn.config` and contain configuration declarations. A compiler request may supply the same project bindings directly. A source-file configuration declaration shall precede the declarations it governs. It applies until the end of the enclosing file or declared configuration region. A configured declaration applies to that declaration and its lexical body. A configured block applies to its body. A configured expression applies to that expression, including its implicit operation policies, and does not change the surrounding scope. The compilation request shall bind the source edition under Chapter 21 before source grammar selection.
 
 ```text
 configuration {
@@ -82,7 +82,7 @@ A profile-dependent default shall be calculated from the effective profile after
 | Target architecture, object format, pointer model, C ABI, C++ ABI provider | Project or independent image | Image | Conflicting direct linkage is `ERROR`. |
 | Source identifier profile and Unicode data version | Compilation request/project/package or selected module map before tokenization | Compilation-unit or module source identity | All source for the bound owner shall use its selected identifier profile. |
 | Module compilation, separate compilation, and external contract export | Compilation request/project/package before source binding | Compilation artifact | The selected compilation and publication capabilities shall govern the entire artifact. |
-| Exception ABI version and process failure profile | Project or independent image | Image | All participating CXXN frames use the same exception boundary contract. |
+| Exception ABI version and process failure profile | Project or independent image | Image | All participating CPN26 frames use the same exception boundary contract. |
 | Enabled type families, providers, allocating facilities | Project through declaration | First affected declaration | An exported type retains its declared representation and provider identity. |
 | Integer overflow, numeric conversion, rounding, FP and Complex operation defaults | Project through expression | Operation binding | Explicit operation policies have priority. |
 | Default literal materialization | Project through expression | Literal binding | A typed expression shall retain its established type. |
@@ -169,7 +169,7 @@ The following key families form the standard configuration surface. A provider m
 | `numeric.provider` | Versioned provider identifier | Target descriptor's conforming provider. |
 | `numeric.software_fallback` | Boolean | `false` unless explicitly permitted by the target preset. |
 | `atomic.software_fallback` | Boolean | `false`. |
-| `atomic.memory_model` | `cxxn_v1` | `cxxn_v1`. |
+| `atomic.memory_model` | `cpn_v1` | `cpn_v1`. |
 | `atomic.provider` | Versioned native/explicit fallback provider identity | Target's declared conforming atomic provider. |
 | `thread.provider` | Provider identifier or `none` | `none` unless explicitly selected by the target/project. |
 | `thread.stack_bytes` | Positive byte count or `provider_default` | `provider_default`; actual bound exposed by the provider. |
@@ -204,7 +204,7 @@ Ordinary Core constraint checking shall use the normalization, solver-step, and 
 
 ### 2.4.2 Compilation and publication capabilities
 
-`compilation.modules` shall select Chapter 11's named ownership, import, partition, and module graph rules. `compilation.separate` shall select reusable CXXN semantic interfaces and their separate-compilation consistency rules, with module support as its dependency. Joint compilation of named modules shall require the first capability alone. A Core compilation shall use the single-unit root environment defined by Chapter 21.
+`compilation.modules` shall select Chapter 11's named ownership, import, partition, and module graph rules. `compilation.separate` shall select reusable CPN26 semantic interfaces and their separate-compilation consistency rules, with module support as its dependency. Joint compilation of named modules shall require the first capability alone. A Core compilation shall use the single-unit root environment defined by Chapter 21.
 
 `tooling.contract_export` shall select Chapter 29's external contract records, canonical JSON encoding, and SHA-256 identity projections. It shall operate independently of module compilation and separate compilation. A compiler shall satisfy disabled publication through its internal semantic records and the selected target's ordinary object representation. A separate-compilation provider may use its declared private interface representation. A request for standardized external records shall require the export capability.
 
@@ -349,7 +349,7 @@ Each operation shall take `record_address` as its first argument and use the tar
 
 The type descriptor shall provide a canonical type identity, its full collision-resolving name/contract, and the provider's matching operation. Cross-library matching shall use this canonical contract. Payload storage shall remain under the record provider's ownership while receiving modules hold borrowed views.
 
-The target exception provider supplies raise, resume, handler entry, and bare-rethrow entry points. Those entry points use the selected platform unwinder or an equivalent declared mechanism. The C-compatible observation ABI does not make a CXXN exception a C++ exception. Cross-language propagation requires the foreign exception adapter specified by the ABI chapter.
+The target exception provider supplies raise, resume, handler entry, and bare-rethrow entry points. Those entry points use the selected platform unwinder or an equivalent declared mechanism. The C-compatible observation ABI does not make a CPN26 exception a C++ exception. Cross-language propagation requires the foreign exception adapter specified by the ABI chapter.
 
 ## 6. Exception profiles and terminal behavior
 

@@ -1,6 +1,6 @@
 <a id="chapter-07-numeric-expressions"></a>
 
-# CXXN Numeric Expressions and Resources Specification
+# CPN26 Numeric Expressions and Resources Specification
 
 ## 1. Integer expression binding
 

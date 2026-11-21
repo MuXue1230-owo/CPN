@@ -1,6 +1,6 @@
 <a id="chapter-11-modules-compilation"></a>
 
-# CXXN Modules and Separate Compilation Specification
+# CPN26 Modules and Separate Compilation Specification
 
 ## 1. Scope and compilation model
 
@@ -12,11 +12,11 @@ With `compilation.modules = false`, a Core compilation shall accept one headerle
 
 The root owns its declarations and local static ordering. Module-qualified ownership rules elsewhere in the standard shall apply to this root owner where the operation needs an owner, including nominal types, generic catalogues, generated declarations, and destruction responsibility. The compiler may represent root and declaration identities by local handles with the information needed to establish equality and ownership. A request that externally publishes such identities shall assign the stable logical fields required by its selected interface contract. An enabled reflection provider shall represent this logical owner with the existing `Module` metadata kind; it shall preserve the root's identity without introducing a source module declaration or namespace prefix. Name queries shall follow the ordinary absent-source-name result for a headerless root.
 
-A Core native object may expose or reference foreign symbols under Chapter 09. The target's ABI contract and linker requirements shall determine that boundary. A native object link adds no CXXN interface-import requirement by itself. Required local static startup and shutdown shall use the root's ordering and its explicit image entry contract. The root model needs source and internal semantic state; external module maps and exported metadata are selected interfaces.
+A Core native object may expose or reference foreign symbols under Chapter 09. The target's ABI contract and linker requirements shall determine that boundary. A native object link adds no CPN26 interface-import requirement by itself. Required local static startup and shutdown shall use the root's ordering and its explicit image entry contract. The root model needs source and internal semantic state; external module maps and exported metadata are selected interfaces.
 
 ### 1.2 Selected compilation facilities
 
-`compilation.modules` shall enable the named-unit and import/export rules in Sections 2–9. Without `compilation.separate`, a module compilation shall obtain its semantic dependencies from the explicitly selected joint source-input set; an import denotes a logical source dependency inside that compilation. `compilation.separate` shall enable independently compiled CXXN interface artifacts and their provider-declared versioned protocol. It requires `compilation.modules`.
+`compilation.modules` shall enable the named-unit and import/export rules in Sections 2–9. Without `compilation.separate`, a module compilation shall obtain its semantic dependencies from the explicitly selected joint source-input set; an import denotes a logical source dependency inside that compilation. `compilation.separate` shall enable independently compiled CPN26 interface artifacts and their provider-declared versioned protocol. It requires `compilation.modules`.
 
 `tooling.contract_export` shall enable the public records in Chapter 29 independently of these two facilities. With that capability selected, a requested applicable export shall use its standard encoding. With it disabled, logical maps, contracts, definition records, and capability descriptions in this chapter denote semantic information held internally or in the selected private protocol. Equality, ownership, edition, effect, configuration, and ABI checks shall apply in either representation. A compiler may use direct records or opaque collision-resolving identifiers; serialization and fingerprint algorithms belong to the selected interchange protocol.
 
@@ -71,7 +71,7 @@ An ordinary implementation unit implicitly imports its own primary interface whe
 
 A build may contain a non-importable implementation-only module. It has no primary interface and cannot be the target of a named external module import. A source file without a module header shall use the Core root-unit identity from Section 1.1. In a selected multi-unit module compilation, the logical map shall assign each such root its distinct owner. A root may expose an entry point or foreign symbols under their separate contracts; its namespace belongs to that root.
 
-Module composition shall bind declarations through module interfaces. Generated source shall be an ordinary declared input. Foreign preprocessing shall remain within its binding provider and publish typed declarations to CXXN.
+Module composition shall bind declarations through module interfaces. Generated source shall be an ordinary declared input. Foreign preprocessing shall remain within its binding provider and publish typed declarations to CPN26.
 
 ## 3. Module maps and logical identities
 
@@ -96,7 +96,7 @@ The map may be supplied through the project/package configuration, the compiler 
 
 The owning logical identity is the pair `(package_identity, module_identity)`. A partition changes unit organization, not the owning module. An ordinary implementation unit is distinguished by its normalized logical source path. Import aliases, output filenames, checkout locations, and compiler worker numbers do not change declaration ownership. Changing a static-domain identity namespace does not rename a public type; the static namespace and the owning package identity are distinct logical fields.
 
-Every identifier component of a module name, partition name, import alias, and CXXN declaration path uses the source specification's NFC identity before the canonical dotted or qualified path is formed. The module map uses those canonical names. Package-identity strings, static identity-namespace strings, logical file paths, and explicit ABI symbol strings retain their own exact-byte contracts and are not globally normalized as identifiers. Source profile and Unicode-version requirements are resolved before tokenization and retained in interface and cache contracts.
+Every identifier component of a module name, partition name, import alias, and CPN26 declaration path uses the source specification's NFC identity before the canonical dotted or qualified path is formed. The module map uses those canonical names. Package-identity strings, static identity-namespace strings, logical file paths, and explicit ABI symbol strings retain their own exact-byte contracts and are not globally normalized as identifiers. Source profile and Unicode-version requirements are resolved before tokenization and retained in interface and cache contracts.
 
 Logical source paths follow the static-lifetime normalization rules: project-relative, `/` separators, no absolute prefix or unresolved `..`, and case-sensitive spelling. Different physical locations may implement the same mapped logical path. Two distinct inputs claiming the same unit identity are an error unless the map explicitly selects one alternative before compilation.
 
@@ -233,11 +233,11 @@ Declared source and binding inputs shall be identified independently of director
 
 Each compiled unit requiring code or data can emit ordinary native `.o`/`.obj` artifacts under the native interoperability specification. An interface-only unit with no emitted entities need not manufacture executable code. Partitioned native output shall retain an ordinary platform-linker path. The selected target, rather than the filename suffix, determines ELF, COFF, or another supported format.
 
-Foreign integration may be declared directly with the existing `extern "C"`/`extern "C++"` and ABI attributes, or imported through a generated binding module. A header adapter consumes explicitly selected foreign headers, compiler dialect/options, include dependencies, target/CRT/library descriptors, and preprocessing inputs. Its output is a CXXN declaration interface with preserved foreign nominal identities and ABI metadata, plus any required adapter objects.
+Foreign integration may be declared directly with the existing `extern "C"`/`extern "C++"` and ABI attributes, or imported through a generated binding module. A header adapter consumes explicitly selected foreign headers, compiler dialect/options, include dependencies, target/CRT/library descriptors, and preprocessing inputs. Its output is a CPN26 declaration interface with preserved foreign nominal identities and ABI metadata, plus any required adapter objects.
 
-The adapter's foreign preprocessing context does not become the consumer's CXXN source context. A foreign macro is not automatically a CXXN token macro. A binding provider may expose a selected macro as a typed constant or wrapper when its semantics and dependencies are declared. Unsupported definitions require a wrapper or an error rather than a guessed signature. Its CXXN binding identifiers use native normalization, while original foreign symbol and nominal-type identities remain preserved separately. Two distinct foreign entities whose binding names collide require explicit distinct aliases or a diagnostic; normalization shall preserve distinct foreign identities through those aliases.
+The adapter's foreign preprocessing context does not become the consumer's CPN26 source context. A foreign macro is not automatically a CPN26 token macro. A binding provider may expose a selected macro as a typed constant or wrapper when its semantics and dependencies are declared. Unsupported definitions require a wrapper or an error rather than a guessed signature. Its CPN26 binding identifiers use native normalization, while original foreign symbol and nominal-type identities remain preserved separately. Two distinct foreign entities whose binding names collide require explicit distinct aliases or a diagnostic; normalization shall preserve distinct foreign identities through those aliases.
 
-A requested CXXN C interface export shall supply the header and native binding description selected under Chapter 09. The header describes actual exported transport types and symbols. A selected standard contract export shall encode its descriptor using Chapter 29. The interface shall preserve each CXXN initialization owner and the declared transport for Result, ownership, and exception records.
+A requested CPN26 C interface export shall supply the header and native binding description selected under Chapter 09. The header describes actual exported transport types and symbols. A selected standard contract export shall encode its descriptor using Chapter 29. The interface shall preserve each CPN26 initialization owner and the declared transport for Result, ownership, and exception records.
 
 The module interface's native-link requirements identify symbol providers and required support libraries. Native symbol resolution does not replace declaration, ownership, or exception-boundary validation. Linking a C++ adapter adds the selected support dependencies only when that adapter requires them; ordinary modules do not acquire a universal C++ runtime.
 
@@ -265,9 +265,9 @@ Two images sharing a public nominal type shall agree on that type's canonical id
 
 ## 15. Source examples
 
-The following three units select `compilation.modules` and use one importable module and one non-importable application module. A build using precompiled CXXN interface material additionally selects `compilation.separate`. The module map assigns their logical paths and selects the application's `main` entry under the native entry contract.
+The following three units select `compilation.modules` and use one importable module and one non-importable application module. A build using precompiled CPN26 interface material additionally selects `compilation.separate`. The module map assigns their logical paths and selects the application's `main` entry under the native entry contract.
 
-**`geometry.cxxn` — primary interface**
+**`geometry.cpn` — primary interface**
 
 ```text
 export module geometry;
@@ -280,7 +280,7 @@ export struct Point {
 export declare i32 sum(const<Point>& value);
 ```
 
-**`geometry_impl.cxxn` — implementation**
+**`geometry_impl.cpn` — implementation**
 
 ```text
 module geometry;
@@ -290,7 +290,7 @@ i32 sum(const<Point>& value) {
 }
 ```
 
-**`application.cxxn` — application implementation**
+**`application.cpn` — application implementation**
 
 ```text
 module application;

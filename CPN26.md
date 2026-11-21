@@ -1,12 +1,12 @@
-# CPN26 — CXXN Language Standard
+# CPN26 Language Standard
 
 ## Scope and conformance
 
-The standard designation is **CPN26**. The language name is **CXXN**. This document defines the source language, execution contracts, and standardized optional capabilities under that designation.
+The standard designation is **CPN26**. The language name is **CPN**. This document defines the source language, execution contracts, and standardized optional capabilities under that designation.
 
 The standard covers source grammar and binding, control flow, types and functions, ordinary and higher-order generics, constant evaluation, reflection and declaration generation, modules, construction and destruction, manual memory, configuration, integer/floating/exact/Complex numerics, concurrency, contracts and effects, error values and explicit exception recovery, standard-library interfaces, quantities and resources, native C/C++ interoperability, public contract schemas, and reference target bindings.
 
-The [core execution model](#chapter-21-abstract-machine-conformance) owns conformance, state transitions, observations, and transformation permissions. A Core claim shall implement a single root source unit under its published target and configuration, including ordinary types and generics, control flow, object lifetime, manual storage, and native object emission. Internal semantic records shall retain the facts required for source and native-boundary checks. Named modules, separate CXXN compilation, and standard public contract export shall each follow their selected capability. Chapter 08 owns their defaults and dependencies. Feature chapters define the operation-specific transitions of each admitted optional claim. The core's single-definition ownership table identifies the normative owner of each shared rule. Examples shall be interpreted with their named capabilities enabled.
+The [core execution model](#chapter-21-abstract-machine-conformance) owns conformance, state transitions, observations, and transformation permissions. A Core claim shall implement a single root source unit under its published target and configuration, including ordinary types and generics, control flow, object lifetime, manual storage, and native object emission. Internal semantic records shall retain the facts required for source and native-boundary checks. Named modules, separate CPN26 compilation, and standard public contract export shall each follow their selected capability. Chapter 08 owns their defaults and dependencies. Feature chapters define the operation-specific transitions of each admitted optional claim. The core's single-definition ownership table identifies the normative owner of each shared rule. Examples shall be interpreted with their named capabilities enabled.
 
 Ordinary type/constant generics and structural constraints shall follow Chapter 10. Explicitly selected higher kinds and associated entities shall use Chapter 26. Associated conformance shall use Chapter 27's fixed priority selection and structural-fallback provenance. A source-edition binding shall govern grammar and defaults before parsing independently of contract export.
 
@@ -53,11 +53,11 @@ A selected standard contract export shall identify this source standard as `CPN2
 
 <a id="chapter-01-language-lifecycle"></a>
 
-## CXXN Language and Object Lifetime Specification
+## CPN26 Language and Object Lifetime Specification
 
 ### 1. Language model
 
-CXXN is a native systems language with manual storage ownership, explicit object lifetime, C-like declarations, and configurable numerical and execution policies. CPN26 is the standard designation for this specification. A conforming implementation shall evaluate its core and selected optional capabilities according to the [core execution model](#chapter-21-abstract-machine-conformance) and produce the native representation required by the selected target contract.
+CPN26 is a native systems language with manual storage ownership, explicit object lifetime, C-like declarations, and configurable numerical and execution policies. CPN26 is the standard designation for this specification. A conforming implementation shall evaluate its core and selected optional capabilities according to the [core execution model](#chapter-21-abstract-machine-conformance) and produce the native representation required by the selected target contract.
 
 Normative terminology shall use the core execution model's definitions. A normative example shall be interpreted with its named types and capabilities enabled. Configuration defaults and diagnostic dispositions have their sole definition in the [configuration specification](#chapter-08-runtime-configuration).
 
@@ -65,7 +65,7 @@ Normative terminology shall use the core execution model's definitions. A normat
 
 An object declaration shall use the complete type before its name. Explicit initialization uses `Type name(arguments);`; deduction uses `auto name(expression);`. The pointer `this` designates the current receiver under its active class-layer contract.
 
-```cxxn
+```cpn
 i32 data(10);
 u64 capacity(4096);
 auto next(data + 1);
@@ -97,7 +97,7 @@ The [module specification](#chapter-11-modules-compilation) defines declaration 
 
 <a id="chapter-02-integer-bigint"></a>
 
-## CXXN Integer and BigInt Specification
+## CPN26 Integer and BigInt Specification
 
 ### 1. Integer contracts
 
@@ -105,7 +105,7 @@ This chapter owns integer value domains, canonical arithmetic common types, and 
 
 The compiler shall derive an integer operation's source/result types, establish their availability, and resolve its arithmetic policy. Execution shall then evaluate the operands once and apply that policy to their actual mathematical values. A named Checked, Result, Wrapping, or Saturating operation supplies its own policy. The Native policy supplies ordinary Release execution through the preset table.
 
-```cxxn
+```cpn
 i32 count(10);
 u64 mask(255);
 auto next(count + 1);
@@ -219,7 +219,7 @@ Each definition shall bind its numerical configuration and publish the relevant 
 
 <a id="chapter-03-floating-exact"></a>
 
-## CXXN Floating and Exact Numeric Families Specification
+## CPN26 Floating and Exact Numeric Families Specification
 
 ### 1. Representation and execution
 
@@ -312,7 +312,7 @@ The compiler shall bind the relevant format, execution, provider, and resource c
 
 <a id="chapter-04-numeric-integration"></a>
 
-## CXXN Numeric Integration Specification
+## CPN26 Numeric Integration Specification
 
 ### 1. Numerical operation model
 
@@ -377,7 +377,7 @@ The standard numeric library catalogue defines these capability-gated semantic o
 
 Result variants of Saturating, Wrapping, and Truncating shall expose the same mapping and status through NumericResult. Each strategy is available for the destination families whose value mapping is defined below.
 
-Illustrative declarations retain the specified CXXN construction syntax:
+Illustrative declarations retain the specified CPN26 construction syntax:
 
 ```cpp
 f64 source(127.9);
@@ -418,7 +418,7 @@ IntegerRound uses the mathematical integer lattice. A floating projection uses i
 | `payload_changed` | A selected representation conversion changed NaN payload information. |
 | `fp_flags` | The operation's applicable IEEE event set; empty when that interface defines no IEEE events. |
 
-An Exact probe may report both range and quantum conditions. Integer 128 to i8 is out of range on the integer quantum; -128.9 to i8 additionally has a fractional mismatch. A failed probe provides its status without an approximate destination. Decimal normalization that preserves a value sets no value-inexact event. CXXN integer-destination conversions report their projection events rather than incidental host-instruction flags.
+An Exact probe may report both range and quantum conditions. Integer 128 to i8 is out of range on the integer quantum; -128.9 to i8 additionally has a fractional mismatch. A failed probe provides its status without an approximate destination. Decimal normalization that preserves a value sets no value-inexact event. CPN26 integer-destination conversions report their projection events rather than incidental host-instruction flags.
 
 `NumericErrorCode` is a closed enumeration comprising `OutOfRange`, `NonFinite`, `NotExactlyRepresentable`, `ZeroDivisor`, `NonTerminatingExpansion`, `InvalidOperation`, `InvalidShift`, `InvalidBitRange`, `ResourceLimit`, `AllocationFailure`, `TransferUnavailable`, `Invalid`, `DivideByZero`, `Overflow`, `Underflow`, and `Inexact`. `TransferUnavailable` reports an incompatible explicitly requested resource/temporary ownership transfer, independently of resource exhaustion. The last five are selected IEEE-event errors; their names do not conflate them with integer or exact-family failures. An operation shall use the code required by its own classification rule. `ZeroDivisor` applies to the integer/exact zero-divisor contract; `DivideByZero` applies to a floating event. An explicit extension shall define its own error type or publish a translation into this enumeration.
 
@@ -684,7 +684,7 @@ The provider shall realize each selected context capability through hardware or 
 
 #### 10.1 Arithmetic NaN selection
 
-For a Strict operation or named observed interface selecting CXXN deterministic propagation, the implementation shall apply this algorithm:
+For a Strict operation or named observed interface selecting CPN26 deterministic propagation, the implementation shall apply this algorithm:
 
 1. Every signaling-NaN operand contributes Invalid, regardless of which NaN is selected for the result.
 2. If any quiet-NaN operand exists, select the first quiet NaN in the operation's defined operand order.
@@ -694,7 +694,7 @@ For a Strict operation or named observed interface selecting CXXN deterministic 
 
 The operation shall additionally record its own specified exception conditions. Source evaluation order follows the core model; an operation with several NaN candidates shall declare their selection order. Native ordinary propagation instead follows the selected provider contract.
 
-Consequently, `add(sNaN(payload=1), qNaN(payload=2))` selects payload `2` while still generating Invalid. This is a CXXN deterministic choice; it is not a claim that all hardware IEEE implementations use this exact priority.
+Consequently, `add(sNaN(payload=1), qNaN(payload=2))` selects payload `2` while still generating Invalid. This is a CPN26 deterministic choice; it is not a claim that all hardware IEEE implementations use this exact priority.
 
 For the binary interchange formats in this baseline, a canonical generated qNaN has positive sign, the quiet bit set, and zero payload bits. For arithmetic cross-format conversion, the source payload is interpreted as an unsigned payload integer, zero-extended when it fits, or reduced to the destination payload's low bits when necessary; the result is quiet. Payload loss is observable through `payload_changed`. A same-format bit copy performs no arithmetic conversion and preserves the signaling bit.
 
@@ -824,7 +824,7 @@ A conforming numerical provider shall implement the admitted contracts it advert
 
 <a id="chapter-05-complex-arithmetic"></a>
 
-## CXXN Complex Arithmetic Specification
+## CPN26 Complex Arithmetic Specification
 
 ### 1. Complex feature contract
 
@@ -1047,7 +1047,7 @@ If `c` and `d` are both numerical zero:
 | Finite nonzero | Infinity with the resulting sign | DivideByZero. |
 | Either infinity | Infinity with the resulting sign | None. |
 
-The sign of the imaginary divisor zero `d` is not used in this branch. This is an explicit CXXN convention for a singular complex operation, not an inference about an unspecified path by which a complex value approached zero.
+The sign of the imaginary divisor zero `d` is not used in this branch. This is an explicit CPN26 convention for a singular complex operation, not an inference about an unspecified path by which a complex value approached zero.
 
 Preserving a zero numerator component here does not redefine scalar `0/0`. Entire complex `0/0` has already selected Invalid.
 
@@ -1237,7 +1237,7 @@ A provider shall satisfy each operation/profile, format, control, and delivery c
 
 <a id="chapter-06-construction-execution"></a>
 
-## CXXN Construction and Destruction Execution Specification
+## CPN26 Construction and Destruction Execution Specification
 
 ### 1. Scope and Required Distinctions
 
@@ -1508,7 +1508,7 @@ A permitted source-initiated base-only destruction or Abandon request shall latc
 
 After the early attempt, control shall exit the affected ordinary body or Cleanup and continue through the coordinator's required Cleanup and reverse-remainder work. An entered Cleanup shall retain its consumed invocation state. Whole shall use the lifecycle control channel, separate from user exception handlers and process termination.
 
-Whole shall propagate through CXXN helpers executing the affected destructor or Cleanup continuation, causing their generated exits. Its callable contract shall expose the required lifecycle effect through declarations, inferred internal summaries, and indirect function types. Lowering shall use control-flow edges or equivalent internal status while preserving the selected exit work.
+Whole shall propagate through CPN26 helpers executing the affected destructor or Cleanup continuation, causing their generated exits. Its callable contract shall expose the required lifecycle effect through declarations, inferred internal summaries, and indirect function types. Lowering shall use control-flow edges or equivalent internal status while preserving the selected exit work.
 
 An affected body or helper exit shall perform its required local-object and temporary cleanup. Each cleanup failure shall follow Chapter 28's selected outlet, which determines continuation or termination.
 
@@ -1566,7 +1566,7 @@ The selected interoperability profile shall determine object-file format, C/C++ 
 
 An extern-compatible class shall preserve the chosen ABI's object fields, base offsets, and virtual representation. Its lifecycle features shall use static resolution, transient out-of-object state, or an explicitly accepted sidecar. A feature requiring persistent state shall obtain a compatible representation before that class can satisfy the requested foreign ABI.
 
-A foreign boundary shall contain Whole through a verified aware contract or an explicit adapter that completes lifecycle coordination and returns compatibly. A CXXN helper interacting with a foreign destructor shall use that declared continuation contract. Foreign virtual destruction shall require the chosen ABI's representation and dispatch guarantees.
+A foreign boundary shall contain Whole through a verified aware contract or an explicit adapter that completes lifecycle coordination and returns compatibly. A CPN26 helper interacting with a foreign destructor shall use that declared continuation contract. Foreign virtual destruction shall require the chosen ABI's representation and dispatch guarantees.
 
 ### 12. Required Boundary Examples
 
@@ -1594,7 +1594,7 @@ A foreign boundary shall contain Whole through a verified aware contract or an e
 
 <a id="chapter-07-numeric-expressions"></a>
 
-## CXXN Numeric Expressions and Resources Specification
+## CPN26 Numeric Expressions and Resources Specification
 
 ### 1. Integer expression binding
 
@@ -1846,7 +1846,7 @@ The compiler shall apply Chapter 04's numeric diagnostic cases and Chapter 08's 
 
 <a id="chapter-08-runtime-configuration"></a>
 
-## CXXN Configuration, Exceptions, and Static Lifetime Specification
+## CPN26 Configuration, Exceptions, and Static Lifetime Specification
 
 ### 1. Normative conventions
 
@@ -1880,7 +1880,7 @@ The compiler shall interpret configuration values as compile-time metadata and i
 
 Metadata words include Boolean and enum-like spellings such as true, false, and default. Reserved spellings are admitted in these metadata paths and values without becoming ordinary program identifiers. The [consolidated grammar](#chapter-15-grammar-binding) supplies tokenization and decoration rules; the selected key schema supplies each value's interpretation.
 
-A project configuration file, when supplied, shall be named `cxxn.config` and contain configuration declarations. A compiler request may supply the same project bindings directly. A source-file configuration declaration shall precede the declarations it governs. It applies until the end of the enclosing file or declared configuration region. A configured declaration applies to that declaration and its lexical body. A configured block applies to its body. A configured expression applies to that expression, including its implicit operation policies, and does not change the surrounding scope. The compilation request shall bind the source edition under Chapter 21 before source grammar selection.
+A project configuration file, when supplied, shall be named `cpn.config` and contain configuration declarations. A compiler request may supply the same project bindings directly. A source-file configuration declaration shall precede the declarations it governs. It applies until the end of the enclosing file or declared configuration region. A configured declaration applies to that declaration and its lexical body. A configured block applies to its body. A configured expression applies to that expression, including its implicit operation policies, and does not change the surrounding scope. The compilation request shall bind the source edition under Chapter 21 before source grammar selection.
 
 ```text
 configuration {
@@ -1928,7 +1928,7 @@ A profile-dependent default shall be calculated from the effective profile after
 | Target architecture, object format, pointer model, C ABI, C++ ABI provider | Project or independent image | Image | Conflicting direct linkage is `ERROR`. |
 | Source identifier profile and Unicode data version | Compilation request/project/package or selected module map before tokenization | Compilation-unit or module source identity | All source for the bound owner shall use its selected identifier profile. |
 | Module compilation, separate compilation, and external contract export | Compilation request/project/package before source binding | Compilation artifact | The selected compilation and publication capabilities shall govern the entire artifact. |
-| Exception ABI version and process failure profile | Project or independent image | Image | All participating CXXN frames use the same exception boundary contract. |
+| Exception ABI version and process failure profile | Project or independent image | Image | All participating CPN26 frames use the same exception boundary contract. |
 | Enabled type families, providers, allocating facilities | Project through declaration | First affected declaration | An exported type retains its declared representation and provider identity. |
 | Integer overflow, numeric conversion, rounding, FP and Complex operation defaults | Project through expression | Operation binding | Explicit operation policies have priority. |
 | Default literal materialization | Project through expression | Literal binding | A typed expression shall retain its established type. |
@@ -2015,7 +2015,7 @@ The following key families form the standard configuration surface. A provider m
 | `numeric.provider` | Versioned provider identifier | Target descriptor's conforming provider. |
 | `numeric.software_fallback` | Boolean | `false` unless explicitly permitted by the target preset. |
 | `atomic.software_fallback` | Boolean | `false`. |
-| `atomic.memory_model` | `cxxn_v1` | `cxxn_v1`. |
+| `atomic.memory_model` | `cpn_v1` | `cpn_v1`. |
 | `atomic.provider` | Versioned native/explicit fallback provider identity | Target's declared conforming atomic provider. |
 | `thread.provider` | Provider identifier or `none` | `none` unless explicitly selected by the target/project. |
 | `thread.stack_bytes` | Positive byte count or `provider_default` | `provider_default`; actual bound exposed by the provider. |
@@ -2050,7 +2050,7 @@ Ordinary Core constraint checking shall use the normalization, solver-step, and 
 
 #### 2.4.2 Compilation and publication capabilities
 
-`compilation.modules` shall select Chapter 11's named ownership, import, partition, and module graph rules. `compilation.separate` shall select reusable CXXN semantic interfaces and their separate-compilation consistency rules, with module support as its dependency. Joint compilation of named modules shall require the first capability alone. A Core compilation shall use the single-unit root environment defined by Chapter 21.
+`compilation.modules` shall select Chapter 11's named ownership, import, partition, and module graph rules. `compilation.separate` shall select reusable CPN26 semantic interfaces and their separate-compilation consistency rules, with module support as its dependency. Joint compilation of named modules shall require the first capability alone. A Core compilation shall use the single-unit root environment defined by Chapter 21.
 
 `tooling.contract_export` shall select Chapter 29's external contract records, canonical JSON encoding, and SHA-256 identity projections. It shall operate independently of module compilation and separate compilation. A compiler shall satisfy disabled publication through its internal semantic records and the selected target's ordinary object representation. A separate-compilation provider may use its declared private interface representation. A request for standardized external records shall require the export capability.
 
@@ -2195,7 +2195,7 @@ Each operation shall take `record_address` as its first argument and use the tar
 
 The type descriptor shall provide a canonical type identity, its full collision-resolving name/contract, and the provider's matching operation. Cross-library matching shall use this canonical contract. Payload storage shall remain under the record provider's ownership while receiving modules hold borrowed views.
 
-The target exception provider supplies raise, resume, handler entry, and bare-rethrow entry points. Those entry points use the selected platform unwinder or an equivalent declared mechanism. The C-compatible observation ABI does not make a CXXN exception a C++ exception. Cross-language propagation requires the foreign exception adapter specified by the ABI chapter.
+The target exception provider supplies raise, resume, handler entry, and bare-rethrow entry points. Those entry points use the selected platform unwinder or an equivalent declared mechanism. The C-compatible observation ABI does not make a CPN26 exception a C++ exception. Cross-language propagation requires the foreign exception adapter specified by the ABI chapter.
 
 ### 6. Exception profiles and terminal behavior
 
@@ -2322,7 +2322,7 @@ Domain unload shall require retirement or explicit transfer of every dependent o
 
 <a id="chapter-09-native-interoperability"></a>
 
-## CXXN Native Object and Foreign ABI Specification
+## CPN26 Native Object and Foreign ABI Specification
 
 ### 1. Scope and terminology
 
@@ -2352,21 +2352,21 @@ Direct linkage shall compare the requirements actually shared by that boundary. 
 
 ### 4. Linkage declarations and external symbols
 
-Foreign linkage shall use the `extern "C"` or `extern "C++"` declarations defined by the [grammar specification](#chapter-15-grammar-binding). That chapter owns declaration classification, linkage-block scope, and the `define` object-definition marker. The selected linkage shall bind the external symbol and its call or object contract. CXXN expression, numerical, initialization, and lifetime semantics shall govern a source-defined implementation.
+Foreign linkage shall use the `extern "C"` or `extern "C++"` declarations defined by the [grammar specification](#chapter-15-grammar-binding). That chapter owns declaration classification, linkage-block scope, and the `define` object-definition marker. The selected linkage shall bind the external symbol and its call or object contract. CPN26 expression, numerical, initialization, and lifetime semantics shall govern a source-defined implementation.
 
 | Foreign source form | Bound entity and definition responsibility |
 | --- | --- |
 | `extern "C" R function(parameters);` | Function declaration; the selected image/provider supplies its definition. Empty parentheses declare zero parameters. |
 | `extern "C" R function(parameters) { statements }` | Function definition with the declared foreign callable contract. |
 | `extern "C" T object;` | External object declaration; the binding designates storage and a lifetime established by its defining domain. |
-| `extern "C" define T object(arguments);` | Object definition; this definition supplies storage, performs ordinary CXXN initialization, and registers its applicable lifetime obligations. |
+| `extern "C" define T object(arguments);` | Object definition; this definition supplies storage, performs ordinary CPN26 initialization, and registers its applicable lifetime obligations. |
 | `extern "C" define T object;` | Object definition using type-directed default initialization. |
 
 The corresponding C++ linkage forms shall use the same declaration categories and the selected C++ provider's symbol and ABI contracts. A declaration shall retain its chosen category through type, parameter, capability, and ABI validation. For `extern "C" T name(10);`, the parser shall select a function declaration and diagnose the invalid parameter declaration at `10`.
 
 An external object declaration shall introduce one descriptor-bound object identity. Its defining domain shall own initialization and the destruction obligations specified by the binding. Repeated compatible declarations shall reference that same identity. A source `define` declaration shall provide the definition under the image's existing single-definition and static/thread-lifetime rules. Declaration-level `const` and `thread_local` shall match the shared object's qualified type and storage contract.
 
-```cxxn
+```cpn
 extern "C" {
     ffi::c_int read_count();
     ffi::c_int shared_count;
@@ -2374,7 +2374,7 @@ extern "C" {
 }
 ```
 
-Linkage blocks and nested namespace bodies shall apply the foreign declaration categories to their namespace-scope symbols. Record members, function bodies, and construction tails shall use their own ordinary CXXN declaration grammar. Record layout, member bindings, and function-pointer calling conventions shall use their separately selected provider contracts.
+Linkage blocks and nested namespace bodies shall apply the foreign declaration categories to their namespace-scope symbols. Record members, function bodies, and construction tails shall use their own ordinary CPN26 declaration grammar. Record layout, member bindings, and function-pointer calling conventions shall use their separately selected provider contracts.
 
 The following ABI attributes are standard:
 
@@ -2389,21 +2389,21 @@ The following ABI attributes are standard:
 
 Attributes are compile-time metadata. Unsupported values or contradictory attributes are `ERROR`. A raw symbol override shall retain the checked ABI signature. The implementation shall emit a raw symbol spelling exactly, including its supplied platform decoration. Import/export visibility and symbol versions belong to the binding descriptor.
 
-An ordinary `extern "C"` function uses its source identifier with the target's normal C decoration. C linkage does not overload one external name by CXXN parameter types. Distinct overloads require distinct external symbols. Multiple definitions of one external symbol shall satisfy the target's permitted definition rules and the same interface contract.
+An ordinary `extern "C"` function uses its source identifier with the target's normal C decoration. C linkage does not overload one external name by CPN26 parameter types. Distinct overloads require distinct external symbols. Multiple definitions of one external symbol shall satisfy the target's permitted definition rules and the same interface contract.
 
-Native CXXN symbols use a provider-declared, stable, versioned naming scheme. The provider shall publish its canonical identity encoding and naming algorithm. The identity includes module, qualified name, declaration kind, signature, specialization identity, and relevant native ABI version. The scheme shall distinguish distinct identities without treating an unchecked truncated hash as collision-free. Names shall derive from the published logical identity fields. Different naming providers do not imply mutual compatibility; exported C or selected C++ linkage remains available independently.
+Native CPN26 symbols use a provider-declared, stable, versioned naming scheme. The provider shall publish its canonical identity encoding and naming algorithm. The identity includes module, qualified name, declaration kind, signature, specialization identity, and relevant native ABI version. The scheme shall distinguish distinct identities without treating an unchecked truncated hash as collision-free. Names shall derive from the published logical identity fields. Different naming providers do not imply mutual compatibility; exported C or selected C++ linkage remains available independently.
 
 ### 5. Foreign scalar identity
 
 The namespace `ffi` provides descriptor-bound foreign scalar types, including `c_char`, `c_schar`, `c_uchar`, `c_short`, `c_ushort`, `c_int`, `c_uint`, `c_long`, `c_ulong`, `c_llong`, `c_ullong`, `c_bool`, `c_float`, `c_double`, and `c_long_double`. A provider may additionally expose named foreign character, extended integer, or vector types through its capability contract.
 
-These names preserve foreign nominal identity. `ffi::c_int` and `ffi::c_long` remain distinct even on a target where they have the same width. Neither becomes a global CXXN `int` or `long` type. Traditional unqualified CXXN integer names remain removed. A foreign typedef preserves its underlying foreign type identity unless the binding explicitly declares a distinct wrapper.
+These names preserve foreign nominal identity. `ffi::c_int` and `ffi::c_long` remain distinct even on a target where they have the same width. Neither becomes a global CPN26 `int` or `long` type. Traditional unqualified CPN26 integer names remain removed. A foreign typedef preserves its underlying foreign type identity unless the binding explicitly declares a distinct wrapper.
 
-Each foreign scalar specifies its exact target representation and value domain. Conversion to or from CXXN numerical types follows the applicable lossless implicit or explicit numeric-conversion rules. Foreign type spelling alone does not enable unchecked arithmetic. An explicit foreign call's defined effects remain the foreign function's contract.
+Each foreign scalar specifies its exact target representation and value domain. Conversion to or from CPN26 numerical types follows the applicable lossless implicit or explicit numeric-conversion rules. Foreign type spelling alone does not enable unchecked arithmetic. An explicit foreign call's defined effects remain the foreign function's contract.
 
-A CXXN fixed-width type may cross a C boundary when the descriptor supplies a matching C transport type and calling-convention classification. The generated C declaration shall name that transport type, such as an available exact-width typedef. The choice does not establish that two different C++ nominal parameter types have the same mangled name.
+A CPN26 fixed-width type may cross a C boundary when the descriptor supplies a matching C transport type and calling-convention classification. The generated C declaration shall name that transport type, such as an available exact-width typedef. The choice does not establish that two different C++ nominal parameter types have the same mangled name.
 
-Null object pointers, function pointers, Boolean values, and floating values shall use the selected target representations. A non-CXXN pointer is not automatically a valid integer, a function pointer is not automatically an object pointer, and an all-zero byte sequence is not universally a foreign typed default. A cross-family numeric conversion or serialization shall be represented by its explicit adapter operation.
+Null object pointers, function pointers, Boolean values, and floating values shall use the selected target representations. A non-CPN26 pointer is not automatically a valid integer, a function pointer is not automatically an object pointer, and an all-zero byte sequence is not universally a foreign typed default. A cross-family numeric conversion or serialization shall be represented by its explicit adapter operation.
 
 On the standard flat-address target profiles, let `W` be the object-pointer storage size in bits specified by the target descriptor. `usize` is the unsigned platform-width integer with range `[0, 2^W - 1]`; `isize` is its same-width signed two's-complement counterpart with range `[-2^(W-1), 2^(W-1)-1]`. They retain their platform-width type-family identity even when an enabled `uW` or `iW` has the same width. Their alignment and calling-convention classification are declared by the target. A capability-pointer, non-flat, or multiple-address-space target shall instead state its platform-integer width and supported size/index domain explicitly; a pointer's metadata-bearing storage size does not imply an integer encoding of that metadata. No `usize`/`isize` definition grants an implicit pointer conversion or guarantees preservation of pointer provenance, permissions, bounds, or capabilities in an integer round trip. Foreign `size_t` and `ptrdiff_t` bindings preserve their declared foreign type identities and require the appropriate explicit mapping.
 
@@ -2413,7 +2413,7 @@ A directly interoperable C record shall have a complete, checked layout contract
 
 Packing and explicit alignment shall follow the provider's C rules, including their interaction. Member accesses shall use the alignment guaranteed by that packed layout. Bit-fields, unions, flexible array members, nonstandard vector fields, and implementation-specific scalar representations require separately declared provider support. Merely matching `sizeof` is insufficient.
 
-Padding bytes are not additional numerical values and are not guaranteed initialized by field-wise construction. The generated header shall describe the exact exported layout. Value equality shall follow its value operation; auxiliary CXXN state shall use the separately authorized metadata representation.
+Padding bytes are not additional numerical values and are not guaranteed initialized by field-wise construction. The generated header shall describe the exact exported layout. Value equality shall follow its value operation; auxiliary CPN26 state shall use the separately authorized metadata representation.
 
 Arguments and return values shall follow the platform's classification rules, including register classes, stack slots, hidden return-storage parameters, extension requirements, and alignment. Source-level by-value passage does not require an identical machine-level mechanism for every record size. By-value lowering shall use exactly the transport selected by the target classification.
 
@@ -2423,13 +2423,13 @@ For each exported C interface, an implementation shall support generating a C he
 
 ### 7. Callbacks and variadic functions
 
-A callback's type includes its foreign linkage and calling convention. Its prototype, return transport, context lifetime, thread/reentrancy conditions, and failure policy shall be known. A captureless CXXN function may become a foreign function pointer when those requirements are satisfied. A closure with state requires an explicit context parameter or provider-defined adapter; a hidden heap allocation or executable trampoline is not implied.
+A callback's type includes its foreign linkage and calling convention. Its prototype, return transport, context lifetime, thread/reentrancy conditions, and failure policy shall be known. A captureless CPN26 function may become a foreign function pointer when those requirements are satisfied. A closure with state requires an explicit context parameter or provider-defined adapter; a hidden heap allocation or executable trampoline is not implied.
 
 Registration shall state whether the foreign callee retains the callback and context beyond the call. Their code, context storage, and required library shall remain alive until deregistration and any in-flight calls complete. A retained stack-context pointer without a sufficient lifetime is a lifetime error or an unproved programmer obligation under the ordinary diagnostic rules.
 
-Calling an old-style C function without a prototype is outside the direct interface and is `ERROR`. A declared variadic function is supported only when the provider specifies its variadic ABI. The compiler shall perform the required foreign default argument promotions as part of marshalling and evaluate each argument once. Those promotions apply to the variadic call boundary, not ordinary CXXN arithmetic. Types without a declared variadic transport require an explicit conversion or wrapper.
+Calling an old-style C function without a prototype is outside the direct interface and is `ERROR`. A declared variadic function is supported only when the provider specifies its variadic ABI. The compiler shall perform the required foreign default argument promotions as part of marshalling and evaluate each argument once. Those promotions apply to the variadic call boundary, not ordinary CPN26 arithmetic. Types without a declared variadic transport require an explicit conversion or wrapper.
 
-Foreign calls shall declare relevant floating-environment effects. A wrapper shall preserve or translate controls and observable status according to that contract and the CXXN execution-context rules. Native foreign FP clobber shall use the Native boundary rule; a stronger caller shall select the required state-isolating adapter.
+Foreign calls shall declare relevant floating-environment effects. A wrapper shall preserve or translate controls and observable status according to that contract and the CPN26 execution-context rules. Native foreign FP clobber shall use the Native boundary rule; a stronger caller shall select the required state-isolating adapter.
 
 ### 8. Selected C++ ABI interoperability
 
@@ -2450,17 +2450,17 @@ The feature declarations shall distinguish:
 
 Support for free-function linkage does not imply support for the remaining rows. A class shall be imported from a verified foreign declaration/descriptor, or emitted only when every used layout and lifecycle feature is supported. Identical field names and a matching first virtual call are not a class-ABI contract.
 
-Foreign overload resolution shall use imported nominal identities. Templates and library types shall use the provider's declared instantiation or import mechanism. A CXXN generic instance shall enter that boundary through its verified concrete binding.
+Foreign overload resolution shall use imported nominal identities. Templates and library types shall use the provider's declared instantiation or import mechanism. A CPN26 generic instance shall enter that boundary through its verified concrete binding.
 
 A provider may generate an adapter with the selected foreign compiler. The resulting interface and dependencies shall be explicit. Unsupported direct class layout, RTTI, inheritance, or library types may be represented by opaque pointers and named operations. An opaque handle shall expose the inspection and destruction operations stated by its interface.
 
 ### 9. Lifecycle compatibility
 
-A direct foreign class binding shall preserve both the required machine representation and the actual lifecycle operations. CXXN lifetime operations shall use the verified foreign entries and retain their fixed layout and responsibility assignment.
+A direct foreign class binding shall preserve both the required machine representation and the actual lifecycle operations. CPN26 lifetime operations shall use the verified foreign entries and retain their fixed layout and responsibility assignment.
 
 A complete-object foreign destructor may already destroy members and bases; a deleting variant may additionally release storage. A call descriptor shall state which obligations the selected entry point discharges. Successful return shall discharge exactly the obligations assigned to that entry. A base-object destructor entry is not interchangeable with a complete-object entry.
 
-If foreign construction throws before completion, the selected constructor/provider owns the rollback specified by its ABI. The CXXN adapter shall retire its separately assigned wrapper and storage obligations. A foreign failed constructor does not establish a successfully constructed complete object.
+If foreign construction throws before completion, the selected constructor/provider owns the rollback specified by its ABI. The CPN26 adapter shall retire its separately assigned wrapper and storage obligations. A foreign failed constructor does not establish a successfully constructed complete object.
 
 Native lifetime metadata may be eliminated, kept in activation storage, or stored externally when the provider contract permits it. External metadata shall use activation or separate storage; any in-object placement requires the ABI's explicit layout authorization. Its memory and synchronization requirements shall enter the selected capability's semantic contract.
 
@@ -2472,11 +2472,11 @@ The default C boundary is non-unwinding in both directions, including callbacks.
 
 An explicit adapter may catch a supported language exception on its originating side and return a declared foreign status, or construct a declared translated exception. Its mapping, payload ownership, allocation failure, and unmapped-type behavior shall be specified. No automatic conversion of arbitrary failures into `NumericResult` is implied.
 
-C++ propagation through CXXN frames requires an explicitly enabled provider contract covering search, cleanup, matching, storage, and rethrow. Without that capability, an `extern "C++"` call shall satisfy a non-unwinding contract or use an explicit non-unwinding adapter. Native CXXN `ExceptionRef` and `ExceptionAggregate` are not assumed to be C++ exception records. Sharing an unwinder does not establish matching payload or handler semantics. Identity-preserving rethrow is permitted only when the adapter retains the original compatible record; a newly translated payload has a new identity.
+C++ propagation through CPN26 frames requires an explicitly enabled provider contract covering search, cleanup, matching, storage, and rethrow. Without that capability, an `extern "C++"` call shall satisfy a non-unwinding contract or use an explicit non-unwinding adapter. Native CPN26 `ExceptionRef` and `ExceptionAggregate` are not assumed to be C++ exception records. Sharing an unwinder does not establish matching payload or handler semantics. Identity-preserving rethrow is permitted only when the adapter retains the original compatible record; a newly translated payload has a new identity.
 
 Release destruction failure and Numeric Trap shall follow their terminal routing in the core and error specifications. An adapter shall preserve that terminal outcome.
 
-Foreign `longjmp`, forced unwinding, asynchronous cancellation, and operating-system exception mechanisms require explicit provider support when they cross CXXN frames. Ordinary C linkage does not authorize bypassing native lifetime obligations. A completed terminal event ends its language execution path.
+Foreign `longjmp`, forced unwinding, asynchronous cancellation, and operating-system exception mechanisms require explicit provider support when they cross CPN26 frames. Ordinary C linkage does not authorize bypassing native lifetime obligations. A completed terminal event ends its language execution path.
 
 ### 11. Storage ownership and library lifetime
 
@@ -2492,11 +2492,11 @@ A library shall remain loaded while an object, callback, vtable, RTTI descriptor
 
 ### 12. Startup, shutdown, and support dependencies
 
-The target provider shall connect the CXXN static initialization domain to the platform's native entry mechanisms or explicit host-callable startup/shutdown functions. Exactly one owner invokes each domain's startup and shutdown. The selected link contract shall identify required entry points and linker-retention requirements. Object emission and linker inputs shall preserve live initialization work under archive extraction and section collection. A selected contract export shall publish these requirements in its applicable link record.
+The target provider shall connect the CPN26 static initialization domain to the platform's native entry mechanisms or explicit host-callable startup/shutdown functions. Exactly one owner invokes each domain's startup and shutdown. The selected link contract shall identify required entry points and linker-retention requirements. Object emission and linker inputs shall preserve live initialization work under archive extraction and section collection. A selected contract export shall publish these requirements in its applicable link record.
 
 Foreign startup may remain an external domain with declared readiness and shutdown gates, or be represented by explicit initialization units in the native dependency graph. Internal foreign order is governed by its provider contract. An opaque foreign initialization unit shall retain its provider-defined internal order. Cross-domain dependency cycles are `ERROR` when established by the declared graph.
 
-Committed CXXN objects retain reverse logical-rank shutdown. A foreign unit's cleanup shall have one registered owner across the native/foreign domains. Failed startup follows the selected failure profile. An adapter shall follow the selected immediate or aggregate failure route.
+Committed CPN26 objects retain reverse logical-rank shutdown. A foreign unit's cleanup shall have one registered owner across the native/foreign domains. Failed startup follows the selected failure profile. An adapter shall follow the selected immediate or aggregate failure route.
 
 Support dependencies shall follow the core capability model. The compilation's resolved link requirements shall identify required compiler helpers, stack protection, unwind support, numeric providers, CRT entry mechanisms, and selected C++ facilities. The implementation shall make its selected dependency contract available through its documented build interface. Standard manifest publication shall use the separately selected export capability.
 
@@ -2510,7 +2510,7 @@ A binding shall identify its supported direct feature subset or adapter mapping.
 
 ### Advanced generic and conformance ABI boundaries
 
-A `typefn` family is a compile-time entity and has no standard native parameter, register, vtable, or object-file data layout. An associated type is a selected ordinary type only after its conformance witness and concrete arguments are bound. A public CXXN generic instance must preserve the selected constructor, family-specialization and conformance identities in its native symbol or canonical instance contract.
+A `typefn` family is a compile-time entity and has no standard native parameter, register, vtable, or object-file data layout. An associated type is a selected ordinary type only after its conformance witness and concrete arguments are bound. A public CPN26 generic instance must preserve the selected constructor, family-specialization and conformance identities in its native symbol or canonical instance contract.
 
 `extern "C"` and verified `extern "C++"` boundaries expose ordinary concrete ABI-compatible types and functions. Compile-time families and witnesses shall be bound to concrete identities before entering that ABI. The chosen foreign boundary uses an explicit concrete wrapper, a versioned verified provider binding, or a separately declared erased ABI adapter. C/C++ exception, RTTI, vtable, alignment and ownership behavior remain governed by their original target/provider profile.
 
@@ -2518,7 +2518,7 @@ A `typefn` family is a compile-time entity and has no standard native parameter,
 
 <a id="chapter-10-types-functions-generics"></a>
 
-## CXXN Types, Functions, and Generics Specification
+## CPN26 Types, Functions, and Generics Specification
 
 ### 1. Type identity and declarations
 
@@ -2943,7 +2943,7 @@ Required instantiation-depth, representation, and resource failures shall use Ch
 
 <a id="chapter-11-modules-compilation"></a>
 
-## CXXN Modules and Separate Compilation Specification
+## CPN26 Modules and Separate Compilation Specification
 
 ### 1. Scope and compilation model
 
@@ -2955,11 +2955,11 @@ With `compilation.modules = false`, a Core compilation shall accept one headerle
 
 The root owns its declarations and local static ordering. Module-qualified ownership rules elsewhere in the standard shall apply to this root owner where the operation needs an owner, including nominal types, generic catalogues, generated declarations, and destruction responsibility. The compiler may represent root and declaration identities by local handles with the information needed to establish equality and ownership. A request that externally publishes such identities shall assign the stable logical fields required by its selected interface contract. An enabled reflection provider shall represent this logical owner with the existing `Module` metadata kind; it shall preserve the root's identity without introducing a source module declaration or namespace prefix. Name queries shall follow the ordinary absent-source-name result for a headerless root.
 
-A Core native object may expose or reference foreign symbols under Chapter 09. The target's ABI contract and linker requirements shall determine that boundary. A native object link adds no CXXN interface-import requirement by itself. Required local static startup and shutdown shall use the root's ordering and its explicit image entry contract. The root model needs source and internal semantic state; external module maps and exported metadata are selected interfaces.
+A Core native object may expose or reference foreign symbols under Chapter 09. The target's ABI contract and linker requirements shall determine that boundary. A native object link adds no CPN26 interface-import requirement by itself. Required local static startup and shutdown shall use the root's ordering and its explicit image entry contract. The root model needs source and internal semantic state; external module maps and exported metadata are selected interfaces.
 
 #### 1.2 Selected compilation facilities
 
-`compilation.modules` shall enable the named-unit and import/export rules in Sections 2–9. Without `compilation.separate`, a module compilation shall obtain its semantic dependencies from the explicitly selected joint source-input set; an import denotes a logical source dependency inside that compilation. `compilation.separate` shall enable independently compiled CXXN interface artifacts and their provider-declared versioned protocol. It requires `compilation.modules`.
+`compilation.modules` shall enable the named-unit and import/export rules in Sections 2–9. Without `compilation.separate`, a module compilation shall obtain its semantic dependencies from the explicitly selected joint source-input set; an import denotes a logical source dependency inside that compilation. `compilation.separate` shall enable independently compiled CPN26 interface artifacts and their provider-declared versioned protocol. It requires `compilation.modules`.
 
 `tooling.contract_export` shall enable the public records in Chapter 29 independently of these two facilities. With that capability selected, a requested applicable export shall use its standard encoding. With it disabled, logical maps, contracts, definition records, and capability descriptions in this chapter denote semantic information held internally or in the selected private protocol. Equality, ownership, edition, effect, configuration, and ABI checks shall apply in either representation. A compiler may use direct records or opaque collision-resolving identifiers; serialization and fingerprint algorithms belong to the selected interchange protocol.
 
@@ -3014,7 +3014,7 @@ An ordinary implementation unit implicitly imports its own primary interface whe
 
 A build may contain a non-importable implementation-only module. It has no primary interface and cannot be the target of a named external module import. A source file without a module header shall use the Core root-unit identity from Section 1.1. In a selected multi-unit module compilation, the logical map shall assign each such root its distinct owner. A root may expose an entry point or foreign symbols under their separate contracts; its namespace belongs to that root.
 
-Module composition shall bind declarations through module interfaces. Generated source shall be an ordinary declared input. Foreign preprocessing shall remain within its binding provider and publish typed declarations to CXXN.
+Module composition shall bind declarations through module interfaces. Generated source shall be an ordinary declared input. Foreign preprocessing shall remain within its binding provider and publish typed declarations to CPN26.
 
 ### 3. Module maps and logical identities
 
@@ -3039,7 +3039,7 @@ The map may be supplied through the project/package configuration, the compiler 
 
 The owning logical identity is the pair `(package_identity, module_identity)`. A partition changes unit organization, not the owning module. An ordinary implementation unit is distinguished by its normalized logical source path. Import aliases, output filenames, checkout locations, and compiler worker numbers do not change declaration ownership. Changing a static-domain identity namespace does not rename a public type; the static namespace and the owning package identity are distinct logical fields.
 
-Every identifier component of a module name, partition name, import alias, and CXXN declaration path uses the source specification's NFC identity before the canonical dotted or qualified path is formed. The module map uses those canonical names. Package-identity strings, static identity-namespace strings, logical file paths, and explicit ABI symbol strings retain their own exact-byte contracts and are not globally normalized as identifiers. Source profile and Unicode-version requirements are resolved before tokenization and retained in interface and cache contracts.
+Every identifier component of a module name, partition name, import alias, and CPN26 declaration path uses the source specification's NFC identity before the canonical dotted or qualified path is formed. The module map uses those canonical names. Package-identity strings, static identity-namespace strings, logical file paths, and explicit ABI symbol strings retain their own exact-byte contracts and are not globally normalized as identifiers. Source profile and Unicode-version requirements are resolved before tokenization and retained in interface and cache contracts.
 
 Logical source paths follow the static-lifetime normalization rules: project-relative, `/` separators, no absolute prefix or unresolved `..`, and case-sensitive spelling. Different physical locations may implement the same mapped logical path. Two distinct inputs claiming the same unit identity are an error unless the map explicitly selects one alternative before compilation.
 
@@ -3176,11 +3176,11 @@ Declared source and binding inputs shall be identified independently of director
 
 Each compiled unit requiring code or data can emit ordinary native `.o`/`.obj` artifacts under the native interoperability specification. An interface-only unit with no emitted entities need not manufacture executable code. Partitioned native output shall retain an ordinary platform-linker path. The selected target, rather than the filename suffix, determines ELF, COFF, or another supported format.
 
-Foreign integration may be declared directly with the existing `extern "C"`/`extern "C++"` and ABI attributes, or imported through a generated binding module. A header adapter consumes explicitly selected foreign headers, compiler dialect/options, include dependencies, target/CRT/library descriptors, and preprocessing inputs. Its output is a CXXN declaration interface with preserved foreign nominal identities and ABI metadata, plus any required adapter objects.
+Foreign integration may be declared directly with the existing `extern "C"`/`extern "C++"` and ABI attributes, or imported through a generated binding module. A header adapter consumes explicitly selected foreign headers, compiler dialect/options, include dependencies, target/CRT/library descriptors, and preprocessing inputs. Its output is a CPN26 declaration interface with preserved foreign nominal identities and ABI metadata, plus any required adapter objects.
 
-The adapter's foreign preprocessing context does not become the consumer's CXXN source context. A foreign macro is not automatically a CXXN token macro. A binding provider may expose a selected macro as a typed constant or wrapper when its semantics and dependencies are declared. Unsupported definitions require a wrapper or an error rather than a guessed signature. Its CXXN binding identifiers use native normalization, while original foreign symbol and nominal-type identities remain preserved separately. Two distinct foreign entities whose binding names collide require explicit distinct aliases or a diagnostic; normalization shall preserve distinct foreign identities through those aliases.
+The adapter's foreign preprocessing context does not become the consumer's CPN26 source context. A foreign macro is not automatically a CPN26 token macro. A binding provider may expose a selected macro as a typed constant or wrapper when its semantics and dependencies are declared. Unsupported definitions require a wrapper or an error rather than a guessed signature. Its CPN26 binding identifiers use native normalization, while original foreign symbol and nominal-type identities remain preserved separately. Two distinct foreign entities whose binding names collide require explicit distinct aliases or a diagnostic; normalization shall preserve distinct foreign identities through those aliases.
 
-A requested CXXN C interface export shall supply the header and native binding description selected under Chapter 09. The header describes actual exported transport types and symbols. A selected standard contract export shall encode its descriptor using Chapter 29. The interface shall preserve each CXXN initialization owner and the declared transport for Result, ownership, and exception records.
+A requested CPN26 C interface export shall supply the header and native binding description selected under Chapter 09. The header describes actual exported transport types and symbols. A selected standard contract export shall encode its descriptor using Chapter 29. The interface shall preserve each CPN26 initialization owner and the declared transport for Result, ownership, and exception records.
 
 The module interface's native-link requirements identify symbol providers and required support libraries. Native symbol resolution does not replace declaration, ownership, or exception-boundary validation. Linking a C++ adapter adds the selected support dependencies only when that adapter requires them; ordinary modules do not acquire a universal C++ runtime.
 
@@ -3208,9 +3208,9 @@ Two images sharing a public nominal type shall agree on that type's canonical id
 
 ### 15. Source examples
 
-The following three units select `compilation.modules` and use one importable module and one non-importable application module. A build using precompiled CXXN interface material additionally selects `compilation.separate`. The module map assigns their logical paths and selects the application's `main` entry under the native entry contract.
+The following three units select `compilation.modules` and use one importable module and one non-importable application module. A build using precompiled CPN26 interface material additionally selects `compilation.separate`. The module map assigns their logical paths and selects the application's `main` entry under the native entry contract.
 
-**`geometry.cxxn` — primary interface**
+**`geometry.cpn` — primary interface**
 
 ```text
 export module geometry;
@@ -3223,7 +3223,7 @@ export struct Point {
 export declare i32 sum(const<Point>& value);
 ```
 
-**`geometry_impl.cxxn` — implementation**
+**`geometry_impl.cpn` — implementation**
 
 ```text
 module geometry;
@@ -3233,7 +3233,7 @@ i32 sum(const<Point>& value) {
 }
 ```
 
-**`application.cxxn` — application implementation**
+**`application.cpn` — application implementation**
 
 ```text
 module application;
@@ -3258,7 +3258,7 @@ A cache miss shall rebuild the same bound semantics. Source acceptance shall fol
 
 <a id="chapter-12-core-memory-control"></a>
 
-## CXXN Source, Control Flow, and Memory Specification
+## CPN26 Source, Control Flow, and Memory Specification
 
 ### 1. Abstract execution and scope
 
@@ -3357,7 +3357,7 @@ Binding a reference does not generally extend a temporary's lifetime. A temporar
 
 `sizeof(T)` returns the complete type's size in addressable bytes as `usize`; `alignof(T)` returns its required alignment. `sizeof(expression)` determines the static complete type without evaluating the expression. `decltype(expression)` obtains the type and value-category information under the type rules without performing runtime effects. A context shall inspect declarations made reachable by ordinary source binding, generic rules, and any selected module imports.
 
-These operations do not allocate storage, invoke constructors, or access an uninitialized value. A request requiring the layout of an incomplete type is `ERROR`. A foreign type uses its selected foreign layout, not a guessed equivalent CXXN type. Provider-specific dynamic object extents are obtained through their explicit object or storage interface, not through a variable meaning of `sizeof`.
+These operations do not allocate storage, invoke constructors, or access an uninitialized value. A request requiring the layout of an incomplete type is `ERROR`. A foreign type uses its selected foreign layout, not a guessed equivalent CPN26 type. Provider-specific dynamic object extents are obtained through their explicit object or storage interface, not through a variable meaning of `sizeof`.
 
 ### 4. Statements and structured control flow
 
@@ -3399,7 +3399,7 @@ After result construction, the function cleans its remaining automatic locals. T
 
 `return;` is valid for a `void` function. Reaching the end of such a function is equivalent to returning. A normally completing non-void function shall construct its result. Control-flow proof uses the source program and declared nonreturning effects, not an optimization-dependent guess. A task body and constructor additionally obey their specialized completion rules.
 
-`throw`, `try`, typed catches, aggregate-view catches, rethrow, Whole control effects, and terminal failure outlets follow their specifications. Numeric Trap and Contract Trap do not become language exceptions. A foreign nonlocal jump cannot cross CXXN scopes with unconsumed cleanup obligations unless a declared provider supplies a conforming equivalent protocol.
+`throw`, `try`, typed catches, aggregate-view catches, rethrow, Whole control effects, and terminal failure outlets follow their specifications. Numeric Trap and Contract Trap do not become language exceptions. A foreign nonlocal jump cannot cross CPN26 scopes with unconsumed cleanup obligations unless a declared provider supplies a conforming equivalent protocol.
 
 ### 5. Storage, layout, and object identity
 
@@ -3435,7 +3435,7 @@ On a target whose ABI requires a thin native pointer, an ordinary `T*` retains t
 
 Adding a nonnegative count to a pointer into an array selects the corresponding element or one-past position when the resulting mathematical index is in `0..N`. Negative offsets are permitted when they remain in that domain. An individual complete object is an array of one for this purpose. Address calculation cannot wrap the address space. Indirection of one-past is invalid. A pointer to a nested subarray does not gain authority over adjacent enclosing fields.
 
-Pointer subtraction is defined for positions in the same array extent and generation; it returns the signed mathematical element difference in `isize` if representable. An unrepresentable difference reports `MemoryError::Capacity` through the memory value outlet in Section 8. `std::mem::try_pointer_distance(left, right)` supplies the corresponding `Result<isize, MemoryError>` outlet; it does not convert a violated uncheckable raw provenance contract into a successful distance. Subsequent explicit numeric conversion uses its own numerical outlet. Relational pointer comparison is defined for positions in that same extent. Comparison of unrelated pointer order requires a declared address-order provider or an explicit opaque identity-order operation; it is not a portable CXXN object order.
+Pointer subtraction is defined for positions in the same array extent and generation; it returns the signed mathematical element difference in `isize` if representable. An unrepresentable difference reports `MemoryError::Capacity` through the memory value outlet in Section 8. `std::mem::try_pointer_distance(left, right)` supplies the corresponding `Result<isize, MemoryError>` outlet; it does not convert a violated uncheckable raw provenance contract into a successful distance. Subsequent explicit numeric conversion uses its own numerical outlet. Relational pointer comparison is defined for positions in that same extent. Comparison of unrelated pointer order requires a declared address-order provider or an explicit opaque identity-order operation; it is not a portable CPN26 object order.
 
 Equality tests pointer designations under the target's pointer comparison contract and permits null comparisons. On a flat-address target it may compare machine addresses, so equality alone does not establish the same lifetime generation or permission. A one-past pointer and an adjacent object's pointer can compare equal under such a contract without becoming interchangeable for access.
 
@@ -3531,7 +3531,7 @@ The source and raw-validation keys, defaults, and freeze points are defined in C
 
 An implementation shall distinguish proven valid access, retained dynamic checks, and unproved raw contracts in its diagnostic/effect information. `MEM001` identifies a proved invalid memory action and is `ERROR`; `MEM002` identifies an unproved raw validity or escape obligation and is `ANOMALY`; `MEM003` identifies representation exposure of uninitialized/padding data and is `ANOMALY`. Ordinary unnecessary copies or unused valid locals may remain `WARNING`.
 
-Lowering to an optimizing intermediate representation shall preserve the source's failure and alias contracts. Non-null, dereferenceable, no-overlap, in-bounds, no-overflow, and nonthrowing promises may be attached only when proved, enforced on the relevant path, or provided by an applicable explicit contract. A backend's more permissive treatment of invalid operations does not automatically become CXXN semantics.
+Lowering to an optimizing intermediate representation shall preserve the source's failure and alias contracts. Non-null, dereferenceable, no-overlap, in-bounds, no-overflow, and nonthrowing promises may be attached only when proved, enforced on the relevant path, or provided by an applicable explicit contract. A backend's more permissive treatment of invalid operations does not automatically become CPN26 semantics.
 
 Support dependencies shall follow the core capability model and the explicit selected memory, device, and foreign providers.
 
@@ -3539,7 +3539,7 @@ Support dependencies shall follow the core capability model and the explicit sel
 
 <a id="chapter-13-concurrency-memory-model"></a>
 
-## CXXN Concurrency and Memory Model Specification
+## CPN26 Concurrency and Memory Model Specification
 
 ### 1. Execution agents and facilities
 
@@ -3619,7 +3619,7 @@ For `A coherence-before B`, the following constrain `S`:
 3. If a sequentially consistent fence `F hb A` and `B` is sequentially consistent, `F` precedes `B` in `S`.
 4. If sequentially consistent fences satisfy `F hb A` and `B hb G`, `F` precedes `G` in `S`.
 
-A candidate execution violating these constraints is not permitted. When all accesses to a location are sequentially consistent atomics, a load observes its latest preceding modification in `S`, or its initialized value. Mixed-order code retains the other orders' weaker guarantees. These requirements define the CXXN atomic contract; a foreign model is not presumed identical.
+A candidate execution violating these constraints is not permitted. When all accesses to a location are sequentially consistent atomics, a load observes its latest preceding modification in `S`, or its initialized value. Mixed-order code retains the other orders' weaker guarantees. These requirements define the CPN26 atomic contract; a foreign model is not presumed identical.
 
 ### 4. Atomic types and operations
 
@@ -3673,7 +3673,7 @@ A successful unlock synchronizes with the subsequent successful lock acquiring t
 
 `thread_local T name(arguments);` declares one instance per attached native-thread domain. Block placement controls name visibility, not first-use initialization. Its initializer shall bind through the thread-domain initialization environment.
 
-Thread-local initialization is eager and serial in dependency/logical-rank order. Shared image static initialization completes first. The root thread then attaches its thread-storage domain before entering `main`; another CXXN thread attaches its required domains before executing its user entry. An image static initializer cannot require not-yet-attached user TLS. A proved dependency cycle or readiness violation is `ERROR`; startup providers may use their separately owned bootstrap data.
+Thread-local initialization is eager and serial in dependency/logical-rank order. Shared image static initialization completes first. The root thread then attaches its thread-storage domain before entering `main`; another CPN26 thread attaches its required domains before executing its user entry. An image static initializer cannot require not-yet-attached user TLS. A proved dependency cycle or readiness violation is `ERROR`; startup providers may use their separately owned bootstrap data.
 
 Normal thread exit destroys completed thread-local instances in reverse logical rank after entry-local cleanup. Failed initialization follows the exception/initialization policy and is not automatically retried. An existing foreign thread or newly loaded domain requires explicit attachment before its TLS is used; no hidden first-use guard supplies that attachment. Detachment and unload wait for dependent work and borrows under their declared contracts.
 
@@ -3838,7 +3838,7 @@ Programmer-written handlers may explicitly produce application `Result<T,E>` val
 
 ### 11. Providers, foreign operations, and configuration
 
-The atomic provider declares the CXXN memory-model version, supported representations, alignment, lock-free properties, order/fence lowering, and fallback dependencies. Direct sharing with foreign `_Atomic` or C++ atomic objects additionally requires compatible representation and a validated memory-model mapping. Matching size or using the same processor instruction is insufficient. Opaque adapters may require all accesses to pass through one compatible provider; arbitrary foreign plain accesses do not become atomic.
+The atomic provider declares the CPN26 memory-model version, supported representations, alignment, lock-free properties, order/fence lowering, and fallback dependencies. Direct sharing with foreign `_Atomic` or C++ atomic objects additionally requires compatible representation and a validated memory-model mapping. Matching size or using the same processor instruction is insufficient. Opaque adapters may require all accesses to pass through one compatible provider; arbitrary foreign plain accesses do not become atomic.
 
 Thread/task providers declare startup/TLS attachment, publication, blocking and progress behavior, frame/control allocation, cancellation quiescence, exception boundaries, FP-context preservation, and code/resource lifetime requirements. A returned native object remains compatible with the selected linker/ABI contract; it does not imply a default C++ Task, closure, atomic, or allocator-object layout.
 
@@ -3888,11 +3888,11 @@ The match does not copy or unwrap the outcome implicitly. The caller supplies th
 
 <a id="chapter-14-standard-library"></a>
 
-## CXXN Standard Library Contracts Specification
+## CPN26 Standard Library Contracts Specification
 
 ### 1. Library identity and availability
 
-The standard library SHALL use the [core operational model](#chapter-21-abstract-machine-conformance), ordinary CXXN types and lifetimes, and the resolved configuration. This chapter defines the common library invocation, ownership, resource, effect, and failure model. Specialized interface chapters SHALL supply the state transitions and results specific to their facilities.
+The standard library SHALL use the [core operational model](#chapter-21-abstract-machine-conformance), ordinary CPN26 types and lifetimes, and the resolved configuration. This chapter defines the common library invocation, ownership, resource, effect, and failure model. Specialized interface chapters SHALL supply the state transitions and results specific to their facilities.
 
 An import SHALL select module compilation and make the selected module's exports available. `import std;` selects the minimal value utilities; `import std.mem;` makes that module's exports available through `std::mem::`. Actual operation use SHALL introduce its declared support dependencies. A freestanding capability record SHALL identify its supported subset under Chapter 21. A required unavailable capability SHALL produce the centrally specified diagnostic. Standard module identities SHALL belong to the selected standard-library provider; extension modules SHALL publish their own identities.
 
@@ -4052,7 +4052,7 @@ The implementation SHALL expose and link the support dependencies required by ac
 
 <a id="chapter-15-grammar-binding"></a>
 
-## CXXN Grammar and Binding Specification
+## CPN26 Grammar and Binding Specification
 
 ### 1. Grammar interpretation
 
@@ -4369,7 +4369,7 @@ The selected production shall remain fixed during semantic checking. Parentheses
 
 An external object declaration shall reference the defining domain's existing object identity. An external object definition shall use its stated type and ordinary initialization transaction, including typed default construction for empty or omitted arguments. The defining domain shall supply storage and its static/thread-lifetime obligations. `thread_local` shall require the selected TLS binding. A generic external declaration shall bind its concrete signature or object representation before ABI emission under Chapter 09.
 
-The foreign declaration context shall begin at the declaration or block immediately governed by `extern`. A nested namespace shall propagate that context to its namespace-scope declarations. A nested explicit linkage declaration shall select its own linkage for its region. A record or union body shall parse with `member-item`; a function body shall parse with `block-item`; a construction tail shall parse with `construction-body`. Their local declarations shall therefore retain ordinary CXXN object and function forms. Class member linkage and representation shall follow the class/provider contract.
+The foreign declaration context shall begin at the declaration or block immediately governed by `extern`. A nested namespace shall propagate that context to its namespace-scope declarations. A nested explicit linkage declaration shall select its own linkage for its region. A record or union body shall parse with `member-item`; a function body shall parse with `block-item`; a construction tail shall parse with `construction-body`. Their local declarations shall therefore retain ordinary CPN26 object and function forms. Class member linkage and representation shall follow the class/provider contract.
 
 Decorations shall retain the selected context through attribute and configuration wrappers. Generated declarations inserted in a foreign region shall satisfy the same category and ABI rules before publication. The `declare` marker shall select ordinary function prototypes and the separately defined incomplete-type forms. Foreign function and object declarations shall use the canonical productions above.
 
@@ -4622,7 +4622,7 @@ An implementation shall report malformed syntax and impossible binding as errors
 
 <a id="chapter-16-library-interfaces"></a>
 
-## CXXN Core Library Interfaces Specification
+## CPN26 Core Library Interfaces Specification
 
 ### 1. Interface interpretation and identity
 
@@ -4838,7 +4838,7 @@ try_zview SHALL establish accessible final-zero storage, admitting an additional
 
 These declarations use explicit imports and the uniform initialization syntax. They require the named modules' enabled capabilities.
 
-```cxxn
+```cpn
 import std;
 import std.mem;
 import std.collections;
@@ -4879,7 +4879,7 @@ The last example SHALL leave the Result Ok with an empty moved-from Owned and tr
 
 <a id="chapter-17-concurrency-interfaces"></a>
 
-## CXXN Concurrency Interfaces Specification
+## CPN26 Concurrency Interfaces Specification
 
 ### 1. Interface conventions
 
@@ -5118,7 +5118,7 @@ Resources and callback code SHALL remain live through acknowledged quiescence. C
 
 <a id="chapter-18-mathematical-functions"></a>
 
-## CXXN Mathematical Functions Specification
+## CPN26 Mathematical Functions Specification
 
 ### 1. Scope, binding, and capabilities
 
@@ -5167,7 +5167,7 @@ The following public values have no owning allocation, and copying, moving, and 
 | `PolicyReason` | Enumeration cases `UnsupportedControl`, `UnsupportedAccuracy`, `InvalidBound`, `StatusUnavailable`, `WrongFunction`. |
 | `MathError` | Tagged alternatives `UnsupportedDomain(DomainReason reason)`, `UnsupportedPolicy(PolicyReason reason)`, and `Allocation(std::mem::AllocationError cause)`. |
 
-The selected CXXN ABI shall determine these source types' native layout; foreign transport requires its declared binding. `MathPolicy()` initializes all options to None. `ComplexMathPolicy()` contains `MathPolicy()` and absent component overrides. `MathResources()` contains no resource. The record constructors additionally admit their listed fields in declaration order under ordinary aggregate construction. The result and tagged alternatives use the ordinary active-case construction and access rules.
+The selected CPN26 ABI shall determine these source types' native layout; foreign transport requires its declared binding. `MathPolicy()` initializes all options to None. `ComplexMathPolicy()` contains `MathPolicy()` and absent component overrides. `MathResources()` contains no resource. The record constructors additionally admit their listed fields in declaration order under ordinary aggregate construction. The result and tagged alternatives use the ordinary active-case construction and access rules.
 
 `Decomposition<F>` is available only when `i32` is enabled and can represent every required exponent for F. This is true of the baseline binary formats when `i32` is enabled. The interface shall require that i32 capability at its use.
 
@@ -5434,7 +5434,7 @@ In general, `complex_log(z)` has exact real reference `log(sqrt(real(z)^2 + imag
 
 `complex_pow(z,w)` under `math.complex.power` uses the exact reference `exp(w*Log(z))` for finite nonzero z and finite w, with principal Log and one final projection per component. Selecting `scalar_steps` explicitly instead introduces the Complex chapter's declared component-rounding boundaries; the descriptor shall identify the scalar sequence, the handling of nonfinite intermediate values, and its resulting flags. It cannot advertise that sequence as the exact principal contract. In its detailed report, intermediate mathematical-operation events accumulate in `common_status`, while final component projection events remain in the corresponding component status. No incidentally chosen implementation instruction adds an event absent from that declared sequence.
 
-For an exact zero exponent and finite nonzero base, the principal result is exactly `(1,+0)`. Otherwise write the exact principal logarithm as `(L,theta)` and the exponent as `(a,b)`, and form exact `u = a*L - b*theta` and `v = a*theta + b*L`. The zero sign of L at unit magnitude is positive; theta uses the principal argument's zero sign. Exact zero products and sums in u and v follow the Complex chapter's sign rules, with the respective captured component rounding direction for cancellation; this determines signs without introducing a rounding boundary or an intermediate FP event. The final references are `exp(u)*cos(v)` and `exp(u)*sin(v)`. A real component that is mathematically zero has positive sign. An imaginary component that is mathematically zero has v's sign, including its assigned exact-zero sign; a nonzero mathematical component rounded to zero instead has that component's mathematical sign. These are CXXN principal-power zero conventions, not an inference from a host complex routine.
+For an exact zero exponent and finite nonzero base, the principal result is exactly `(1,+0)`. Otherwise write the exact principal logarithm as `(L,theta)` and the exponent as `(a,b)`, and form exact `u = a*L - b*theta` and `v = a*theta + b*L`. The zero sign of L at unit magnitude is positive; theta uses the principal argument's zero sign. Exact zero products and sums in u and v follow the Complex chapter's sign rules, with the respective captured component rounding direction for cancellation; this determines signs without introducing a rounding boundary or an intermediate FP event. The final references are `exp(u)*cos(v)` and `exp(u)*sin(v)`. A real component that is mathematically zero has positive sign. An imaginary component that is mathematically zero has v's sign, including its assigned exact-zero sign; a nonzero mathematical component rounded to zero instead has that component's mathematical sign. These are CPN26 principal-power zero conventions, not an inference from a host complex routine.
 
 A zero base requires a separate complete function-specific table, registered as `math.complex.power.zero_base`, covering every finite exponent class and all base/exponent zero signs. In its absence the outer Result returns `UnsupportedDomain(UnsupportedSpecialCase)`. Supplying that table does not authorize nonfinite inputs.
 
@@ -5450,7 +5450,7 @@ An omitted mode is NearestTiesEven. The mode shall be available during immediate
 
 For example, the signature of pi uses the existing grammar:
 
-```cxxn
+```cpn
 generic<type F>
 declare consteval F pi(
     std::numeric::RoundingMode rounding(
@@ -5537,7 +5537,7 @@ These examples assume the named capabilities, binary f64, gradual subnormals, an
 
 The shorthand numeric arguments in this table denote already bound values of the same F, not permission for hidden implicit integer/floating conversion. The following source uses ordinary declarations and qualified generic constant calls:
 
-```cxxn
+```cpn
 import std.math;
 
 f64 a(-0.0);
@@ -5557,7 +5557,7 @@ Here b preserves negative zero, c is positive zero, and the principal root has p
 
 <a id="chapter-19-extended-standard-library"></a>
 
-## CXXN Extended Standard Library Interfaces Specification
+## CPN26 Extended Standard Library Interfaces Specification
 
 ### 1. Scope, notation, and closed interface catalogues
 
@@ -6024,13 +6024,13 @@ Each enabled exported operation SHALL publish the signature, constraints, capabi
 
 <a id="chapter-20-target-abi-profiles"></a>
 
-## CXXN Target ABI Profiles Specification
+## CPN26 Target ABI Profiles Specification
 
 Static reflection handles, syntax quotations, and generated-declaration values have no native ABI representation. A generated ordinary native declaration is ABI-checked exactly as a source-authored declaration under its owning module and target profile. Reflection of a foreign declaration is limited to properties made available by the verified foreign ABI descriptor; inferred type layout or compiler metadata identity cannot establish unverified direct C++ compatibility.
 
 ### 1. ABI compatibility is a versioned contract
 
-A CXXN native object is interoperable with a C or C++ object only to the extent specified by the **selected target ABI profile**, matching foreign declaration contracts, and required support libraries. The extension `.o` or `.obj` does not determine object format. A conforming implementation of a target profile shall emit an ordinary, machine-code-containing relocatable object suitable for the target's standard linker without mandatory CXXN-specific LTO support.
+A CPN26 native object is interoperable with a C or C++ object only to the extent specified by the **selected target ABI profile**, matching foreign declaration contracts, and required support libraries. The extension `.o` or `.obj` does not determine object format. A conforming implementation of a target profile shall emit an ordinary, machine-code-containing relocatable object suitable for the target's standard linker without mandatory CPN26-specific LTO support.
 
 Direct ABI compatibility shall be established by the relevant declared type, call, lifetime, and effect contracts. Direct C++ interoperability additionally requires a selected C++ ABI provider; an exact library ABI contract is additionally required only for the foreign library types or operations actually crossing that boundary. Opaque adapters remain valid when direct class representation is unavailable or incompatible.
 
@@ -6067,7 +6067,7 @@ For the six **standard 64-bit profiles above**, the common C scalar sizes in oct
 | `ffi::c_float` | 4 | 4 | 4 |
 | `ffi::c_double` | 8 | 8 | 8 |
 
-These widths are **not** native aliases: even when two foreign scalar types have the same storage width, their nominal C identities can differ. Native `i32`, `i64`, `usize`, and CXXN `char` do not automatically acquire C argument-passing or C++ name-mangling identity. In particular, native Unicode-scalar `char` is not `ffi::c_char` or the platform's `wchar_t`.
+These widths are **not** native aliases: even when two foreign scalar types have the same storage width, their nominal C identities can differ. Native `i32`, `i64`, `usize`, and CPN26 `char` do not automatically acquire C argument-passing or C++ name-mangling identity. In particular, native Unicode-scalar `char` is not `ffi::c_char` or the platform's `wchar_t`.
 
 The target descriptor additionally binds:
 
@@ -6078,7 +6078,7 @@ The target descriptor additionally binds:
 - signed/unsigned extended integer and compiler vector type ABI, if enabled;
 - the address-space and function-pointer representation, including any pointer authentication or capability tagging policies.
 
-A caller cannot assume that `ffi::c_long_double` is `f64`, `f80`, or `f128` solely from the CPU architecture. The provider declares the actual ABI type and its conversion contract. Cross-width conversions obey existing CXXN Checked/Exact and explicit representation operations, not a C-style silent narrowing rule.
+A caller cannot assume that `ffi::c_long_double` is `f64`, `f80`, or `f128` solely from the CPU architecture. The provider declares the actual ABI type and its conversion contract. Cross-width conversions obey existing CPN26 Checked/Exact and explicit representation operations, not a C-style silent narrowing rule.
 
 ### 4. Calling and object-file classification
 
@@ -6129,15 +6129,15 @@ A provider shall declare feature-level exclusions, including unsupported inherit
 
 Non-unwinding boundaries and terminal events shall follow Chapter 09's foreign routing contract.
 
-`extern "C++"` alone does not authorize C++ exception propagation through CXXN frames. A direct `cpp_exception` profile additionally supplies compatible exception object identity, handler-matching rules, stack unwind/cleanup behavior, runtime personality functions or equivalent, and rethrow semantics. A foreign C++ destructor may terminate according to its foreign contract; a CXXN destructor in Release still follows the CXXN Release termination rule where that boundary applies. Each entry shall retain its bound destruction/failure policy.
+`extern "C++"` alone does not authorize C++ exception propagation through CPN26 frames. A direct `cpp_exception` profile additionally supplies compatible exception object identity, handler-matching rules, stack unwind/cleanup behavior, runtime personality functions or equivalent, and rethrow semantics. A foreign C++ destructor may terminate according to its foreign contract; a CPN26 destructor in Release still follows the CPN26 Release termination rule where that boundary applies. Each entry shall retain its bound destruction/failure policy.
 
-An explicit adapter may translate a supported C++ exception to a declared CXXN `Result` error. An adapter that raises a translated CXXN exception shall advertise that native throwing effect and perform the translation within a permitted native propagation phase; no exception crosses a boundary declared non-unwinding. Translation changes primary identity unless the provider specifically supports retaining and propagating the compatible original foreign record. Error payloads with allocated storage have a declared allocator and destroy/release owner. The [error and recovery specification](#chapter-28-error-recovery) defines these distinctions. A foreign `longjmp`, forced unwind, OS exception, or asynchronous cancellation is not implicitly safe across CXXN frames.
+An explicit adapter may translate a supported C++ exception to a declared CPN26 `Result` error. An adapter that raises a translated CPN26 exception shall advertise that native throwing effect and perform the translation within a permitted native propagation phase; no exception crosses a boundary declared non-unwinding. Translation changes primary identity unless the provider specifically supports retaining and propagating the compatible original foreign record. Error payloads with allocated storage have a declared allocator and destroy/release owner. The [error and recovery specification](#chapter-28-error-recovery) defines these distinctions. A foreign `longjmp`, forced unwind, OS exception, or asynchronous cancellation is not implicitly safe across CPN26 frames.
 
 ### 7. Native record and ownership binding
 
-`[[abi_layout("C")]]` and `[[abi_layout("C++")]]` attach only the explicitly supported target-provider layout and its required qualifiers. The emitted record shall contain exactly that declared layout. Where CXXN requires state not represented in a foreign object, it may maintain that state externally or in a separate explicit wrapper without changing foreign field offsets.
+`[[abi_layout("C")]]` and `[[abi_layout("C++")]]` attach only the explicitly supported target-provider layout and its required qualifiers. The emitted record shall contain exactly that declared layout. Where CPN26 requires state not represented in a foreign object, it may maintain that state externally or in a separate explicit wrapper without changing foreign field offsets.
 
-A foreign class's constructor/destructor entry points discharge their **actual foreign obligations**. A complete-object destructor cannot be followed by a second CXXN member/base destructor run; a deleting destructor may additionally free the foreign allocation. The binding descriptor records which responsibility is discharged by each entry. Virtual-base responsibility and early base destruction remain governed by the existing CXXN lifetime contract and are directly enabled only if the foreign contract genuinely supports them.
+A foreign class's constructor/destructor entry points discharge their **actual foreign obligations**. A complete-object destructor cannot be followed by a second CPN26 member/base destructor run; a deleting destructor may additionally free the foreign allocation. The binding descriptor records which responsibility is discharged by each entry. Virtual-base responsibility and early base destruction remain governed by the existing CPN26 lifetime contract and are directly enabled only if the foreign contract genuinely supports them.
 
 Cross-boundary storage transfer identifies an allocator domain and compatible disposal function. Equal raw pointer width does not authorize invoking a different C runtime's `free`, unrelated `delete`, or an allocator with a different resource protocol. Foreign library code and associated RTTI, vtables, callback, allocation, or exception-support records remain loaded as long as an outstanding owner requires them.
 
@@ -6145,7 +6145,7 @@ Cross-boundary storage transfer identifies an allocator domain and compatible di
 
 The target object shall include all sections and relocations required by the selected static-initialization, TLS, unwind, and exception contracts. Object retention and link inputs shall preserve reachable native construction and static initialization obligations through archive extraction and section collection. The resolved link contract shall identify required retention/entry mechanisms and support libraries, with standard external serialization supplied by a selected contract export.
 
-The native initializer graph and foreign CRT's own init/fini mechanisms remain separate unless explicitly mapped. One domain owner is responsible for executing each mapped initialization unit once, with reverse logical destruction for committed CXXN objects. Each foreign destruction obligation shall have one registered owner.
+The native initializer graph and foreign CRT's own init/fini mechanisms remain separate unless explicitly mapped. One domain owner is responsible for executing each mapped initialization unit once, with reverse logical destruction for committed CPN26 objects. Each foreign destruction obligation shall have one registered owner.
 
 A native interface's signature, type identity, relevant numerical evaluation configuration, and ABI contract shall determine its resolved boundary identity. A direct boundary shall establish equality of its relevant contract fields; a mismatch shall yield ERROR. Standard export shall encode this identity in Chapter 29's boundary projection and fingerprint. A versioned adapter may explicitly translate representationally compatible values with a declared loss/ownership/failure contract.
 
@@ -6165,11 +6165,11 @@ Target support dependencies shall follow the core capability model. The ordinary
 
 <a id="chapter-21-abstract-machine-conformance"></a>
 
-## CXXN Core Execution and Conformance Specification
+## CPN26 Core Execution and Conformance Specification
 
 ### 1. Normative model and definition ownership
 
-CPN26 specifies CXXN source and execution under the bound standard designation, resolved configuration, target contract, and selected providers. An implementation **shall** realize an execution admitted by that combination. **Shall** defines a requirement; **may** identifies a permitted implementation choice. An admitted choice **shall** preserve the observations selected by the operation contract.
+CPN26 specifies CPN26 source and execution under the bound standard designation, resolved configuration, target contract, and selected providers. An implementation **shall** realize an execution admitted by that combination. **Shall** defines a requirement; **may** identifies a permitted implementation choice. An admitted choice **shall** preserve the observations selected by the operation contract.
 
 The language is native and manually manages storage ownership. Runtime support **shall** follow capabilities actually used by the program. Ordinary native scalar code requires its target's execution and terminal mechanisms. Allocating values, tracked handles, language exceptions, tasks, runtime descriptors, and other selected facilities add their declared dependencies. Low-level operations use the same language and declaration model throughout.
 
@@ -6288,17 +6288,17 @@ The compiler **shall** apply Chapter 08's category and mandatory-error rules. An
 
 #### 6.1 Core and selected capability conformance
 
-The standard designation is **CPN26**, and the language name is **CXXN**. A Core conformance claim **shall** cover one root source unit, source edition and declaration binding, ordinary declarations and types, ordinary type/value generics, control flow, object lifetime and manual storage, configuration and diagnostics, and native object emission under its published core target. Its scalar operations **shall** implement the representations and policies required by that resolved core configuration. Source requirements **shall** be checked at their specified binding or execution boundary.
+The standard designation is **CPN26**, and the language name is **CPN26**. A Core conformance claim **shall** cover one root source unit, source edition and declaration binding, ordinary declarations and types, ordinary type/value generics, control flow, object lifetime and manual storage, configuration and diagnostics, and native object emission under its published core target. Its scalar operations **shall** implement the representations and policies required by that resolved core configuration. Source requirements **shall** be checked at their specified binding or execution boundary.
 
-The Core root unit **shall** have an internal owner identity and the source/type/effect information needed to check that unit and its declared native boundaries. An implementation may represent those facts directly in compiler state. External manifests, JSON serialization, SHA-256 hashing, named module graphs, and persistent CXXN interface artifacts are obligations of the selected capabilities below. A Core compiler can emit an ordinary native object and bind C or supported C++ declarations under its target contract; linking that object with foreign objects uses native symbol and ABI contracts.
+The Core root unit **shall** have an internal owner identity and the source/type/effect information needed to check that unit and its declared native boundaries. An implementation may represent those facts directly in compiler state. External manifests, JSON serialization, SHA-256 hashing, named module graphs, and persistent CPN26 interface artifacts are obligations of the selected capabilities below. A Core compiler can emit an ordinary native object and bind C or supported C++ declarations under its target contract; linking that object with foreign objects uses native symbol and ABI contracts.
 
 | Optional capability | Selected operation and requirement |
 | --- | --- |
 | `compilation.modules` | Bind named modules, partitions, imports, exports, and their logical dependency graph. A joint compilation may obtain every declaration from the selected source inputs. |
-| `compilation.separate` | Produce or consume independently compiled CXXN interface material under a declared versioned protocol; requires `compilation.modules`. |
+| `compilation.separate` | Produce or consume independently compiled CPN26 interface material under a declared versioned protocol; requires `compilation.modules`. |
 | `tooling.contract_export` | Produce the requested standard public records with Chapter 29's canonical JSON, references, and SHA-256 fingerprints. This capability is independent of module and separate-compilation support. |
 
-Chapter 08 defines their disabled defaults. A requiring source construct or artifact request **shall** establish that its capability is available and enabled. Native linkage alone establishes a native boundary, while a separately compiled CXXN semantic import selects `compilation.separate`. A provider's private interface protocol may realize separate compilation with `tooling.contract_export = false`; its identity, binding, compatibility, and collision-resolution checks **shall** still satisfy Chapter 11. An export request selects the public transport of already established semantic facts.
+Chapter 08 defines their disabled defaults. A requiring source construct or artifact request **shall** establish that its capability is available and enabled. Native linkage alone establishes a native boundary, while a separately compiled CPN26 semantic import selects `compilation.separate`. A provider's private interface protocol may realize separate compilation with `tooling.contract_export = false`; its identity, binding, compatibility, and collision-resolution checks **shall** still satisfy Chapter 11. An export request selects the public transport of already established semantic facts.
 
 An implementation may claim any supported combination of the standard's optional capabilities. An optional claim **shall** implement the corresponding clauses for its published support set. Named modules, separate compilation, public contract export, high-accuracy numerics, extended formats, allocating numerical families, mathematical functions, advanced generics, reflection, language exceptions, standard-library modules, and managed concurrency have the capability boundaries defined by their owning chapters. Their presence in this standard defines the contract of a selected feature.
 
@@ -6324,7 +6324,7 @@ Portability applies to compatible operation contracts across targets. Explicit r
 
 <a id="chapter-22-static-reflection"></a>
 
-## CXXN Static Reflection Specification
+## CPN26 Static Reflection Specification
 
 ### 1. Scope and normative model
 
@@ -6342,7 +6342,7 @@ The [core grammar](#chapter-15-grammar-binding) defines three nonoverloadable in
 
 Each intrinsic shall return Info under the surrounding definition-site configuration. A use within a runtime function shall consume the handle entirely during constant evaluation. For example:
 
-```cxxn
+```cpn
 consteval usize count_members() {
     auto t(reflect_type<MyRecord>);
     return std::meta::direct_field_count(t);
@@ -6372,7 +6372,7 @@ The standard `std::meta` module provides the following semantic operations. Name
 | `kind(info)` | Return the entity kind. |
 | `same_entity(a,b)` | Compare canonical semantic identities. |
 | `name(info)` | Return the source-level declared name, if present and accessible. |
-| `qualified_name(info)` | Return the canonical CXXN qualified name when the entity has one. |
+| `qualified_name(info)` | Return the canonical CPN26 qualified name when the entity has one. |
 | `owner(info)` | Return the declaring scope/module entity. |
 | `type_of(info)` | Return the reflected type of a field, variable, function result where applicable, or expression. |
 | `value_category(info)` | Return the static value category for an expression reflection only. |
@@ -6402,7 +6402,7 @@ Collection filtering shall use the query environment's access authority. Its len
 
 Each query shall apply lexical visibility, module exports, private/protected access, and the owner-issued grant matrix in [Chapter 23, Section 5.1](#51-owner-authorized-member-access). A public caller receives public metadata; a matching meta_grant admits that record's authorized metadata to the named module.
 
-```cxxn
+```cpn
 [[meta_grant(geometry.generators)]]
 struct Point {
 private:
@@ -6490,7 +6490,7 @@ A Reflection capability claim shall cover the enabled query surface and its acce
 
 <a id="chapter-23-compile-time-generation"></a>
 
-## CXXN Compile-Time Metaprogramming and Declaration Generation Specification
+## CPN26 Compile-Time Metaprogramming and Declaration Generation Specification
 
 ### 1. Purpose and separation of concerns
 
@@ -6541,7 +6541,7 @@ Quotation identifiers shall carry Section 8's definition-bound, quotation-local,
 
 Example, with the generation capability enabled and the standard meta module imported:
 
-```cxxn
+```cpn
 export module geometry;
 import std.meta;
 
@@ -6578,7 +6578,7 @@ A generated declaration shall use its target's owning compilation identity and g
 
 A record may explicitly request generation from a named function through the standard `derive` attribute:
 
-```cxxn
+```cpn
 [[derive(geometry::generators::emit_comparisons)]]
 struct Coordinate {
     i32 x(0);
@@ -6617,7 +6617,7 @@ Submitted members shall retain their declared access. An authorized public membe
 
 The semantic interface shall record target identity, subject owner or generator/definition identity, grant kind, and applicable derive ordinals. Validation shall establish the exact matching grant before accepting a private reference. Grant or generator-contract changes shall invalidate dependent generated definitions. Chapter 21 shall govern internal identity and selected external publication of these records.
 
-```cxxn
+```cpn
 import schema.generators;
 
 [[meta_grant(schema.generators)]]
@@ -6774,7 +6774,7 @@ An implementation shall report Reflection, Declaration Generation, and Layout Ge
 
 <a id="chapter-24-contracts-effects"></a>
 
-## CXXN Contracts and Effect Signatures Specification
+## CPN26 Contracts and Effect Signatures Specification
 
 ### 1. Scope and normative terminology
 
@@ -6813,7 +6813,7 @@ contract-expression = ? a well-typed Boolean expression with only admitted read 
 
 The parser shall interpret attribute payloads using their registered schemas. Attribute-schema words retain their ordinary lexical status outside that schema. Payload binding is a declaration-time operation. For example:
 
-```cxxn
+```cpn
 [[requires(divisor != 0), ensures(return_value >= 0)]]
 [[effects(read(data), trap(numeric))]]
 declare i32 magnitude(const<i32>& data, i32 divisor);
@@ -6849,7 +6849,7 @@ For each callable phase, `[[effects(S)]]` shall bound every externally observabl
 | `atomic` | Perform atomic access under the selected memory order; synchronization edges follow that order's contract. |
 | `synchronize` | Create or participate in lock, fence, wait/notify, release/acquire, or equivalent synchronization actions. |
 | `io` | Produce or consume externally observable device, file, network, console, or process/environment I/O. |
-| `block` | Potentially stop progress awaiting an external event or other execution agent; this is distinct from suspending a CXXN coroutine. |
+| `block` | Potentially stop progress awaiting an external event or other execution agent; this is distinct from suspending a CPN26 coroutine. |
 | `spawn` | Initiate a new independent execution agent or schedule owned work. |
 | `suspend` | Suspend the current async execution frame and resume through its continuation protocol. |
 | `cancel_point` | Accept a cancellation request and transfer along the defined cooperative cancellation exit. |
@@ -6950,11 +6950,11 @@ The checker shall classify facts using the following semantic outcomes. Chapter 
 | Required constant contract evaluation fails | Required-evaluation failure. |
 | A precise valid implementation summary is established | Evidence available for permitted optimization and diagnostics. |
 
-An inferred implementation summary shall refine internal knowledge while preserving the published declaration contract and source-bound initialization plan. An open-bound witness shall remain open during a generic's closed-bound requirement check. A compiler shall base backend assumptions on established evidence, dominating validation, or explicit trust, and shall preserve required CXXN terminal edges under its selected lowering. The [core transformation rules](#chapter-21-abstract-machine-conformance) govern code motion, elimination, and folding.
+An inferred implementation summary shall refine internal knowledge while preserving the published declaration contract and source-bound initialization plan. An open-bound witness shall remain open during a generic's closed-bound requirement check. A compiler shall base backend assumptions on established evidence, dominating validation, or explicit trust, and shall preserve required CPN26 terminal edges under its selected lowering. The [core transformation rules](#chapter-21-abstract-machine-conformance) govern code motion, elimination, and folding.
 
 ### 10. Required semantic examples
 
-```cxxn
+```cpn
 [[effects(none)]]
 declare u32 identity(u32 n) noexcept;
 
@@ -6969,7 +6969,7 @@ declare void copy_into(Span<u8> destination, Span<const<u8>> source);
 
 The first declaration shall require a valid nonempty span. Selecting checked entry validation shall add its ContractTrap boundary effect to the body's read(source) effect. Document mode shall retain the caller obligation. Copy_into shall additionally state its permitted overlap behavior under the region contract. Noexcept shall retain its language-exception meaning alongside the independent trap(contract) outlet.
 
-```cxxn
+```cpn
 [[requires(divisor != 0), ensures(return_value >= 0)]]
 [[effects(trap(numeric))]]
 declare i32 bounded_quotient(i32 numerator, i32 divisor);
@@ -6977,7 +6977,7 @@ declare i32 bounded_quotient(i32 numerator, i32 divisor);
 
 A bounded_quotient implementation choosing checked arithmetic shall include its possible NumericTrap in the stated effect bound. Establishing a nonzero divisor shall discharge the division-by-zero condition; the selected division operation shall separately require its signed-overflow policy and range conditions. Native ordinary arithmetic shall use its provider-declared effects under Section 3.2.
 
-```cxxn
+```cpn
 [[effects(allocate(resource), write(destination))]]
 declare Result<void, AllocError>
     initialize_buffer(ResourceRef resource, OwnedBuffer& destination);
@@ -6985,7 +6985,7 @@ declare Result<void, AllocError>
 
 Err shall be a normal result value. Initialize_buffer shall retain attempted-allocation and permitted-mutation effects. An implementation releasing old storage shall additionally admit deallocate(resource); old-element retirement shall contribute its actual throwing, terminal, or I/O effects under Chapter 25.
 
-```cxxn
+```cpn
 [[ensures(return_value == input)]]
 [[effects(none)]]
 i32 identity_with_postcondition(i32 input) noexcept {
@@ -7015,7 +7015,7 @@ Each callable shared across a semantic boundary shall retain its canonical phase
 
 <a id="chapter-25-effect-composition-boundaries"></a>
 
-## CXXN Effect Composition, Lifetime, and Foreign Boundaries Specification
+## CPN26 Effect Composition, Lifetime, and Foreign Boundaries Specification
 
 ### 1. Phase-aware effect composition
 
@@ -7088,7 +7088,7 @@ Ownership commitment and successful return publication are separate events. A co
 
 An async callable shall publish separate admission and task-execution contracts. `effects` governs task execution, completion, and cleanup; `admission_effects` governs frame/support admission, capture transfer, additional parameter binding, and the cleanup these create. Each omitted bound is open. The admission attribute is admitted on async declarations.
 
-```cxxn
+```cpn
 [[admission_effects(allocate(context))]]
 [[effects(read(input), io, suspend, cancel_point)]]
 declare async u32 fetch(std::task::Context context,
@@ -7129,7 +7129,7 @@ A stronger local checking adapter shall implement its own validation. A prohibit
 
 Callback registration shall describe inline execution, concurrency/reentry, retention duration, execution agent, and relevant FP-context behavior. Registration and later callback execution shall have distinct phase contracts. Retained callbacks shall have a matching last-use/quiescence protocol and storage/code lifetime.
 
-The selected callback adapter shall define context representation, calling convention, ownership, allocation, and failure boundary. A verified boundary or explicit wrapper shall supply any guaranteed termination behavior promised by a CXXN noexcept callback interface.
+The selected callback adapter shall define context representation, calling convention, ownership, allocation, and failure boundary. A verified boundary or explicit wrapper shall supply any guaranteed termination behavior promised by a CPN26 noexcept callback interface.
 
 ### 6. Effect-aware generic and callable substitution
 
@@ -7197,7 +7197,7 @@ A conforming effect implementation shall support its admitted syntax, normalizat
 
 <a id="chapter-26-advanced-generic-families"></a>
 
-## CXXN Higher-Order Generic Families and Associated Types Specification
+## CPN26 Higher-Order Generic Families and Associated Types Specification
 
 ### 1. Scope and invariant requirements
 
@@ -7222,7 +7222,7 @@ A kind SHALL be a finite structural tree. The admitted descriptors are `type`, `
 
 The checker SHALL recursively compare kinds by descriptor, canonical constant-parameter type, fixed-position order, and final-pack structure. Bound names SHALL be alpha-equivalent. The kind grammar SHALL admit every finite nesting depth for higher-order kinds. The configured normalization and arity resources SHALL bound checking work and report exhaustion under Chapter 27.
 
-```cxxn
+```cpn
 generic<typefn F<type>, type T>
 requires (ObjectType<F<T>> && CompleteType<F<T>>)
 struct Cell {
@@ -7255,7 +7255,7 @@ A typefn generic parameter may have a constructor-expression default whose free 
 
 `partial_typefn<F, arguments...>` SHALL construct a residual constructor by binding a finite prefix of F's arguments. F SHALL first resolve to one constructor identity. Each supplied argument SHALL match the next fixed descriptor, or an element of its final repeated descriptor. The residual kind SHALL retain the remaining fixed descriptors and any final repeated descriptor.
 
-```cxxn
+```cpn
 generic<type Left, type Right>
 struct Pair {};
 
@@ -7281,7 +7281,7 @@ A bound ordinary constant SHALL preserve its actual value and declared type; a b
 
 `typefn<binder-list>(type-id)` SHALL form an inline constructor. Its binders SHALL use the generic type, constant, recursive typefn, and final-pack forms. The parentheses SHALL contain the resulting type expression. The mapping SHALL bind its other names, defaults used by named applications, and policies at its definition site.
 
-```cxxn
+```cpn
 alias TextPairHolder = Holder<typefn<type U>(Pair<U, char>), i32>;
 
 generic<typefn F<type>, typefn G<type>, type T>
@@ -7304,7 +7304,7 @@ A required kind comparison SHALL inspect the finite kind structure. Application 
 
 A nongeneric `alias Name = right-hand-side;` SHALL bind according to the right-hand side's established kind. An ordinary type SHALL create a transparent type alias. An unapplied family, bound typefn, constructor projection, partial expression, or inline mapping SHALL create a transparent constructor alias. Bare family names SHALL retain constructor kind; a full application, including an explicit empty argument list using family defaults, SHALL yield its resulting ordinary type.
 
-```cxxn
+```cpn
 alias IntPair = partial_typefn<Pair, i32>;
 alias ReversePair = typefn<type T>(Pair<T, i32>);
 alias ConcretePair = IntPair<u8>;
@@ -7324,7 +7324,7 @@ An exported alias shall publish the type and constraint material needed to valid
 
 A constraint containing associated entities SHALL use its first formal parameter, an ordinary `type` parameter, as its single subject. Its remaining type, constant, and constructor parameters SHALL be additional witness arguments. A pure structural constraint may use any admitted parameter sequence. A constraint may declare associated entities:
 
-```cxxn
+```cpn
 constraint Sequence<type S> {
     associated type Item;
     associated const usize StaticExtent;
@@ -7340,7 +7340,7 @@ constraint Sequence<type S> {
 
 Inside the declaring constraint, an unqualified associated identifier shall denote that constraint's associated declaration. Another generic definition shall establish the relevant bound:
 
-```cxxn
+```cpn
 generic<type S>
 requires (Sequence<S>)
 alias SequenceItem = Sequence<S>::Item;
@@ -7352,7 +7352,7 @@ The alias yields the projected ordinary type. An operation such as `source.first
 
 `associated typefn Name<kind-list>;` shall require a constructor binding with the kinds in Section 2:
 
-```cxxn
+```cpn
 constraint Rebindable<type T> {
     associated typefn Rebind<type>;
 };
@@ -7364,7 +7364,7 @@ For a selected conformance to `Rebindable<Box<i32>>`, `Rebindable<Box<i32>>::Reb
 
 The checker SHALL obtain a concrete witness from the subject owner's bound public catalogue and the structural fallback defined here. Explicit `satisfy` declarations SHALL provide customized association tables or certify a chosen contract:
 
-```cxxn
+```cpn
 struct SampleBuffer {
     usize size() const { return 4; }
 };
@@ -7385,7 +7385,7 @@ A nested alias or type SHALL supply an ordinary type association. A required con
 
 The structural fallback SHALL use the same procedure with an empty explicit table. Thus an ordinary type exposing the required operations and nested entities may satisfy the constraint directly. Declared defaults may map differently named members or derive associations under the constraint's captured contract.
 
-```cxxn
+```cpn
 struct NativeSequence {
     alias Item = i32;
     static constexpr usize StaticExtent(4);
@@ -7433,7 +7433,7 @@ For a known subject, a generic definition SHALL capture the required catalogue i
 
 #### 5.3 Conditional conformance and constructor binding
 
-```cxxn
+```cpn
 generic<type T>
 requires (CompleteType<T>)
 satisfy Rebindable<Box<T>> {
@@ -7445,7 +7445,7 @@ The subject owner SHALL publish this conditional entry. Its local constructor bi
 
 A specialized entry may provide a different association for a concrete subject or a narrower admitted pattern. Its author SHALL select a higher priority when that entry is intended to take precedence over another applicable entry. The selected entry SHALL establish the complete associated and callable contract it advertises.
 
-```cxxn
+```cpn
 constraint ElementSource<type S> {
     associated type Item;
 };
@@ -7474,7 +7474,7 @@ Chapter 27 SHALL diagnose a successful structural fallback reached after all hea
 
 For example, consider a separate owner catalogue containing the following sole explicit entry for the preceding `ElementSource` and `Pocket` declarations:
 
-```cxxn
+```cpn
 generic<type T>
 requires (SameType<T, u8>)
 satisfy ElementSource<Pocket<T>> {
@@ -7565,7 +7565,7 @@ An enabled implementation shall accept well-formed declarations within its publi
 
 <a id="chapter-27-constraint-solver-inference"></a>
 
-## CXXN Constraint Solving, Type Inference, and Coherence Specification
+## CPN26 Constraint Solving, Type Inference, and Coherence Specification
 
 ### 1. Scope and required determinism
 
@@ -7688,7 +7688,7 @@ Two equally ranked applicable predicates remain tied unless the standard subsump
 
 #### 5.1 Constraint subsumption examples
 
-```cxxn
+```cpn
 constraint Readable<type T> {
     expression (const<T>& value) {
         value.read() -> i32;
@@ -7848,7 +7848,7 @@ An enabled implementation shall accept well-formed programs within its published
 
 <a id="chapter-28-error-recovery"></a>
 
-## CXXN Error and Recovery Specification
+## CPN26 Error and Recovery Specification
 
 ### 1. Scope and failure categories
 
@@ -8024,7 +8024,7 @@ Mutable primary-payload access SHALL follow the memory model and its selected sy
 
 The enabled std.error module SHALL provide:
 
-```cxxn
+```cpn
 namespace std {
     namespace error {
         declare Option<ExceptionHandle> current_exception() noexcept;
@@ -8135,7 +8135,7 @@ Committed static objects SHALL enter the logical reverse shutdown order defined 
 
 A selected foreign exception adapter SHALL cover record ownership, matching, unwinder/personality compatibility, cleanup, and rethrow for every admitted cross-frame propagation. Native object-file interoperability SHALL follow its separate ABI contract.
 
-An adapter translating an exception to status or Result SHALL perform capture on its originating side. A translated CXXN throw SHALL occur in a native phase admitting propagation. Identity preservation SHALL retain a compatible original record; payload translation SHALL form a new primary.
+An adapter translating an exception to status or Result SHALL perform capture on its originating side. A translated CPN26 throw SHALL occur in a native phase admitting propagation. Identity preservation SHALL retain a compatible original record; payload translation SHALL form a new primary.
 
 An output-pointer/status adapter SHALL publish output initialization, mutation, and ownership for every status. Error-payload storage SHALL use its explicit compatible provider. Terminal events SHALL retain their terminal outlet across the adapter.
 
@@ -8169,7 +8169,7 @@ The examples use enabled modules and capabilities with live required objects. St
 
 #### 14.1 Result values and captured exceptions
 
-```cxxn
+```cpn
 import std;
 import std.error;
 
@@ -8186,7 +8186,7 @@ A normal Err return from read_value SHALL produce outer Ok and inner Err. An adm
 
 #### 14.2 Capture construction remains outside
 
-```cxxn
+```cpn
 auto operation([state(make_state())] i32() {
     return use_state(state);
 });
@@ -8198,7 +8198,7 @@ The capture initializer make_state SHALL execute in the caller phase. A program 
 
 #### 14.3 Retaining and raising the same primary
 
-```cxxn
+```cpn
 std::error::ExceptionHandle saved;
 
 try {
@@ -8217,7 +8217,7 @@ The assignment SHALL transfer the new reference into the empty destination. Rais
 
 #### 14.4 Explicitly throwing a domain error
 
-```cxxn
+```cpn
 i32 read_or_throw() {
     auto result(read_value());
     if (result.has_error()) {
@@ -8260,11 +8260,11 @@ These cases SHALL constrain observable outcomes, exported contracts, and transfo
 
 <a id="chapter-29-public-contract-schemas"></a>
 
-## CXXN Public Contract and Configuration Schemas Specification
+## CPN26 Public Contract and Configuration Schemas Specification
 
 ### 1. Scope and exchange documents
 
-This chapter defines the optional `tooling.contract_export` capability and its public exchange structure for resolved configuration, provider capabilities, module maps, semantic interfaces, native ABI profiles, and build-context records. Source `cxxn.config` files use the [configuration declaration grammar](#chapter-08-runtime-configuration).
+This chapter defines the optional `tooling.contract_export` capability and its public exchange structure for resolved configuration, provider capabilities, module maps, semantic interfaces, native ABI profiles, and build-context records. Source `cpn.config` files use the [configuration declaration grammar](#chapter-08-runtime-configuration).
 
 A selected contract-export capability shall support the applicable public records defined here. A request for standard export shall produce their canonical JSON and SHA-256 identities. The claim shall identify its supported schema revision and the record kinds applicable to its other selected capabilities. A Core compiler may claim this capability for its root unit, target, configuration, providers, and native boundaries. Serializing a root owner in a `ModuleId` or `semantic_interface` record conveys its identity; named-module parsing and separate compilation remain independently selected facilities.
 
@@ -8276,7 +8276,7 @@ Every document has exactly these root fields:
 
 | Field | Type | Requirement |
 | --- | --- | --- |
-| `format` | string | Exactly `cxxn.contract`. |
+| `format` | string | Exactly `cpn.contract`. |
 | `version` | positive integer | Exactly `1` for this schema. |
 | `kind` | string | One of `configuration`, `provider`, `module_map`, `semantic_interface`, `boundary`, `abi_profile`, or `build_context`. |
 | `payload` | object | The closed record selected by `kind` below. |
@@ -8305,9 +8305,9 @@ The following closed records are shared by the schemas:
 
 Declaration kind is one of `type`, `alias`, `function`, `variable`, `generic`, `constraint`, `conformance`, `namespace`, or `generator`. A constructor, destructor, operator, generated member, or specialization retains the canonical declaration identity required by the type and grammar chapters. The `overload` and `specialization` strings are the owner provider's published canonical identity encoding, identified by the semantic interface's `identity_provider`; their encoding shall use stable logical identity fields. An implementation shall preserve collision-resolving identity material in the referenced interface content. Merely comparing a truncated spelling does not prove identity.
 
-A `ContentRef` does not promise compiler-private AST interchange. `format = cxxn.interface.source`, `revision = "1"` identifies canonical UTF-8 CXXN interface source conforming to this edition, accompanied by its module map and bound configuration. A provider-specific format shall publish its version and declare which implementations can read it. A consuming implementation without a supported source or format alternative shall diagnose unavailable definition/interface material; it shall require the selected source/interface contract.
+A `ContentRef` does not promise compiler-private AST interchange. `format = cpn.interface.source`, `revision = "1"` identifies canonical UTF-8 CPN26 interface source conforming to this edition, accompanied by its module map and bound configuration. A provider-specific format shall publish its version and declare which implementations can read it. A consuming implementation without a supported source or format alternative shall diagnose unavailable definition/interface material; it shall require the selected source/interface contract.
 
-`ContentRef.digest` is SHA-256 of the exact immutable content octets supplied under its format contract. Contract JSON uses the canonical JSON bytes in Section 2. Standard `cxxn.interface.source` and `cxxn.boundary.source`, revision `"1"`, use a canonical source-token serialization: tokenize under the stated source profile, discard comments and inter-token whitespace, replace identifier tokens by their canonical NFC spellings where required, preserve every other token's exact spelling, and place one U+0020 byte between consecutive tokens with no prefix or suffix. Whitespace and newlines inside a string, character, raw literal, or quotation token remain part of that token. A quotation whose interior is tokenized source applies the same grammar-defined tokenization; quoted textual data is preserved. This rule preserves the token stream rather than formatting by source line. A reader shall retokenize and validate that stream under the declared profile; it shall preserve token boundaries and literal contents. The empty token stream is zero bytes. Native object/debug artifacts and arbitrary other binary formats use their unmodified published bytes, without JSON re-encoding. A provider-private normalized definition format specifies its own complete canonicalization before those bytes are hashed.
+`ContentRef.digest` is SHA-256 of the exact immutable content octets supplied under its format contract. Contract JSON uses the canonical JSON bytes in Section 2. Standard `cpn.interface.source` and `cpn.boundary.source`, revision `"1"`, use a canonical source-token serialization: tokenize under the stated source profile, discard comments and inter-token whitespace, replace identifier tokens by their canonical NFC spellings where required, preserve every other token's exact spelling, and place one U+0020 byte between consecutive tokens with no prefix or suffix. Whitespace and newlines inside a string, character, raw literal, or quotation token remain part of that token. A quotation whose interior is tokenized source applies the same grammar-defined tokenization; quoted textual data is preserved. This rule preserves the token stream rather than formatting by source line. A reader shall retokenize and validate that stream under the declared profile; it shall preserve token boundaries and literal contents. The empty token stream is zero bytes. Native object/debug artifacts and arbitrary other binary formats use their unmodified published bytes, without JSON re-encoding. A provider-private normalized definition format specifies its own complete canonicalization before those bytes are hashed.
 
 Physical paths, download URLs, authentication data, and search directories belong to an external artifact-location map or build invocation. They are not part of `ModuleId`, `DeclarationId`, `ContentRef`, or a semantic fingerprint. Rebinding an artifact to another physical location does not rename its declarations.
 
@@ -8319,13 +8319,13 @@ Object key duplicates are `ERROR` before sorting, including duplicates hidden by
 
 The document fingerprint is SHA-256 of these canonical bytes, without a prefix, suffix, self-digest, or filename. `kind`, `version`, and `format` are inside the bytes and distinguish document domains. A printed pretty version is allowed for inspection; a fingerprint always uses its validated canonical encoding. A detached checksum or artifact-location record may hold the fingerprint outside the document.
 
-The following canonicalization vectors are normative. The `input` and `canonical` columns denote JSON text, not CXXN source:
+The following canonicalization vectors are normative. The `input` and `canonical` columns denote JSON text, not CPN26 source:
 
 | Input | Canonical |
 | --- | --- |
 | `{ "b": 2, "a": 1 }` | `{"a":1,"b":2}` |
 | `{ "list": [3, 1], "flag": true }` | `{"flag":true,"list":[3,1]}` |
-| `{ "empty": [], "word": "CXXN" }` | `{"empty":[],"word":"CXXN"}` |
+| `{ "empty": [], "word": "CPN26" }` | `{"empty":[],"word":"CPN26"}` |
 
 For the first canonical byte sequence, SHA-256 is `43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777`. These vectors validate encoding only; a small example object is not a complete contract document. An empty `extensions` array remains present in a real document and affects its digest.
 
@@ -8350,7 +8350,7 @@ A `configuration` payload has fields `language_edition`, `scope`, `owner`, `abi_
 
 | Field | Type | Requirement |
 | --- | --- | --- |
-| `language_edition` | string | Exactly `CPN26`; the CXXN source semantic standard designation, distinct from the JSON schema version. |
+| `language_edition` | string | Exactly `CPN26`; the CPN26 source semantic standard designation, distinct from the JSON schema version. |
 | `scope` | string | `image`, `module`, `declaration`, `block`, `operation`, or `resource`. |
 | `owner` | string | Nonempty stable logical scope identity; no physical location or generated address. |
 | `abi_profile` | ContractRef | Kind `abi_profile`; exact selected foreign target contract. |
@@ -8408,7 +8408,7 @@ After hierarchy resolution, validation shall establish the following conditions 
 | Binding | Admission condition |
 | --- | --- |
 | Required representation/operation | Its provider and capability are available. |
-| Separate CXXN compilation | `compilation.modules` and `compilation.separate` are enabled; the selected interface protocol is supported. |
+| Separate CPN26 compilation | `compilation.modules` and `compilation.separate` are enabled; the selected interface protocol is supported. |
 | Standard public export | `tooling.contract_export` is enabled; the requested record kinds apply to the selected capabilities. |
 | Layout, exception, target, static-domain setting | Override scope respects the frozen boundary. |
 | Generation | Layout generation has generation enabled; typed syntax is available; reflected operations additionally have reflection capability. Quotation-only generation uses its own typed-syntax capability. |
@@ -8488,7 +8488,7 @@ An `ImportedContract` has `owner: ModuleId`, `mode: string` (`ordinary` or `type
 
 An `ExportContract` has fields `declaration: DeclarationId`, `state: string`, `visibility: string`, `definition: ContentRef`, `boundary: ContractRef`, `configuration: ContractRef`, `dependencies: set<Dependency>`, and optional `native_symbol: string`. State is `declared`, `generic_recipe`, or `sealed`. Visibility is `public` or `sealed_dependency`. An incomplete declaration is `declared`; an uninstantiated generic family is `generic_recipe`; a completed concrete record/function contract is `sealed`. A pending generation phase is not a completed export. The `definition` includes any available definition material and binding identities; `boundary` references a document of kind `boundary` containing the public representation, calling, phase-aware effect, contract-policy, borrow/lifetime, and failure obligations relevant to this declaration. A function with separate admission, execution, and boundary effects preserves each part under the [effect composition rules](#chapter-25-effect-composition-boundaries).
 
-The standard public-source boundary format is `cxxn.boundary.source`, revision `"1"`, wrapped by the exact boundary document in Section 6.4. An ABI provider may additionally publish an equivalent closed native-descriptor format. The source designation shall select CPN26's grammar and binding semantics within that envelope. For a selected standard export, the public envelope and its declared source format shall supply portable checking material; a private descriptor may accompany it. A private-only boundary follows Chapter 11's semantic identity and compatibility rules in its declared representation.
+The standard public-source boundary format is `cpn.boundary.source`, revision `"1"`, wrapped by the exact boundary document in Section 6.4. An ABI provider may additionally publish an equivalent closed native-descriptor format. The source designation shall select CPN26's grammar and binding semantics within that envelope. For a selected standard export, the public envelope and its declared source format shall supply portable checking material; a private descriptor may accompany it. A private-only boundary follows Chapter 11's semantic identity and compatibility rules in its declared representation.
 
 An exported constructor contract shall retain its recursive kind, fixed and repeated descriptors, captured partial arguments, inline mapping or alias identity, and captured definition bindings. An exported associated contract shall retain its complete constraint arguments and its subject binding. Each captured explicit conformance entry shall retain its fixed `conformance_priority` metadata value, including the effective default value zero, together with its head, conditions, and association bindings. The existing definition and source content shall carry this metadata; changing a priority shall change the corresponding catalogue and dependent selection identity. A known subject shall identify its captured catalogue. A symbolic subject shall identify Chapter 27's owner-resolution recipe and declared constraint evidence; its instantiated canonical type shall supply the exact published owner catalogue. A completed concrete use shall record that frozen catalogue, its selected explicit or structural witness, and association bindings. These components shall enter the existing definition, dependency, and boundary identities under Chapters 26 and 27. Import and code sharing shall use the published identities appropriate to that completion stage.
 
@@ -8531,7 +8531,7 @@ A `boundary` payload has exactly the following fields:
 | `declarations` | set<DeclarationId> | Participating declarations; all are resolvable in the accompanying source contract. |
 | `configuration` | ContractRef | Kind `configuration`; effective settings applicable to this boundary. |
 | `abi_profile` | ContractRef | Kind `abi_profile`; required native interface contract. |
-| `source` | ContentRef | Format `cxxn.boundary.source`, revision `"1"`, canonical source tokens as defined in Section 1.1. |
+| `source` | ContentRef | Format `cpn.boundary.source`, revision `"1"`, canonical source tokens as defined in Section 1.1. |
 | `imports` | array<BoundaryImport> | Exact bound imported declaration identities, sorted by source spelling. |
 | `layouts` | array<LayoutContract> | Complete required object layouts, sorted by declaration identity encoding. |
 | `native_bindings` | array<NativeBinding> | Explicit external symbols/classifications, sorted by declaration identity encoding. |
@@ -8595,21 +8595,21 @@ Generated output, type-only cycles, deferred generic recipes, dynamic-resource b
 
 <a id="chapter-30-reference-target-bindings"></a>
 
-## CXXN Reference Native Target Bindings Specification
+## CPN26 Reference Native Target Bindings Specification
 
 ### 1. Complete baseline contracts
 
-This chapter defines two complete baseline bindings: `cxxn.ref.linux-x86_64.core.v1` and `cxxn.ref.windows-x86_64.core.v1`. They instantiate the corresponding [target families](#chapter-20-target-abi-profiles) with fixed interface subsets and explicit runtime absence. They are conformance contracts, not a claim that an existing CXXN compiler or a named foreign toolchain has been tested.
+This chapter defines two complete baseline bindings: `cpn.ref.linux-x86_64.core.v1` and `cpn.ref.windows-x86_64.core.v1`. They instantiate the corresponding [target families](#chapter-20-target-abi-profiles) with fixed interface subsets and explicit runtime absence. They are conformance contracts, not a claim that an existing CPN26 compiler or a named foreign toolchain has been tested.
 
 The bindings support ordinary native relocatable objects, C scalar/pointer calls, verified plain C records, and callbacks. A C++ translation unit can consume their generated C interface under `extern "C"`. The Linux binding additionally supports the limited direct C++ symbol subset in Section 4. The supported feature subset shall be exactly the positive claims in its profile record. Additional direct C++ features shall use a separately versioned binding.
 
-Each baseline shall use the explicit absent-runtime bindings in its record for the native CXXN component. The CXXN component/configuration domain selecting it shall set `exceptions.language = false` and use serial native-domain initialization. A capability requiring a missing runtime creates an explicit derived profile with its own complete dependency contract; it does not change the meaning of the baseline identifier. These constraints select a low-level conformance subset rather than changing the language's optional exception, concurrency, or allocation facilities.
+Each baseline shall use the explicit absent-runtime bindings in its record for the native CPN26 component. The CPN26 component/configuration domain selecting it shall set `exceptions.language = false` and use serial native-domain initialization. A capability requiring a missing runtime creates an explicit derived profile with its own complete dependency contract; it does not change the meaning of the baseline identifier. These constraints select a low-level conformance subset rather than changing the language's optional exception, concurrency, or allocation facilities.
 
 All options in the baseline descriptor are fixed. A provider may implement another profile, including a superset, under a distinct identity. Shared boundaries compare their relevant contracts, so an extended image may still use these exact C-compatible function/record interfaces. A different private runtime does not by itself invalidate an unchanged C boundary.
 
 #### 1.1 Normative platform references
 
-The following references supply only their specified platform rules. A later webpage edit does not automatically revise a CXXN profile. The named edition and this chapter's subset/options govern. An implementation shall preserve the identified reference edition or equivalent versioned contract in its provider evidence.
+The following references supply only their specified platform rules. A later webpage edit does not automatically revise a CPN26 profile. The named edition and this chapter's subset/options govern. An implementation shall preserve the identified reference edition or equivalent versioned contract in its provider evidence.
 
 | Reference ID | Edition and normative use |
 | --- | --- |
@@ -8620,9 +8620,9 @@ The following references supply only their specified platform rules. A later web
 | `ms-pe-coff-2026` | [Microsoft PE/COFF format](https://learn.microsoft.com/en-us/windows/win32/debug/pe-format), revision displayed September 10, 2026; AMD64 relocatable COFF sections, symbols, relocations and procedure-data transport. |
 | `ms-x64-unwind1` | [Microsoft x64 exception-handling data](https://learn.microsoft.com/en-us/cpp/build/exception-handling-x64?view=msvc-170), `RUNTIME_FUNCTION` and version-1 `UNWIND_INFO` forms without language handlers. |
 
-The Linux call classifier uses the pinned psABI's complete classification for the supported types, including hidden result storage, register exhaustion, stack alignment, and variadic metadata. CXXN evaluation order still governs expression evaluation before ABI marshalling. No change to source integer-promotion rules follows from the foreign variadic boundary.
+The Linux call classifier uses the pinned psABI's complete classification for the supported types, including hidden result storage, register exhaustion, stack alignment, and variadic metadata. CPN26 evaluation order still governs expression evaluation before ABI marshalling. No change to source integer-promotion rules follows from the foreign variadic boundary.
 
-The Windows classifier uses the default Microsoft x64 convention: its four parameter positions, prescribed integer/floating registers, caller shadow store, and indirect record rules. It does not use a System V red zone. Nonleaf frames use required `.pdata`/`.xdata` unwind metadata even though CXXN language exceptions and a foreign language-unwind bridge are disabled. Metadata permitting a debugger to recover a frame is not permission to bypass its lifetime contract.
+The Windows classifier uses the default Microsoft x64 convention: its four parameter positions, prescribed integer/floating registers, caller shadow store, and indirect record rules. It does not use a System V red zone. Nonleaf frames use required `.pdata`/`.xdata` unwind metadata even though CPN26 language exceptions and a foreign language-unwind bridge are disabled. Metadata permitting a debugger to recover a frame is not permission to bypass its lifetime contract.
 
 ### 2. Common scalar, record, and ownership subset
 
@@ -8630,11 +8630,11 @@ Both profiles use eight-bit bytes, little-endian object representation, flat 64-
 
 The scalar descriptor arrays in Section 6 give exact storage and alignment. Signed foreign integers use two's complement. Foreign Boolean objects use one byte and canonical false/true values 0/1. `ffi::c_char` is signed; signed-char and unsigned-char identities remain distinct. The `int`, `long`, and `long long` foreign identities remain distinct even when widths coincide. [Microsoft's data-type contract](https://learn.microsoft.com/en-us/cpp/cpp/data-type-ranges?view=msvc-170) additionally binds its long-double representation to binary64 and wide character to unsigned 16-bit storage. The Linux profile binds long double to the psABI's x87 extended representation in its 16-byte storage slot; its padding is not value data.
 
-A supported direct C record shall be nonempty, use natural packing/alignment and trivial copy/destruction, and contain supported scalar/pointer fields, fixed nonzero arrays of those fields, or recursively supported records. The profile's record-layout capability consists exactly of this grammar. Additional layouts shall use a separately declared capability. Ordinary native CXXN records use their enabled language features.
+A supported direct C record shall be nonempty, use natural packing/alignment and trivial copy/destruction, and contain supported scalar/pointer fields, fixed nonzero arrays of those fields, or recursively supported records. The profile's record-layout capability consists exactly of this grammar. Additional layouts shall use a separately declared capability. Ordinary native CPN26 records use their enabled language features.
 
 Every crossing record supplies field offsets, total size/alignment, type identities, and its by-value classification in its binding contract. Its generated C17 header uses the same transport declarations and static size/offset assertions where expressible, with C++ `extern "C"` guards. Assertions do not establish an ownership or exception contract; the descriptor carries those obligations separately. Array members keep exact extents. A scalar-only C function need not carry record metadata it does not use.
 
-A foreign enumeration shall use an explicit integer-transport wrapper with its declared enum-domain validation. `wchar_t` storage is bound for explicitly imported declarations but does not change CXXN's Unicode-scalar `char` identity. Native `usize`/`isize` keep their own family identity; they are not automatic aliases for foreign `size_t`/`ptrdiff_t`.
+A foreign enumeration shall use an explicit integer-transport wrapper with its declared enum-domain validation. `wchar_t` storage is bound for explicitly imported declarations but does not change CPN26's Unicode-scalar `char` identity. Native `usize`/`isize` keep their own family identity; they are not automatic aliases for foreign `size_t`/`ptrdiff_t`.
 
 Callbacks use the same supported C call contract, with explicit context borrowing and retention lifetime. Stateful callback transport shall use the declared context parameter or an explicit adapter. Varargs require a fixed prototype and admit only the profile's supported scalar/pointer variadic transports, with the required foreign default promotions. Other variadic transports shall use a profile declaring their call classification.
 
@@ -8642,15 +8642,15 @@ A borrowed pointer carries no release authority. An owning pointer transport inc
 
 ### 3. Object files and support closure
 
-The Linux binding emits ELF64 relocatable objects with `EM_X86_64`; the Windows binding emits ordinary AMD64 COFF relocatable objects with machine identifier `0x8664`. Neither object is only compiler IR, and neither requires CXXN-specific LTO to link. Reference-compatible C symbols use their exact ASCII source name without a leading underscore. Export/import visibility and any final shared-image export list are explicit binding inputs.
+The Linux binding emits ELF64 relocatable objects with `EM_X86_64`; the Windows binding emits ordinary AMD64 COFF relocatable objects with machine identifier `0x8664`. Neither object is only compiler IR, and neither requires CPN26-specific LTO to link. Reference-compatible C symbols use their exact ASCII source name without a leading underscore. Export/import visibility and any final shared-image export list are explicit binding inputs.
 
 The baseline linker input shall consist of relocatable objects with single-owner definitions and explicit dependencies. Archive extraction shall use an independently declared tool contract. Generic/inline emissions shall use one definition owner or a separately bound COMDAT capability.
 
 The Linux position model is small PIC under the pinned AMD64 relocation rules. Windows uses the standard AMD64 COFF position/relocation model, without claiming that COFF and ELF relocations are interchangeable. Each emitted relocation shall belong to its selected target contract. Native TLS, vector calling conventions, multiversioning, and executable trampolines shall use an extended profile declaring their additional support. A required compiler helper not implemented inside the object becomes an explicit additional dependency and is unavailable until a compatible derived binding selects it.
 
-An admitted cross-frame control transfer shall satisfy the baseline's non-unwinding lifetime boundary. The baseline admits a foreign call or callback only when its non-unwinding requirement is established by verified evidence or by a verified adapter that terminates or translates failure on its originating side before an unwind enters a CXXN frame. An admitted assertion shall satisfy the originating-side terminal boundary required by Chapter 09. If that obligation requires a guard unavailable in this baseline, direct binding is `ERROR`; an explicitly supported guarded or derived binding is required. Other permitted unproved programmer obligations retain their ordinary ANOMALY rules. Numeric and contract terminal outlets remain noncatchable and non-unwinding. The baseline terminal operation emits an x86 `UD2` terminal site; no native code resumes after it. A host handler may report or terminate the image, but resuming a failed CXXN operation is not a supported recovery protocol.
+An admitted cross-frame control transfer shall satisfy the baseline's non-unwinding lifetime boundary. The baseline admits a foreign call or callback only when its non-unwinding requirement is established by verified evidence or by a verified adapter that terminates or translates failure on its originating side before an unwind enters a CPN26 frame. An admitted assertion shall satisfy the originating-side terminal boundary required by Chapter 09. If that obligation requires a guard unavailable in this baseline, direct binding is `ERROR`; an explicitly supported guarded or derived binding is required. Other permitted unproved programmer obligations retain their ordinary ANOMALY rules. Numeric and contract terminal outlets remain noncatchable and non-unwinding. The baseline terminal operation emits an x86 `UD2` terminal site; no native code resumes after it. A host handler may report or terminate the image, but resuming a failed CPN26 operation is not a supported recovery protocol.
 
-A composed image may contain separately contracted C/C++ components and their explicit CRT, exception-runtime, and library dependencies. Those remain foreign component obligations; they do not create an implicit CXXN runtime requirement or change an unchanged supported C boundary. The absence of native-component CRT support is exact. Its emitted support references shall be exactly the explicit dependency closure of that binding. An explicitly selected diagnostic/support adapter may provide reporting through a derived dependency contract. The general language's Debug/Release semantics still apply to the capabilities actually enabled; this runtime-free baseline does not promise debug aggregation for disabled language exceptions.
+A composed image may contain separately contracted C/C++ components and their explicit CRT, exception-runtime, and library dependencies. Those remain foreign component obligations; they do not create an implicit CPN26 runtime requirement or change an unchanged supported C boundary. The absence of native-component CRT support is exact. Its emitted support references shall be exactly the explicit dependency closure of that binding. An explicitly selected diagnostic/support adapter may provide reporting through a derived dependency contract. The general language's Debug/Release semantics still apply to the capabilities actually enabled; this runtime-free baseline does not promise debug aggregation for disabled language exceptions.
 
 #### 3.1 Native numerical provider binding
 
@@ -8662,7 +8662,7 @@ The Linux baseline's `cpp_symbol` claim covers C++03 non-template free functions
 
 A reference parameter has the selected ABI's reference transport and a live referent obligation. It does not become a nullable optional reference. Return types and all effect/ownership conditions remain part of the binding even where the external name does not encode them. An imported declaration shall match those conditions independently of successful symbol lookup.
 
-For example, a global foreign `int add(int,int)` has external name `_Z3addii`, while global foreign `long add(long,long)` has `_Z3addll`. The same bit width of a native CXXN type is insufficient to choose either foreign overload. The descriptor names the actual foreign declarations and their non-unwinding contract.
+For example, a global foreign `int add(int,int)` has external name `_Z3addii`, while global foreign `long add(long,long)` has `_Z3addll`. The same bit width of a native CPN26 type is insufficient to choose either foreign overload. The descriptor names the actual foreign declarations and their non-unwinding contract.
 
 The Linux direct C++ claim shall cover the symbol subset above. A separately verified adapter may call such facilities on its foreign side and expose a supported non-unwinding boundary. Its required compiler, runtime, library ABI switches, and release operations are explicit additional contracts.
 
@@ -8686,11 +8686,11 @@ The following reference JSON records instantiate the [public ABI schema](#chapte
 
 ```json
 {
-  "format": "cxxn.contract",
+  "format": "cpn.contract",
   "version": 1,
   "kind": "abi_profile",
   "payload": {
-    "profile_id": "cxxn.ref.linux-x86_64.core.v1",
+    "profile_id": "cpn.ref.linux-x86_64.core.v1",
     "family": "x86_64-linux-sysv-elf",
     "revision": 1,
     "machine": {
@@ -8876,7 +8876,7 @@ The following reference JSON records instantiate the [public ABI schema](#chapte
     },
     "cpp": {
       "provider": {
-        "name": "cxxn.ref.itanium-symbol-core",
+        "name": "cpn.ref.itanium-symbol-core",
         "revision": "1.86-subset1"
       },
       "dialect": "C++03",
@@ -8953,11 +8953,11 @@ The canonical document SHA-256 is `040d5a9306e1f7e9e442900631f0d124f5932e65cff0d
 
 ```json
 {
-  "format": "cxxn.contract",
+  "format": "cpn.contract",
   "version": 1,
   "kind": "abi_profile",
   "payload": {
-    "profile_id": "cxxn.ref.windows-x86_64.core.v1",
+    "profile_id": "cpn.ref.windows-x86_64.core.v1",
     "family": "x86_64-windows-msvc-coff",
     "revision": 1,
     "machine": {
@@ -9244,13 +9244,13 @@ A provider claiming either baseline shall implement exactly its selected feature
 
 A function or record imported from C/C++ is directly usable only when its own binding contract matches the supported subset. A compatible machine architecture alone is insufficient. A verified adapter may explicitly translate to a supported interface with its own ownership and failure contract. Unsupported requested class/RTTI/exception features produce `ERROR` for direct use; an unproved obligation expressly permitted by the language produces `ANOMALY` and is never represented as verified compatibility.
 
-CXXN floating result/status rules, checked integer arithmetic, destruction responsibilities, and explicit terminal behavior remain in force inside native functions. Their ABI marshalling shall preserve required observable representations, including signaling NaNs where an inspection contract requires it. A foreign function's internal arithmetic follows its declared foreign contract; this profile does not retrofit CXXN numerical guarantees onto arbitrary C or C++ code.
+CPN26 floating result/status rules, checked integer arithmetic, destruction responsibilities, and explicit terminal behavior remain in force inside native functions. Their ABI marshalling shall preserve required observable representations, including signaling NaNs where an inspection contract requires it. A foreign function's internal arithmetic follows its declared foreign contract; this profile does not retrofit CPN26 numerical guarantees onto arbitrary C or C++ code.
 
 ---
 
 <a id="chapter-31-units-interfaces"></a>
 
-## CXXN Quantity and Affine Point Interfaces Specification
+## CPN26 Quantity and Affine Point Interfaces Specification
 
 ### 1. Scope and identity
 
@@ -9357,7 +9357,7 @@ For a floating destination, exact zero retains the source floating zero sign mul
 
 #### 5.3 Failure and status
 
-The implementation shall apply Chapter 04's corresponding Exact, Checked, or Saturating destination projection to y. Exact probes preserve FP status; Checked floating projection uses gradual subnormals and its local events; integer projection uses its CXXN status. Their acceptance predicates and delivery remain independent of ambient arithmetic trap/error masks.
+The implementation shall apply Chapter 04's corresponding Exact, Checked, or Saturating destination projection to y. Exact probes preserve FP status; Checked floating projection uses gradual subnormals and its local events; integer projection uses its CPN26 status. Their acceptance predicates and delivery remain independent of ambient arithmetic trap/error masks.
 
 Exact and Checked shall reject a nonfinite source as NonFinite through representation inspection that preserves the signaling class and FP status. Saturating integer conversion shall reject NaN as NonFinite and map infinity to the destination bound after applying the scale ratio's sign. This catalogue sets wrapped and payload_changed false and otherwise uses the selected projection's canonical status fields.
 
@@ -9367,7 +9367,7 @@ Success shall directly construct Destination from the projected representation a
 
 <a id="chapter-32-numeric-resource-interfaces"></a>
 
-## CXXN Numeric Resource Interfaces Specification
+## CPN26 Numeric Resource Interfaces Specification
 
 ### 1. Scope and identities
 

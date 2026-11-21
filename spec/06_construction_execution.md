@@ -1,6 +1,6 @@
 <a id="chapter-06-construction-execution"></a>
 
-# CXXN Construction and Destruction Execution Specification
+# CPN26 Construction and Destruction Execution Specification
 
 ## 1. Scope and Required Distinctions
 
@@ -271,7 +271,7 @@ A permitted source-initiated base-only destruction or Abandon request shall latc
 
 After the early attempt, control shall exit the affected ordinary body or Cleanup and continue through the coordinator's required Cleanup and reverse-remainder work. An entered Cleanup shall retain its consumed invocation state. Whole shall use the lifecycle control channel, separate from user exception handlers and process termination.
 
-Whole shall propagate through CXXN helpers executing the affected destructor or Cleanup continuation, causing their generated exits. Its callable contract shall expose the required lifecycle effect through declarations, inferred internal summaries, and indirect function types. Lowering shall use control-flow edges or equivalent internal status while preserving the selected exit work.
+Whole shall propagate through CPN26 helpers executing the affected destructor or Cleanup continuation, causing their generated exits. Its callable contract shall expose the required lifecycle effect through declarations, inferred internal summaries, and indirect function types. Lowering shall use control-flow edges or equivalent internal status while preserving the selected exit work.
 
 An affected body or helper exit shall perform its required local-object and temporary cleanup. Each cleanup failure shall follow Chapter 28's selected outlet, which determines continuation or termination.
 
@@ -329,7 +329,7 @@ The selected interoperability profile shall determine object-file format, C/C++ 
 
 An extern-compatible class shall preserve the chosen ABI's object fields, base offsets, and virtual representation. Its lifecycle features shall use static resolution, transient out-of-object state, or an explicitly accepted sidecar. A feature requiring persistent state shall obtain a compatible representation before that class can satisfy the requested foreign ABI.
 
-A foreign boundary shall contain Whole through a verified aware contract or an explicit adapter that completes lifecycle coordination and returns compatibly. A CXXN helper interacting with a foreign destructor shall use that declared continuation contract. Foreign virtual destruction shall require the chosen ABI's representation and dispatch guarantees.
+A foreign boundary shall contain Whole through a verified aware contract or an explicit adapter that completes lifecycle coordination and returns compatibly. A CPN26 helper interacting with a foreign destructor shall use that declared continuation contract. Foreign virtual destruction shall require the chosen ABI's representation and dispatch guarantees.
 
 ## 12. Required Boundary Examples
 

@@ -1,6 +1,6 @@
 <a id="chapter-18-mathematical-functions"></a>
 
-# CXXN Mathematical Functions Specification
+# CPN26 Mathematical Functions Specification
 
 ## 1. Scope, binding, and capabilities
 
@@ -49,7 +49,7 @@ The following public values have no owning allocation, and copying, moving, and 
 | `PolicyReason` | Enumeration cases `UnsupportedControl`, `UnsupportedAccuracy`, `InvalidBound`, `StatusUnavailable`, `WrongFunction`. |
 | `MathError` | Tagged alternatives `UnsupportedDomain(DomainReason reason)`, `UnsupportedPolicy(PolicyReason reason)`, and `Allocation(std::mem::AllocationError cause)`. |
 
-The selected CXXN ABI shall determine these source types' native layout; foreign transport requires its declared binding. `MathPolicy()` initializes all options to None. `ComplexMathPolicy()` contains `MathPolicy()` and absent component overrides. `MathResources()` contains no resource. The record constructors additionally admit their listed fields in declaration order under ordinary aggregate construction. The result and tagged alternatives use the ordinary active-case construction and access rules.
+The selected CPN26 ABI shall determine these source types' native layout; foreign transport requires its declared binding. `MathPolicy()` initializes all options to None. `ComplexMathPolicy()` contains `MathPolicy()` and absent component overrides. `MathResources()` contains no resource. The record constructors additionally admit their listed fields in declaration order under ordinary aggregate construction. The result and tagged alternatives use the ordinary active-case construction and access rules.
 
 `Decomposition<F>` is available only when `i32` is enabled and can represent every required exponent for F. This is true of the baseline binary formats when `i32` is enabled. The interface shall require that i32 capability at its use.
 
@@ -316,7 +316,7 @@ In general, `complex_log(z)` has exact real reference `log(sqrt(real(z)^2 + imag
 
 `complex_pow(z,w)` under `math.complex.power` uses the exact reference `exp(w*Log(z))` for finite nonzero z and finite w, with principal Log and one final projection per component. Selecting `scalar_steps` explicitly instead introduces the Complex chapter's declared component-rounding boundaries; the descriptor shall identify the scalar sequence, the handling of nonfinite intermediate values, and its resulting flags. It cannot advertise that sequence as the exact principal contract. In its detailed report, intermediate mathematical-operation events accumulate in `common_status`, while final component projection events remain in the corresponding component status. No incidentally chosen implementation instruction adds an event absent from that declared sequence.
 
-For an exact zero exponent and finite nonzero base, the principal result is exactly `(1,+0)`. Otherwise write the exact principal logarithm as `(L,theta)` and the exponent as `(a,b)`, and form exact `u = a*L - b*theta` and `v = a*theta + b*L`. The zero sign of L at unit magnitude is positive; theta uses the principal argument's zero sign. Exact zero products and sums in u and v follow the Complex chapter's sign rules, with the respective captured component rounding direction for cancellation; this determines signs without introducing a rounding boundary or an intermediate FP event. The final references are `exp(u)*cos(v)` and `exp(u)*sin(v)`. A real component that is mathematically zero has positive sign. An imaginary component that is mathematically zero has v's sign, including its assigned exact-zero sign; a nonzero mathematical component rounded to zero instead has that component's mathematical sign. These are CXXN principal-power zero conventions, not an inference from a host complex routine.
+For an exact zero exponent and finite nonzero base, the principal result is exactly `(1,+0)`. Otherwise write the exact principal logarithm as `(L,theta)` and the exponent as `(a,b)`, and form exact `u = a*L - b*theta` and `v = a*theta + b*L`. The zero sign of L at unit magnitude is positive; theta uses the principal argument's zero sign. Exact zero products and sums in u and v follow the Complex chapter's sign rules, with the respective captured component rounding direction for cancellation; this determines signs without introducing a rounding boundary or an intermediate FP event. The final references are `exp(u)*cos(v)` and `exp(u)*sin(v)`. A real component that is mathematically zero has positive sign. An imaginary component that is mathematically zero has v's sign, including its assigned exact-zero sign; a nonzero mathematical component rounded to zero instead has that component's mathematical sign. These are CPN26 principal-power zero conventions, not an inference from a host complex routine.
 
 A zero base requires a separate complete function-specific table, registered as `math.complex.power.zero_base`, covering every finite exponent class and all base/exponent zero signs. In its absence the outer Result returns `UnsupportedDomain(UnsupportedSpecialCase)`. Supplying that table does not authorize nonfinite inputs.
 
@@ -332,7 +332,7 @@ An omitted mode is NearestTiesEven. The mode shall be available during immediate
 
 For example, the signature of pi uses the existing grammar:
 
-```cxxn
+```cpn
 generic<type F>
 declare consteval F pi(
     std::numeric::RoundingMode rounding(
@@ -419,7 +419,7 @@ These examples assume the named capabilities, binary f64, gradual subnormals, an
 
 The shorthand numeric arguments in this table denote already bound values of the same F, not permission for hidden implicit integer/floating conversion. The following source uses ordinary declarations and qualified generic constant calls:
 
-```cxxn
+```cpn
 import std.math;
 
 f64 a(-0.0);

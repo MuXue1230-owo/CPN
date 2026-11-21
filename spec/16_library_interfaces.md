@@ -1,6 +1,6 @@
 <a id="chapter-16-library-interfaces"></a>
 
-# CXXN Core Library Interfaces Specification
+# CPN26 Core Library Interfaces Specification
 
 ## 1. Interface interpretation and identity
 
@@ -216,7 +216,7 @@ try_zview SHALL establish accessible final-zero storage, admitting an additional
 
 These declarations use explicit imports and the uniform initialization syntax. They require the named modules' enabled capabilities.
 
-```cxxn
+```cpn
 import std;
 import std.mem;
 import std.collections;

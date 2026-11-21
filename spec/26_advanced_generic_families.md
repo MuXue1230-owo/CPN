@@ -1,6 +1,6 @@
 <a id="chapter-26-advanced-generic-families"></a>
 
-# CXXN Higher-Order Generic Families and Associated Types Specification
+# CPN26 Higher-Order Generic Families and Associated Types Specification
 
 ## 1. Scope and invariant requirements
 
@@ -25,7 +25,7 @@ A kind SHALL be a finite structural tree. The admitted descriptors are `type`, `
 
 The checker SHALL recursively compare kinds by descriptor, canonical constant-parameter type, fixed-position order, and final-pack structure. Bound names SHALL be alpha-equivalent. The kind grammar SHALL admit every finite nesting depth for higher-order kinds. The configured normalization and arity resources SHALL bound checking work and report exhaustion under Chapter 27.
 
-```cxxn
+```cpn
 generic<typefn F<type>, type T>
 requires (ObjectType<F<T>> && CompleteType<F<T>>)
 struct Cell {
@@ -58,7 +58,7 @@ A typefn generic parameter may have a constructor-expression default whose free 
 
 `partial_typefn<F, arguments...>` SHALL construct a residual constructor by binding a finite prefix of F's arguments. F SHALL first resolve to one constructor identity. Each supplied argument SHALL match the next fixed descriptor, or an element of its final repeated descriptor. The residual kind SHALL retain the remaining fixed descriptors and any final repeated descriptor.
 
-```cxxn
+```cpn
 generic<type Left, type Right>
 struct Pair {};
 
@@ -84,7 +84,7 @@ A bound ordinary constant SHALL preserve its actual value and declared type; a b
 
 `typefn<binder-list>(type-id)` SHALL form an inline constructor. Its binders SHALL use the generic type, constant, recursive typefn, and final-pack forms. The parentheses SHALL contain the resulting type expression. The mapping SHALL bind its other names, defaults used by named applications, and policies at its definition site.
 
-```cxxn
+```cpn
 alias TextPairHolder = Holder<typefn<type U>(Pair<U, char>), i32>;
 
 generic<typefn F<type>, typefn G<type>, type T>
@@ -107,7 +107,7 @@ A required kind comparison SHALL inspect the finite kind structure. Application 
 
 A nongeneric `alias Name = right-hand-side;` SHALL bind according to the right-hand side's established kind. An ordinary type SHALL create a transparent type alias. An unapplied family, bound typefn, constructor projection, partial expression, or inline mapping SHALL create a transparent constructor alias. Bare family names SHALL retain constructor kind; a full application, including an explicit empty argument list using family defaults, SHALL yield its resulting ordinary type.
 
-```cxxn
+```cpn
 alias IntPair = partial_typefn<Pair, i32>;
 alias ReversePair = typefn<type T>(Pair<T, i32>);
 alias ConcretePair = IntPair<u8>;
@@ -127,7 +127,7 @@ An exported alias shall publish the type and constraint material needed to valid
 
 A constraint containing associated entities SHALL use its first formal parameter, an ordinary `type` parameter, as its single subject. Its remaining type, constant, and constructor parameters SHALL be additional witness arguments. A pure structural constraint may use any admitted parameter sequence. A constraint may declare associated entities:
 
-```cxxn
+```cpn
 constraint Sequence<type S> {
     associated type Item;
     associated const usize StaticExtent;
@@ -143,7 +143,7 @@ constraint Sequence<type S> {
 
 Inside the declaring constraint, an unqualified associated identifier shall denote that constraint's associated declaration. Another generic definition shall establish the relevant bound:
 
-```cxxn
+```cpn
 generic<type S>
 requires (Sequence<S>)
 alias SequenceItem = Sequence<S>::Item;
@@ -155,7 +155,7 @@ The alias yields the projected ordinary type. An operation such as `source.first
 
 `associated typefn Name<kind-list>;` shall require a constructor binding with the kinds in Section 2:
 
-```cxxn
+```cpn
 constraint Rebindable<type T> {
     associated typefn Rebind<type>;
 };
@@ -167,7 +167,7 @@ For a selected conformance to `Rebindable<Box<i32>>`, `Rebindable<Box<i32>>::Reb
 
 The checker SHALL obtain a concrete witness from the subject owner's bound public catalogue and the structural fallback defined here. Explicit `satisfy` declarations SHALL provide customized association tables or certify a chosen contract:
 
-```cxxn
+```cpn
 struct SampleBuffer {
     usize size() const { return 4; }
 };
@@ -188,7 +188,7 @@ A nested alias or type SHALL supply an ordinary type association. A required con
 
 The structural fallback SHALL use the same procedure with an empty explicit table. Thus an ordinary type exposing the required operations and nested entities may satisfy the constraint directly. Declared defaults may map differently named members or derive associations under the constraint's captured contract.
 
-```cxxn
+```cpn
 struct NativeSequence {
     alias Item = i32;
     static constexpr usize StaticExtent(4);
@@ -236,7 +236,7 @@ For a known subject, a generic definition SHALL capture the required catalogue i
 
 ### 5.3 Conditional conformance and constructor binding
 
-```cxxn
+```cpn
 generic<type T>
 requires (CompleteType<T>)
 satisfy Rebindable<Box<T>> {
@@ -248,7 +248,7 @@ The subject owner SHALL publish this conditional entry. Its local constructor bi
 
 A specialized entry may provide a different association for a concrete subject or a narrower admitted pattern. Its author SHALL select a higher priority when that entry is intended to take precedence over another applicable entry. The selected entry SHALL establish the complete associated and callable contract it advertises.
 
-```cxxn
+```cpn
 constraint ElementSource<type S> {
     associated type Item;
 };
@@ -277,7 +277,7 @@ Chapter 27 SHALL diagnose a successful structural fallback reached after all hea
 
 For example, consider a separate owner catalogue containing the following sole explicit entry for the preceding `ElementSource` and `Pocket` declarations:
 
-```cxxn
+```cpn
 generic<type T>
 requires (SameType<T, u8>)
 satisfy ElementSource<Pocket<T>> {

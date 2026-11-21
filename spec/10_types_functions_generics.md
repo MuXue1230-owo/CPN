@@ -1,6 +1,6 @@
 <a id="chapter-10-types-functions-generics"></a>
 
-# CXXN Types, Functions, and Generics Specification
+# CPN26 Types, Functions, and Generics Specification
 
 ## 1. Type identity and declarations
 

@@ -1,10 +1,10 @@
 <a id="chapter-29-public-contract-schemas"></a>
 
-# CXXN Public Contract and Configuration Schemas Specification
+# CPN26 Public Contract and Configuration Schemas Specification
 
 ## 1. Scope and exchange documents
 
-This chapter defines the optional `tooling.contract_export` capability and its public exchange structure for resolved configuration, provider capabilities, module maps, semantic interfaces, native ABI profiles, and build-context records. Source `cxxn.config` files use the [configuration declaration grammar](08_runtime_configuration.md#chapter-08-runtime-configuration).
+This chapter defines the optional `tooling.contract_export` capability and its public exchange structure for resolved configuration, provider capabilities, module maps, semantic interfaces, native ABI profiles, and build-context records. Source `cpn.config` files use the [configuration declaration grammar](08_runtime_configuration.md#chapter-08-runtime-configuration).
 
 A selected contract-export capability shall support the applicable public records defined here. A request for standard export shall produce their canonical JSON and SHA-256 identities. The claim shall identify its supported schema revision and the record kinds applicable to its other selected capabilities. A Core compiler may claim this capability for its root unit, target, configuration, providers, and native boundaries. Serializing a root owner in a `ModuleId` or `semantic_interface` record conveys its identity; named-module parsing and separate compilation remain independently selected facilities.
 
@@ -16,7 +16,7 @@ Every document has exactly these root fields:
 
 | Field | Type | Requirement |
 | --- | --- | --- |
-| `format` | string | Exactly `cxxn.contract`. |
+| `format` | string | Exactly `cpn.contract`. |
 | `version` | positive integer | Exactly `1` for this schema. |
 | `kind` | string | One of `configuration`, `provider`, `module_map`, `semantic_interface`, `boundary`, `abi_profile`, or `build_context`. |
 | `payload` | object | The closed record selected by `kind` below. |
@@ -45,9 +45,9 @@ The following closed records are shared by the schemas:
 
 Declaration kind is one of `type`, `alias`, `function`, `variable`, `generic`, `constraint`, `conformance`, `namespace`, or `generator`. A constructor, destructor, operator, generated member, or specialization retains the canonical declaration identity required by the type and grammar chapters. The `overload` and `specialization` strings are the owner provider's published canonical identity encoding, identified by the semantic interface's `identity_provider`; their encoding shall use stable logical identity fields. An implementation shall preserve collision-resolving identity material in the referenced interface content. Merely comparing a truncated spelling does not prove identity.
 
-A `ContentRef` does not promise compiler-private AST interchange. `format = cxxn.interface.source`, `revision = "1"` identifies canonical UTF-8 CXXN interface source conforming to this edition, accompanied by its module map and bound configuration. A provider-specific format shall publish its version and declare which implementations can read it. A consuming implementation without a supported source or format alternative shall diagnose unavailable definition/interface material; it shall require the selected source/interface contract.
+A `ContentRef` does not promise compiler-private AST interchange. `format = cpn.interface.source`, `revision = "1"` identifies canonical UTF-8 CPN26 interface source conforming to this edition, accompanied by its module map and bound configuration. A provider-specific format shall publish its version and declare which implementations can read it. A consuming implementation without a supported source or format alternative shall diagnose unavailable definition/interface material; it shall require the selected source/interface contract.
 
-`ContentRef.digest` is SHA-256 of the exact immutable content octets supplied under its format contract. Contract JSON uses the canonical JSON bytes in Section 2. Standard `cxxn.interface.source` and `cxxn.boundary.source`, revision `"1"`, use a canonical source-token serialization: tokenize under the stated source profile, discard comments and inter-token whitespace, replace identifier tokens by their canonical NFC spellings where required, preserve every other token's exact spelling, and place one U+0020 byte between consecutive tokens with no prefix or suffix. Whitespace and newlines inside a string, character, raw literal, or quotation token remain part of that token. A quotation whose interior is tokenized source applies the same grammar-defined tokenization; quoted textual data is preserved. This rule preserves the token stream rather than formatting by source line. A reader shall retokenize and validate that stream under the declared profile; it shall preserve token boundaries and literal contents. The empty token stream is zero bytes. Native object/debug artifacts and arbitrary other binary formats use their unmodified published bytes, without JSON re-encoding. A provider-private normalized definition format specifies its own complete canonicalization before those bytes are hashed.
+`ContentRef.digest` is SHA-256 of the exact immutable content octets supplied under its format contract. Contract JSON uses the canonical JSON bytes in Section 2. Standard `cpn.interface.source` and `cpn.boundary.source`, revision `"1"`, use a canonical source-token serialization: tokenize under the stated source profile, discard comments and inter-token whitespace, replace identifier tokens by their canonical NFC spellings where required, preserve every other token's exact spelling, and place one U+0020 byte between consecutive tokens with no prefix or suffix. Whitespace and newlines inside a string, character, raw literal, or quotation token remain part of that token. A quotation whose interior is tokenized source applies the same grammar-defined tokenization; quoted textual data is preserved. This rule preserves the token stream rather than formatting by source line. A reader shall retokenize and validate that stream under the declared profile; it shall preserve token boundaries and literal contents. The empty token stream is zero bytes. Native object/debug artifacts and arbitrary other binary formats use their unmodified published bytes, without JSON re-encoding. A provider-private normalized definition format specifies its own complete canonicalization before those bytes are hashed.
 
 Physical paths, download URLs, authentication data, and search directories belong to an external artifact-location map or build invocation. They are not part of `ModuleId`, `DeclarationId`, `ContentRef`, or a semantic fingerprint. Rebinding an artifact to another physical location does not rename its declarations.
 
@@ -59,13 +59,13 @@ Object key duplicates are `ERROR` before sorting, including duplicates hidden by
 
 The document fingerprint is SHA-256 of these canonical bytes, without a prefix, suffix, self-digest, or filename. `kind`, `version`, and `format` are inside the bytes and distinguish document domains. A printed pretty version is allowed for inspection; a fingerprint always uses its validated canonical encoding. A detached checksum or artifact-location record may hold the fingerprint outside the document.
 
-The following canonicalization vectors are normative. The `input` and `canonical` columns denote JSON text, not CXXN source:
+The following canonicalization vectors are normative. The `input` and `canonical` columns denote JSON text, not CPN26 source:
 
 | Input | Canonical |
 | --- | --- |
 | `{ "b": 2, "a": 1 }` | `{"a":1,"b":2}` |
 | `{ "list": [3, 1], "flag": true }` | `{"flag":true,"list":[3,1]}` |
-| `{ "empty": [], "word": "CXXN" }` | `{"empty":[],"word":"CXXN"}` |
+| `{ "empty": [], "word": "CPN26" }` | `{"empty":[],"word":"CPN26"}` |
 
 For the first canonical byte sequence, SHA-256 is `43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777`. These vectors validate encoding only; a small example object is not a complete contract document. An empty `extensions` array remains present in a real document and affects its digest.
 
@@ -90,7 +90,7 @@ A `configuration` payload has fields `language_edition`, `scope`, `owner`, `abi_
 
 | Field | Type | Requirement |
 | --- | --- | --- |
-| `language_edition` | string | Exactly `CPN26`; the CXXN source semantic standard designation, distinct from the JSON schema version. |
+| `language_edition` | string | Exactly `CPN26`; the CPN26 source semantic standard designation, distinct from the JSON schema version. |
 | `scope` | string | `image`, `module`, `declaration`, `block`, `operation`, or `resource`. |
 | `owner` | string | Nonempty stable logical scope identity; no physical location or generated address. |
 | `abi_profile` | ContractRef | Kind `abi_profile`; exact selected foreign target contract. |
@@ -148,7 +148,7 @@ After hierarchy resolution, validation shall establish the following conditions 
 | Binding | Admission condition |
 | --- | --- |
 | Required representation/operation | Its provider and capability are available. |
-| Separate CXXN compilation | `compilation.modules` and `compilation.separate` are enabled; the selected interface protocol is supported. |
+| Separate CPN26 compilation | `compilation.modules` and `compilation.separate` are enabled; the selected interface protocol is supported. |
 | Standard public export | `tooling.contract_export` is enabled; the requested record kinds apply to the selected capabilities. |
 | Layout, exception, target, static-domain setting | Override scope respects the frozen boundary. |
 | Generation | Layout generation has generation enabled; typed syntax is available; reflected operations additionally have reflection capability. Quotation-only generation uses its own typed-syntax capability. |
@@ -228,7 +228,7 @@ An `ImportedContract` has `owner: ModuleId`, `mode: string` (`ordinary` or `type
 
 An `ExportContract` has fields `declaration: DeclarationId`, `state: string`, `visibility: string`, `definition: ContentRef`, `boundary: ContractRef`, `configuration: ContractRef`, `dependencies: set<Dependency>`, and optional `native_symbol: string`. State is `declared`, `generic_recipe`, or `sealed`. Visibility is `public` or `sealed_dependency`. An incomplete declaration is `declared`; an uninstantiated generic family is `generic_recipe`; a completed concrete record/function contract is `sealed`. A pending generation phase is not a completed export. The `definition` includes any available definition material and binding identities; `boundary` references a document of kind `boundary` containing the public representation, calling, phase-aware effect, contract-policy, borrow/lifetime, and failure obligations relevant to this declaration. A function with separate admission, execution, and boundary effects preserves each part under the [effect composition rules](25_effect_composition_and_boundaries.md#chapter-25-effect-composition-boundaries).
 
-The standard public-source boundary format is `cxxn.boundary.source`, revision `"1"`, wrapped by the exact boundary document in Section 6.4. An ABI provider may additionally publish an equivalent closed native-descriptor format. The source designation shall select CPN26's grammar and binding semantics within that envelope. For a selected standard export, the public envelope and its declared source format shall supply portable checking material; a private descriptor may accompany it. A private-only boundary follows Chapter 11's semantic identity and compatibility rules in its declared representation.
+The standard public-source boundary format is `cpn.boundary.source`, revision `"1"`, wrapped by the exact boundary document in Section 6.4. An ABI provider may additionally publish an equivalent closed native-descriptor format. The source designation shall select CPN26's grammar and binding semantics within that envelope. For a selected standard export, the public envelope and its declared source format shall supply portable checking material; a private descriptor may accompany it. A private-only boundary follows Chapter 11's semantic identity and compatibility rules in its declared representation.
 
 An exported constructor contract shall retain its recursive kind, fixed and repeated descriptors, captured partial arguments, inline mapping or alias identity, and captured definition bindings. An exported associated contract shall retain its complete constraint arguments and its subject binding. Each captured explicit conformance entry shall retain its fixed `conformance_priority` metadata value, including the effective default value zero, together with its head, conditions, and association bindings. The existing definition and source content shall carry this metadata; changing a priority shall change the corresponding catalogue and dependent selection identity. A known subject shall identify its captured catalogue. A symbolic subject shall identify Chapter 27's owner-resolution recipe and declared constraint evidence; its instantiated canonical type shall supply the exact published owner catalogue. A completed concrete use shall record that frozen catalogue, its selected explicit or structural witness, and association bindings. These components shall enter the existing definition, dependency, and boundary identities under Chapters 26 and 27. Import and code sharing shall use the published identities appropriate to that completion stage.
 
@@ -271,7 +271,7 @@ A `boundary` payload has exactly the following fields:
 | `declarations` | set<DeclarationId> | Participating declarations; all are resolvable in the accompanying source contract. |
 | `configuration` | ContractRef | Kind `configuration`; effective settings applicable to this boundary. |
 | `abi_profile` | ContractRef | Kind `abi_profile`; required native interface contract. |
-| `source` | ContentRef | Format `cxxn.boundary.source`, revision `"1"`, canonical source tokens as defined in Section 1.1. |
+| `source` | ContentRef | Format `cpn.boundary.source`, revision `"1"`, canonical source tokens as defined in Section 1.1. |
 | `imports` | array<BoundaryImport> | Exact bound imported declaration identities, sorted by source spelling. |
 | `layouts` | array<LayoutContract> | Complete required object layouts, sorted by declaration identity encoding. |
 | `native_bindings` | array<NativeBinding> | Explicit external symbols/classifications, sorted by declaration identity encoding. |

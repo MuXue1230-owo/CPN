@@ -1,6 +1,6 @@
 <a id="chapter-22-static-reflection"></a>
 
-# CXXN Static Reflection Specification
+# CPN26 Static Reflection Specification
 
 ## 1. Scope and normative model
 
@@ -18,7 +18,7 @@ The [core grammar](15_grammar_binding.md#chapter-15-grammar-binding) defines thr
 
 Each intrinsic shall return Info under the surrounding definition-site configuration. A use within a runtime function shall consume the handle entirely during constant evaluation. For example:
 
-```cxxn
+```cpn
 consteval usize count_members() {
     auto t(reflect_type<MyRecord>);
     return std::meta::direct_field_count(t);
@@ -48,7 +48,7 @@ The standard `std::meta` module provides the following semantic operations. Name
 | `kind(info)` | Return the entity kind. |
 | `same_entity(a,b)` | Compare canonical semantic identities. |
 | `name(info)` | Return the source-level declared name, if present and accessible. |
-| `qualified_name(info)` | Return the canonical CXXN qualified name when the entity has one. |
+| `qualified_name(info)` | Return the canonical CPN26 qualified name when the entity has one. |
 | `owner(info)` | Return the declaring scope/module entity. |
 | `type_of(info)` | Return the reflected type of a field, variable, function result where applicable, or expression. |
 | `value_category(info)` | Return the static value category for an expression reflection only. |
@@ -78,7 +78,7 @@ Collection filtering shall use the query environment's access authority. Its len
 
 Each query shall apply lexical visibility, module exports, private/protected access, and the owner-issued grant matrix in [Chapter 23, Section 5.1](23_compile_time_generation.md#51-owner-authorized-member-access). A public caller receives public metadata; a matching meta_grant admits that record's authorized metadata to the named module.
 
-```cxxn
+```cpn
 [[meta_grant(geometry.generators)]]
 struct Point {
 private:

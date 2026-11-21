@@ -1,10 +1,10 @@
 <a id="chapter-21-abstract-machine-conformance"></a>
 
-# CXXN Core Execution and Conformance Specification
+# CPN26 Core Execution and Conformance Specification
 
 ## 1. Normative model and definition ownership
 
-CPN26 specifies CXXN source and execution under the bound standard designation, resolved configuration, target contract, and selected providers. An implementation **shall** realize an execution admitted by that combination. **Shall** defines a requirement; **may** identifies a permitted implementation choice. An admitted choice **shall** preserve the observations selected by the operation contract.
+CPN26 specifies CPN26 source and execution under the bound standard designation, resolved configuration, target contract, and selected providers. An implementation **shall** realize an execution admitted by that combination. **Shall** defines a requirement; **may** identifies a permitted implementation choice. An admitted choice **shall** preserve the observations selected by the operation contract.
 
 The language is native and manually manages storage ownership. Runtime support **shall** follow capabilities actually used by the program. Ordinary native scalar code requires its target's execution and terminal mechanisms. Allocating values, tracked handles, language exceptions, tasks, runtime descriptors, and other selected facilities add their declared dependencies. Low-level operations use the same language and declaration model throughout.
 
@@ -123,17 +123,17 @@ The compiler **shall** apply Chapter 08's category and mandatory-error rules. An
 
 ### 6.1 Core and selected capability conformance
 
-The standard designation is **CPN26**, and the language name is **CXXN**. A Core conformance claim **shall** cover one root source unit, source edition and declaration binding, ordinary declarations and types, ordinary type/value generics, control flow, object lifetime and manual storage, configuration and diagnostics, and native object emission under its published core target. Its scalar operations **shall** implement the representations and policies required by that resolved core configuration. Source requirements **shall** be checked at their specified binding or execution boundary.
+The standard designation is **CPN26**, and the language name is **CPN26**. A Core conformance claim **shall** cover one root source unit, source edition and declaration binding, ordinary declarations and types, ordinary type/value generics, control flow, object lifetime and manual storage, configuration and diagnostics, and native object emission under its published core target. Its scalar operations **shall** implement the representations and policies required by that resolved core configuration. Source requirements **shall** be checked at their specified binding or execution boundary.
 
-The Core root unit **shall** have an internal owner identity and the source/type/effect information needed to check that unit and its declared native boundaries. An implementation may represent those facts directly in compiler state. External manifests, JSON serialization, SHA-256 hashing, named module graphs, and persistent CXXN interface artifacts are obligations of the selected capabilities below. A Core compiler can emit an ordinary native object and bind C or supported C++ declarations under its target contract; linking that object with foreign objects uses native symbol and ABI contracts.
+The Core root unit **shall** have an internal owner identity and the source/type/effect information needed to check that unit and its declared native boundaries. An implementation may represent those facts directly in compiler state. External manifests, JSON serialization, SHA-256 hashing, named module graphs, and persistent CPN26 interface artifacts are obligations of the selected capabilities below. A Core compiler can emit an ordinary native object and bind C or supported C++ declarations under its target contract; linking that object with foreign objects uses native symbol and ABI contracts.
 
 | Optional capability | Selected operation and requirement |
 | --- | --- |
 | `compilation.modules` | Bind named modules, partitions, imports, exports, and their logical dependency graph. A joint compilation may obtain every declaration from the selected source inputs. |
-| `compilation.separate` | Produce or consume independently compiled CXXN interface material under a declared versioned protocol; requires `compilation.modules`. |
+| `compilation.separate` | Produce or consume independently compiled CPN26 interface material under a declared versioned protocol; requires `compilation.modules`. |
 | `tooling.contract_export` | Produce the requested standard public records with Chapter 29's canonical JSON, references, and SHA-256 fingerprints. This capability is independent of module and separate-compilation support. |
 
-Chapter 08 defines their disabled defaults. A requiring source construct or artifact request **shall** establish that its capability is available and enabled. Native linkage alone establishes a native boundary, while a separately compiled CXXN semantic import selects `compilation.separate`. A provider's private interface protocol may realize separate compilation with `tooling.contract_export = false`; its identity, binding, compatibility, and collision-resolution checks **shall** still satisfy Chapter 11. An export request selects the public transport of already established semantic facts.
+Chapter 08 defines their disabled defaults. A requiring source construct or artifact request **shall** establish that its capability is available and enabled. Native linkage alone establishes a native boundary, while a separately compiled CPN26 semantic import selects `compilation.separate`. A provider's private interface protocol may realize separate compilation with `tooling.contract_export = false`; its identity, binding, compatibility, and collision-resolution checks **shall** still satisfy Chapter 11. An export request selects the public transport of already established semantic facts.
 
 An implementation may claim any supported combination of the standard's optional capabilities. An optional claim **shall** implement the corresponding clauses for its published support set. Named modules, separate compilation, public contract export, high-accuracy numerics, extended formats, allocating numerical families, mathematical functions, advanced generics, reflection, language exceptions, standard-library modules, and managed concurrency have the capability boundaries defined by their owning chapters. Their presence in this standard defines the contract of a selected feature.
 

@@ -1,6 +1,6 @@
 <a id="chapter-03-floating-exact"></a>
 
-# CXXN Floating and Exact Numeric Families Specification
+# CPN26 Floating and Exact Numeric Families Specification
 
 ## 1. Representation and execution
 

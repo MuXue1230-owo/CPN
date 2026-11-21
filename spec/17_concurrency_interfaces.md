@@ -1,6 +1,6 @@
 <a id="chapter-17-concurrency-interfaces"></a>
 
-# CXXN Concurrency Interfaces Specification
+# CPN26 Concurrency Interfaces Specification
 
 ## 1. Interface conventions
 

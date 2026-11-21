@@ -1,6 +1,6 @@
 <a id="chapter-23-compile-time-generation"></a>
 
-# CXXN Compile-Time Metaprogramming and Declaration Generation Specification
+# CPN26 Compile-Time Metaprogramming and Declaration Generation Specification
 
 ## 1. Purpose and separation of concerns
 
@@ -51,7 +51,7 @@ Quotation identifiers shall carry Section 8's definition-bound, quotation-local,
 
 Example, with the generation capability enabled and the standard meta module imported:
 
-```cxxn
+```cpn
 export module geometry;
 import std.meta;
 
@@ -88,7 +88,7 @@ A generated declaration shall use its target's owning compilation identity and g
 
 A record may explicitly request generation from a named function through the standard `derive` attribute:
 
-```cxxn
+```cpn
 [[derive(geometry::generators::emit_comparisons)]]
 struct Coordinate {
     i32 x(0);
@@ -127,7 +127,7 @@ Submitted members shall retain their declared access. An authorized public membe
 
 The semantic interface shall record target identity, subject owner or generator/definition identity, grant kind, and applicable derive ordinals. Validation shall establish the exact matching grant before accepting a private reference. Grant or generator-contract changes shall invalidate dependent generated definitions. Chapter 21 shall govern internal identity and selected external publication of these records.
 
-```cxxn
+```cpn
 import schema.generators;
 
 [[meta_grant(schema.generators)]]

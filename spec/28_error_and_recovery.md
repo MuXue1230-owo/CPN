@@ -1,6 +1,6 @@
 <a id="chapter-28-error-recovery"></a>
 
-# CXXN Error and Recovery Specification
+# CPN26 Error and Recovery Specification
 
 ## 1. Scope and failure categories
 
@@ -176,7 +176,7 @@ Mutable primary-payload access SHALL follow the memory model and its selected sy
 
 The enabled std.error module SHALL provide:
 
-```cxxn
+```cpn
 namespace std {
     namespace error {
         declare Option<ExceptionHandle> current_exception() noexcept;
@@ -287,7 +287,7 @@ Committed static objects SHALL enter the logical reverse shutdown order defined 
 
 A selected foreign exception adapter SHALL cover record ownership, matching, unwinder/personality compatibility, cleanup, and rethrow for every admitted cross-frame propagation. Native object-file interoperability SHALL follow its separate ABI contract.
 
-An adapter translating an exception to status or Result SHALL perform capture on its originating side. A translated CXXN throw SHALL occur in a native phase admitting propagation. Identity preservation SHALL retain a compatible original record; payload translation SHALL form a new primary.
+An adapter translating an exception to status or Result SHALL perform capture on its originating side. A translated CPN26 throw SHALL occur in a native phase admitting propagation. Identity preservation SHALL retain a compatible original record; payload translation SHALL form a new primary.
 
 An output-pointer/status adapter SHALL publish output initialization, mutation, and ownership for every status. Error-payload storage SHALL use its explicit compatible provider. Terminal events SHALL retain their terminal outlet across the adapter.
 
@@ -321,7 +321,7 @@ The examples use enabled modules and capabilities with live required objects. St
 
 ### 14.1 Result values and captured exceptions
 
-```cxxn
+```cpn
 import std;
 import std.error;
 
@@ -338,7 +338,7 @@ A normal Err return from read_value SHALL produce outer Ok and inner Err. An adm
 
 ### 14.2 Capture construction remains outside
 
-```cxxn
+```cpn
 auto operation([state(make_state())] i32() {
     return use_state(state);
 });
@@ -350,7 +350,7 @@ The capture initializer make_state SHALL execute in the caller phase. A program 
 
 ### 14.3 Retaining and raising the same primary
 
-```cxxn
+```cpn
 std::error::ExceptionHandle saved;
 
 try {
@@ -369,7 +369,7 @@ The assignment SHALL transfer the new reference into the empty destination. Rais
 
 ### 14.4 Explicitly throwing a domain error
 
-```cxxn
+```cpn
 i32 read_or_throw() {
     auto result(read_value());
     if (result.has_error()) {

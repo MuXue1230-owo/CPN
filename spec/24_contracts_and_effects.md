@@ -1,6 +1,6 @@
 <a id="chapter-24-contracts-effects"></a>
 
-# CXXN Contracts and Effect Signatures Specification
+# CPN26 Contracts and Effect Signatures Specification
 
 ## 1. Scope and normative terminology
 
@@ -39,7 +39,7 @@ contract-expression = ? a well-typed Boolean expression with only admitted read 
 
 The parser shall interpret attribute payloads using their registered schemas. Attribute-schema words retain their ordinary lexical status outside that schema. Payload binding is a declaration-time operation. For example:
 
-```cxxn
+```cpn
 [[requires(divisor != 0), ensures(return_value >= 0)]]
 [[effects(read(data), trap(numeric))]]
 declare i32 magnitude(const<i32>& data, i32 divisor);
@@ -75,7 +75,7 @@ For each callable phase, `[[effects(S)]]` shall bound every externally observabl
 | `atomic` | Perform atomic access under the selected memory order; synchronization edges follow that order's contract. |
 | `synchronize` | Create or participate in lock, fence, wait/notify, release/acquire, or equivalent synchronization actions. |
 | `io` | Produce or consume externally observable device, file, network, console, or process/environment I/O. |
-| `block` | Potentially stop progress awaiting an external event or other execution agent; this is distinct from suspending a CXXN coroutine. |
+| `block` | Potentially stop progress awaiting an external event or other execution agent; this is distinct from suspending a CPN26 coroutine. |
 | `spawn` | Initiate a new independent execution agent or schedule owned work. |
 | `suspend` | Suspend the current async execution frame and resume through its continuation protocol. |
 | `cancel_point` | Accept a cancellation request and transfer along the defined cooperative cancellation exit. |
@@ -176,11 +176,11 @@ The checker shall classify facts using the following semantic outcomes. Chapter 
 | Required constant contract evaluation fails | Required-evaluation failure. |
 | A precise valid implementation summary is established | Evidence available for permitted optimization and diagnostics. |
 
-An inferred implementation summary shall refine internal knowledge while preserving the published declaration contract and source-bound initialization plan. An open-bound witness shall remain open during a generic's closed-bound requirement check. A compiler shall base backend assumptions on established evidence, dominating validation, or explicit trust, and shall preserve required CXXN terminal edges under its selected lowering. The [core transformation rules](21_abstract_machine_and_conformance.md#chapter-21-abstract-machine-conformance) govern code motion, elimination, and folding.
+An inferred implementation summary shall refine internal knowledge while preserving the published declaration contract and source-bound initialization plan. An open-bound witness shall remain open during a generic's closed-bound requirement check. A compiler shall base backend assumptions on established evidence, dominating validation, or explicit trust, and shall preserve required CPN26 terminal edges under its selected lowering. The [core transformation rules](21_abstract_machine_and_conformance.md#chapter-21-abstract-machine-conformance) govern code motion, elimination, and folding.
 
 ## 10. Required semantic examples
 
-```cxxn
+```cpn
 [[effects(none)]]
 declare u32 identity(u32 n) noexcept;
 
@@ -195,7 +195,7 @@ declare void copy_into(Span<u8> destination, Span<const<u8>> source);
 
 The first declaration shall require a valid nonempty span. Selecting checked entry validation shall add its ContractTrap boundary effect to the body's read(source) effect. Document mode shall retain the caller obligation. Copy_into shall additionally state its permitted overlap behavior under the region contract. Noexcept shall retain its language-exception meaning alongside the independent trap(contract) outlet.
 
-```cxxn
+```cpn
 [[requires(divisor != 0), ensures(return_value >= 0)]]
 [[effects(trap(numeric))]]
 declare i32 bounded_quotient(i32 numerator, i32 divisor);
@@ -203,7 +203,7 @@ declare i32 bounded_quotient(i32 numerator, i32 divisor);
 
 A bounded_quotient implementation choosing checked arithmetic shall include its possible NumericTrap in the stated effect bound. Establishing a nonzero divisor shall discharge the division-by-zero condition; the selected division operation shall separately require its signed-overflow policy and range conditions. Native ordinary arithmetic shall use its provider-declared effects under Section 3.2.
 
-```cxxn
+```cpn
 [[effects(allocate(resource), write(destination))]]
 declare Result<void, AllocError>
     initialize_buffer(ResourceRef resource, OwnedBuffer& destination);
@@ -211,7 +211,7 @@ declare Result<void, AllocError>
 
 Err shall be a normal result value. Initialize_buffer shall retain attempted-allocation and permitted-mutation effects. An implementation releasing old storage shall additionally admit deallocate(resource); old-element retirement shall contribute its actual throwing, terminal, or I/O effects under Chapter 25.
 
-```cxxn
+```cpn
 [[ensures(return_value == input)]]
 [[effects(none)]]
 i32 identity_with_postcondition(i32 input) noexcept {

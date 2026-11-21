@@ -1,6 +1,6 @@
 <a id="chapter-12-core-memory-control"></a>
 
-# CXXN Source, Control Flow, and Memory Specification
+# CPN26 Source, Control Flow, and Memory Specification
 
 ## 1. Abstract execution and scope
 
@@ -99,7 +99,7 @@ Binding a reference does not generally extend a temporary's lifetime. A temporar
 
 `sizeof(T)` returns the complete type's size in addressable bytes as `usize`; `alignof(T)` returns its required alignment. `sizeof(expression)` determines the static complete type without evaluating the expression. `decltype(expression)` obtains the type and value-category information under the type rules without performing runtime effects. A context shall inspect declarations made reachable by ordinary source binding, generic rules, and any selected module imports.
 
-These operations do not allocate storage, invoke constructors, or access an uninitialized value. A request requiring the layout of an incomplete type is `ERROR`. A foreign type uses its selected foreign layout, not a guessed equivalent CXXN type. Provider-specific dynamic object extents are obtained through their explicit object or storage interface, not through a variable meaning of `sizeof`.
+These operations do not allocate storage, invoke constructors, or access an uninitialized value. A request requiring the layout of an incomplete type is `ERROR`. A foreign type uses its selected foreign layout, not a guessed equivalent CPN26 type. Provider-specific dynamic object extents are obtained through their explicit object or storage interface, not through a variable meaning of `sizeof`.
 
 ## 4. Statements and structured control flow
 
@@ -141,7 +141,7 @@ After result construction, the function cleans its remaining automatic locals. T
 
 `return;` is valid for a `void` function. Reaching the end of such a function is equivalent to returning. A normally completing non-void function shall construct its result. Control-flow proof uses the source program and declared nonreturning effects, not an optimization-dependent guess. A task body and constructor additionally obey their specialized completion rules.
 
-`throw`, `try`, typed catches, aggregate-view catches, rethrow, Whole control effects, and terminal failure outlets follow their specifications. Numeric Trap and Contract Trap do not become language exceptions. A foreign nonlocal jump cannot cross CXXN scopes with unconsumed cleanup obligations unless a declared provider supplies a conforming equivalent protocol.
+`throw`, `try`, typed catches, aggregate-view catches, rethrow, Whole control effects, and terminal failure outlets follow their specifications. Numeric Trap and Contract Trap do not become language exceptions. A foreign nonlocal jump cannot cross CPN26 scopes with unconsumed cleanup obligations unless a declared provider supplies a conforming equivalent protocol.
 
 ## 5. Storage, layout, and object identity
 
@@ -177,7 +177,7 @@ On a target whose ABI requires a thin native pointer, an ordinary `T*` retains t
 
 Adding a nonnegative count to a pointer into an array selects the corresponding element or one-past position when the resulting mathematical index is in `0..N`. Negative offsets are permitted when they remain in that domain. An individual complete object is an array of one for this purpose. Address calculation cannot wrap the address space. Indirection of one-past is invalid. A pointer to a nested subarray does not gain authority over adjacent enclosing fields.
 
-Pointer subtraction is defined for positions in the same array extent and generation; it returns the signed mathematical element difference in `isize` if representable. An unrepresentable difference reports `MemoryError::Capacity` through the memory value outlet in Section 8. `std::mem::try_pointer_distance(left, right)` supplies the corresponding `Result<isize, MemoryError>` outlet; it does not convert a violated uncheckable raw provenance contract into a successful distance. Subsequent explicit numeric conversion uses its own numerical outlet. Relational pointer comparison is defined for positions in that same extent. Comparison of unrelated pointer order requires a declared address-order provider or an explicit opaque identity-order operation; it is not a portable CXXN object order.
+Pointer subtraction is defined for positions in the same array extent and generation; it returns the signed mathematical element difference in `isize` if representable. An unrepresentable difference reports `MemoryError::Capacity` through the memory value outlet in Section 8. `std::mem::try_pointer_distance(left, right)` supplies the corresponding `Result<isize, MemoryError>` outlet; it does not convert a violated uncheckable raw provenance contract into a successful distance. Subsequent explicit numeric conversion uses its own numerical outlet. Relational pointer comparison is defined for positions in that same extent. Comparison of unrelated pointer order requires a declared address-order provider or an explicit opaque identity-order operation; it is not a portable CPN26 object order.
 
 Equality tests pointer designations under the target's pointer comparison contract and permits null comparisons. On a flat-address target it may compare machine addresses, so equality alone does not establish the same lifetime generation or permission. A one-past pointer and an adjacent object's pointer can compare equal under such a contract without becoming interchangeable for access.
 
@@ -273,7 +273,7 @@ The source and raw-validation keys, defaults, and freeze points are defined in C
 
 An implementation shall distinguish proven valid access, retained dynamic checks, and unproved raw contracts in its diagnostic/effect information. `MEM001` identifies a proved invalid memory action and is `ERROR`; `MEM002` identifies an unproved raw validity or escape obligation and is `ANOMALY`; `MEM003` identifies representation exposure of uninitialized/padding data and is `ANOMALY`. Ordinary unnecessary copies or unused valid locals may remain `WARNING`.
 
-Lowering to an optimizing intermediate representation shall preserve the source's failure and alias contracts. Non-null, dereferenceable, no-overlap, in-bounds, no-overflow, and nonthrowing promises may be attached only when proved, enforced on the relevant path, or provided by an applicable explicit contract. A backend's more permissive treatment of invalid operations does not automatically become CXXN semantics.
+Lowering to an optimizing intermediate representation shall preserve the source's failure and alias contracts. Non-null, dereferenceable, no-overlap, in-bounds, no-overflow, and nonthrowing promises may be attached only when proved, enforced on the relevant path, or provided by an applicable explicit contract. A backend's more permissive treatment of invalid operations does not automatically become CPN26 semantics.
 
 Support dependencies shall follow the core capability model and the explicit selected memory, device, and foreign providers.
 

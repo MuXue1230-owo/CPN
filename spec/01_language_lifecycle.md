@@ -1,10 +1,10 @@
 <a id="chapter-01-language-lifecycle"></a>
 
-# CXXN Language and Object Lifetime Specification
+# CPN26 Language and Object Lifetime Specification
 
 ## 1. Language model
 
-CXXN is a native systems language with manual storage ownership, explicit object lifetime, C-like declarations, and configurable numerical and execution policies. CPN26 is the standard designation for this specification. A conforming implementation shall evaluate its core and selected optional capabilities according to the [core execution model](21_abstract_machine_and_conformance.md#chapter-21-abstract-machine-conformance) and produce the native representation required by the selected target contract.
+CPN26 is a native systems language with manual storage ownership, explicit object lifetime, C-like declarations, and configurable numerical and execution policies. CPN26 is the standard designation for this specification. A conforming implementation shall evaluate its core and selected optional capabilities according to the [core execution model](21_abstract_machine_and_conformance.md#chapter-21-abstract-machine-conformance) and produce the native representation required by the selected target contract.
 
 Normative terminology shall use the core execution model's definitions. A normative example shall be interpreted with its named types and capabilities enabled. Configuration defaults and diagnostic dispositions have their sole definition in the [configuration specification](08_runtime_configuration.md#chapter-08-runtime-configuration).
 
@@ -12,7 +12,7 @@ Normative terminology shall use the core execution model's definitions. A normat
 
 An object declaration shall use the complete type before its name. Explicit initialization uses `Type name(arguments);`; deduction uses `auto name(expression);`. The pointer `this` designates the current receiver under its active class-layer contract.
 
-```cxxn
+```cpn
 i32 data(10);
 u64 capacity(4096);
 auto next(data + 1);

@@ -1,6 +1,6 @@
 <a id="chapter-19-extended-standard-library"></a>
 
-# CXXN Extended Standard Library Interfaces Specification
+# CPN26 Extended Standard Library Interfaces Specification
 
 ## 1. Scope, notation, and closed interface catalogues
 

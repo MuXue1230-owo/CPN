@@ -1,6 +1,6 @@
 <a id="chapter-04-numeric-integration"></a>
 
-# CXXN Numeric Integration Specification
+# CPN26 Numeric Integration Specification
 
 ## 1. Numerical operation model
 
@@ -65,7 +65,7 @@ The standard numeric library catalogue defines these capability-gated semantic o
 
 Result variants of Saturating, Wrapping, and Truncating shall expose the same mapping and status through NumericResult. Each strategy is available for the destination families whose value mapping is defined below.
 
-Illustrative declarations retain the specified CXXN construction syntax:
+Illustrative declarations retain the specified CPN26 construction syntax:
 
 ```cpp
 f64 source(127.9);
@@ -106,7 +106,7 @@ IntegerRound uses the mathematical integer lattice. A floating projection uses i
 | `payload_changed` | A selected representation conversion changed NaN payload information. |
 | `fp_flags` | The operation's applicable IEEE event set; empty when that interface defines no IEEE events. |
 
-An Exact probe may report both range and quantum conditions. Integer 128 to i8 is out of range on the integer quantum; -128.9 to i8 additionally has a fractional mismatch. A failed probe provides its status without an approximate destination. Decimal normalization that preserves a value sets no value-inexact event. CXXN integer-destination conversions report their projection events rather than incidental host-instruction flags.
+An Exact probe may report both range and quantum conditions. Integer 128 to i8 is out of range on the integer quantum; -128.9 to i8 additionally has a fractional mismatch. A failed probe provides its status without an approximate destination. Decimal normalization that preserves a value sets no value-inexact event. CPN26 integer-destination conversions report their projection events rather than incidental host-instruction flags.
 
 `NumericErrorCode` is a closed enumeration comprising `OutOfRange`, `NonFinite`, `NotExactlyRepresentable`, `ZeroDivisor`, `NonTerminatingExpansion`, `InvalidOperation`, `InvalidShift`, `InvalidBitRange`, `ResourceLimit`, `AllocationFailure`, `TransferUnavailable`, `Invalid`, `DivideByZero`, `Overflow`, `Underflow`, and `Inexact`. `TransferUnavailable` reports an incompatible explicitly requested resource/temporary ownership transfer, independently of resource exhaustion. The last five are selected IEEE-event errors; their names do not conflate them with integer or exact-family failures. An operation shall use the code required by its own classification rule. `ZeroDivisor` applies to the integer/exact zero-divisor contract; `DivideByZero` applies to a floating event. An explicit extension shall define its own error type or publish a translation into this enumeration.
 
@@ -372,7 +372,7 @@ The provider shall realize each selected context capability through hardware or 
 
 ### 10.1 Arithmetic NaN selection
 
-For a Strict operation or named observed interface selecting CXXN deterministic propagation, the implementation shall apply this algorithm:
+For a Strict operation or named observed interface selecting CPN26 deterministic propagation, the implementation shall apply this algorithm:
 
 1. Every signaling-NaN operand contributes Invalid, regardless of which NaN is selected for the result.
 2. If any quiet-NaN operand exists, select the first quiet NaN in the operation's defined operand order.
@@ -382,7 +382,7 @@ For a Strict operation or named observed interface selecting CXXN deterministic 
 
 The operation shall additionally record its own specified exception conditions. Source evaluation order follows the core model; an operation with several NaN candidates shall declare their selection order. Native ordinary propagation instead follows the selected provider contract.
 
-Consequently, `add(sNaN(payload=1), qNaN(payload=2))` selects payload `2` while still generating Invalid. This is a CXXN deterministic choice; it is not a claim that all hardware IEEE implementations use this exact priority.
+Consequently, `add(sNaN(payload=1), qNaN(payload=2))` selects payload `2` while still generating Invalid. This is a CPN26 deterministic choice; it is not a claim that all hardware IEEE implementations use this exact priority.
 
 For the binary interchange formats in this baseline, a canonical generated qNaN has positive sign, the quiet bit set, and zero payload bits. For arithmetic cross-format conversion, the source payload is interpreted as an unsigned payload integer, zero-extended when it fits, or reduced to the destination payload's low bits when necessary; the result is quiet. Payload loss is observable through `payload_changed`. A same-format bit copy performs no arithmetic conversion and preserves the signaling bit.
 
